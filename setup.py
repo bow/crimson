@@ -31,6 +31,10 @@ setup(
     install_requires=requirements,
     license="BSD",
     zip_safe=False,
+    entry_points="""
+    [console_scripts]
+    crimson=crimson.main:cli
+    """,
     keywords="crimson bioinformatics json samtools picard fastqc",
     tests_require=test_requirements,
     classifiers=[
