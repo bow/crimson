@@ -24,4 +24,12 @@ Requirements:
     $ cd crimson
     $ mkvirtualenv -p /usr/bin/python crimson-dev
     $ pip install -r requirements.dev.txt
-    $ python setup.py develop
+    $ pip install --editable .
+
+
+Usage
+-----
+
+.. code-block:: bash
+
+    $ crimson --help
