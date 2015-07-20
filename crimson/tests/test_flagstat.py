@@ -26,48 +26,60 @@ def flagstat_v0119_01():
     result.json = json.loads(result.output)
     return result
 
+
 def test_flagstat_v0119_01_exit_code(flagstat_v0119_01):
     assert flagstat_v0119_01.exit_code == 0
+
 
 def test_flagstat_v0119_01_pass_qc_total(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["total"] == 14152593
     assert flagstat_v0119_01.json["fail_qc"]["total"] == 0
 
+
 def test_flagstat_v0119_01_pass_qc_duplicates(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["duplicates"] == 0
     assert flagstat_v0119_01.json["fail_qc"]["duplicates"] == 0
+
 
 def test_flagstat_v0119_01_pass_qc_mapped(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["mapped"] == 13391622
     assert flagstat_v0119_01.json["fail_qc"]["mapped"] == 0
 
+
 def test_flagstat_v0119_01_pass_qc_paired_sequencing(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["paired_sequencing"] == 14152593
     assert flagstat_v0119_01.json["fail_qc"]["paired_sequencing"] == 0
+
 
 def test_flagstat_v0119_01_pass_qc_paired(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["paired"] == 13356881
     assert flagstat_v0119_01.json["fail_qc"]["paired"] == 0
 
+
 def test_flagstat_v0119_01_pass_qc_paired_proper(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["paired_proper"] == 13331891
     assert flagstat_v0119_01.json["fail_qc"]["paired_proper"] == 0
+
 
 def test_flagstat_v0119_01_pass_qc_read1(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["read1"] == 7076309
     assert flagstat_v0119_01.json["fail_qc"]["read1"] == 0
 
+
 def test_flagstat_v0119_01_pass_qc_read2(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["read2"] == 7076284
     assert flagstat_v0119_01.json["fail_qc"]["read2"] == 0
+
 
 def test_flagstat_v0119_01_pass_qc_singleton(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["singleton"] == 34741
     assert flagstat_v0119_01.json["fail_qc"]["singleton"] == 0
 
+
 def test_flagstat_v0119_01_pass_qc_diff_chrom(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["diff_chrom"] == 26959
     assert flagstat_v0119_01.json["fail_qc"]["diff_chrom"] == 0
+
 
 def test_flagstat_v0119_01_pass_qc_diff_chrom_mapq(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["diff_chrom_mapq"] == 26959
@@ -82,56 +94,70 @@ def flagstat_v11_01():
     result.json = json.loads(result.output)
     return result
 
+
 def test_flagstat_v11_01_exit_code(flagstat_v11_01):
     assert flagstat_v11_01.exit_code == 0
+
 
 def test_flagstat_v11_01_pass_qc_total(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["total"] == 71511
     assert flagstat_v11_01.json["fail_qc"]["total"] == 0
 
+
 def test_flagstat_v11_01_pass_qc_duplicates(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["duplicates"] == 0
     assert flagstat_v11_01.json["fail_qc"]["duplicates"] == 0
+
 
 def test_flagstat_v11_01_pass_qc_secondary(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["secondary"] == 122
     assert flagstat_v11_01.json["fail_qc"]["secondary"] == 0
 
+
 def test_flagstat_v11_01_pass_qc_supplimentary(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["supplimentary"] == 0
     assert flagstat_v11_01.json["fail_qc"]["supplimentary"] == 0
+
 
 def test_flagstat_v11_01_pass_qc_mapped(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["mapped"] == 71228
     assert flagstat_v11_01.json["fail_qc"]["mapped"] == 0
 
+
 def test_flagstat_v11_01_pass_qc_paired_sequencing(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["paired_sequencing"] == 71389
     assert flagstat_v11_01.json["fail_qc"]["paired_sequencing"] == 0
+
 
 def test_flagstat_v11_01_pass_qc_paired(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["paired"] == 71070
     assert flagstat_v11_01.json["fail_qc"]["paired"] == 0
 
+
 def test_flagstat_v11_01_pass_qc_paired_proper(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["paired_proper"] == 70374
     assert flagstat_v11_01.json["fail_qc"]["paired_proper"] == 0
+
 
 def test_flagstat_v11_01_pass_qc_read1(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["read1"] == 35691
     assert flagstat_v11_01.json["fail_qc"]["read1"] == 0
 
+
 def test_flagstat_v11_01_pass_qc_read2(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["read2"] == 35698
     assert flagstat_v11_01.json["fail_qc"]["read2"] == 0
+
 
 def test_flagstat_v11_01_pass_qc_singleton(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["singleton"] == 36
     assert flagstat_v11_01.json["fail_qc"]["singleton"] == 0
 
+
 def test_flagstat_v11_01_pass_qc_diff_chrom(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["diff_chrom"] == 446
     assert flagstat_v11_01.json["fail_qc"]["diff_chrom"] == 0
+
 
 def test_flagstat_v11_01_pass_qc_diff_chrom_mapq(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["diff_chrom_mapq"] == 192
