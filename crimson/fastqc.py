@@ -1,0 +1,200 @@
+# -*- coding: utf-8 -*-
+"""
+    crimson.fastqc
+    ~~~~~~~~~~~~~~
+
+    Flagstat subcommand for parsing FastQC output.
+
+    :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
+    :license: BSD
+
+"""
+import re
+
+import click
+
+from .utils import write_json
+
+
+__all__ = ["fastqc"]
+
+
+_RE_INT = re.compile(r"^([-+]?\d+)L?$")
+_RE_FLOAT = re.compile(r"^([-+]?\d*\.?\d+(?:[eE][-+]?[0-9]+)?)$")
+
+
+def convert(raw_str):
+    maybe_int = _RE_INT.search(raw_str)
+    if maybe_int is not None:
+        return int(maybe_int.group(1))
+    maybe_float = _RE_FLOAT.search(raw_str)
+    if maybe_float is not None:
+        return float(maybe_float.group(1))
+    return raw_str
+
+
+class FastQCModule(object):
+
+    """Class representing a FastQC analysis module."""
+
+    def __init__(self, raw_lines, end_mark='>>END_MODULE'):
+        """
+
+        :param raw_lines: list of lines in the module
+        :type raw_lines: list of str
+        :param end_mark: mark of the end of the module
+        :type end_mark: str
+
+        """
+        self.extra = {}
+        self.raw_lines = raw_lines
+        self.end_mark = end_mark
+        self.status = None
+        self.name = None
+        self.contents = self._parse()
+
+    @property
+    def dict(self):
+        """Module data as a dictionary."""
+        payload = {
+            "contents": self.contents,
+            "status": self.status
+        }
+        if len(self.extra) > 0:
+            for ek, ev in self.extra.items():
+                payload[ek] = ev
+        return payload
+
+    def _parse(self):
+        """Common parser for a FastQC module."""
+        # check that the last line is a proper end mark
+        assert self.raw_lines[-1].startswith(self.end_mark)
+        # parse name and status from first line
+        tokens = self.raw_lines[0].strip().split('\t')
+        name = tokens[0][2:]
+        self.name = name
+        status = tokens[-1]
+        self.status = status
+        # the rest of the lines except the last one
+        data = []
+        if self.name != "Sequence Duplication Levels":
+            # and column names from second/third line
+            columns = self.raw_lines[1][1:].strip().split("\t")
+            self._columns = columns
+            for line in self.raw_lines[2:-1]:
+                cols = line.strip().split("\t")
+                data.append(cols)
+        else:
+            extra_k, extra_v = self.raw_lines[1][1:].strip().split("\t")
+            self.extra[extra_k] = convert(extra_v)
+            columns = self.raw_lines[2][1:].strip().split("\t")
+            self._columns = columns
+            for line in self.raw_lines[3:-1]:
+                cols = line.strip().split("\t")
+                data.append(cols)
+
+        fqc_convert = lambda k, v: v if k == "Base" else convert(v)
+
+        # optional processing for different modules
+        if self.name == 'Basic Statistics':
+            data = {k: convert(v) for k, v in data}
+        else:
+            # zip column names and its values ~ each item in array == one row
+            data = [zip(columns, [v for v in d]) for d in data]
+            # try to convert numbers appropriately
+            # except for "Base" column, since FastQC may output it as range
+            data = [{k: fqc_convert(k, v) for k, v in zpd} for zpd in data]
+
+        return data
+
+
+class FastQC(object):
+
+    """Class representing results from a FastQC run."""
+
+    _mod_names = [
+        ">>Basic Statistics",
+        ">>Per base sequence quality",
+        ">>Per sequence quality scores",
+        ">>Per base sequence content",
+        ">>Per base GC content",
+        ">>Per sequence GC content",
+        ">>Per base N content",
+        ">>Sequence Length Distribution",
+        ">>Sequence Duplication Levels",
+        ">>Overrepresented sequences",
+        ">>Kmer Content",
+    ]
+
+    _mod_map = {k: k.lstrip(">") for k in _mod_names}
+
+    def __init__(self, fp):
+        """
+
+        :param fp: open file handle pointing to the FastQC data file
+        :type fp: file handle
+
+        """
+        self.modules = {}
+
+        line = fp.readline()
+        attr = ""
+        while True:
+
+            tokens = line.strip().split('\t')
+            # break on EOF
+            if not line:
+                break
+            # parse version
+            elif line.startswith('##FastQC'):
+                self.version = line.strip().split()[1]
+            # parse individual modules
+            elif tokens[0] in self._mod_map:
+                attr = self._mod_map[tokens[0]]
+                raw_lines = self._read_module(fp, line, tokens[0])
+                self.modules[attr] = FastQCModule(raw_lines)
+
+            line = fp.readline()
+
+    def _read_module(self, fp, line, start_mark):
+        """Returns a list of lines in a module.
+
+        :param fp: open file handle pointing to the FastQC data file
+        :type fp: file handle
+        :param line: first line in the module
+        :type line: str
+        :param start_mark: string denoting start of the module
+        :type start_mark: str
+        :returns: a list of lines in the module
+        :rtype: list of str
+
+        """
+        raw = [line]
+        while not line.startswith('>>END_MODULE'):
+            line = fp.readline()
+            raw.append(line)
+
+            if not line:
+                raise ValueError("Unexpected end of file in module %r" % line)
+
+        return raw
+
+    @property
+    def dict(self):
+        """FastQC data as a dictionary."""
+        payload = {k: v.dict for k, v in self.modules.items()}
+        payload["version"] = self.version
+        return payload
+
+
+@click.argument("input", type=click.File("r"))
+@click.argument("output", type=click.File("w"))
+@click.pass_context
+def fastqc(ctx, input, output):
+    """Converts samtools flagstat output.
+
+    Use "-" for stdin and/or stdout.
+
+    """
+    fq = FastQC(input)
+    write_json(fq.dict, output, ctx.parent.params["compact"])

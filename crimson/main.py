@@ -12,6 +12,7 @@
 import click
 
 from . import __version__
+from .fastqc import fastqc
 from .flagstat import flagstat
 
 
@@ -28,4 +29,5 @@ def cli(ctx, compact):
     """
     ctx.params["compact"] = compact
 
+fastqc = cli.command()(fastqc)
 flagstat = cli.command()(flagstat)
