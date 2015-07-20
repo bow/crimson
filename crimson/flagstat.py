@@ -21,6 +21,7 @@ __all__ = ["flagstat"]
 
 
 _RE_TOTAL = re.compile(r"(\d+) \+ (\d+) in total")
+_RE_DUPLICATES = re.compile(r"(\d+) \+ (\d+) duplicates")
 _RE_SECONDARY = re.compile(r"(\d+) \+ (\d+) secondary")
 _RE_SUPPLIMENTARY = re.compile(r"(\d+) \+ (\d+) supplimentary")
 _RE_MAPPED = re.compile(r"(\d+) \+ (\d+) mapped ")
@@ -65,6 +66,7 @@ def flagstat(ctx, input, output):
     search_contents = partial(search, contents)
     parsed = (
         ("total", search_contents(_RE_TOTAL, int)),
+        ("duplicates", search_contents(_RE_DUPLICATES, int)),
         ("secondary", search_contents(_RE_SECONDARY, int)),
         ("supplimentary", search_contents(_RE_SUPPLIMENTARY, int)),
         ("mapped", search_contents(_RE_MAPPED, int)),

@@ -33,6 +33,10 @@ def test_flagstat_v0119_01_pass_qc_total(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["total"] == 14152593
     assert flagstat_v0119_01.json["fail_qc"]["total"] == 0
 
+def test_flagstat_v0119_01_pass_qc_duplicates(flagstat_v0119_01):
+    assert flagstat_v0119_01.json["pass_qc"]["duplicates"] == 0
+    assert flagstat_v0119_01.json["fail_qc"]["duplicates"] == 0
+
 def test_flagstat_v0119_01_pass_qc_mapped(flagstat_v0119_01):
     assert flagstat_v0119_01.json["pass_qc"]["mapped"] == 13391622
     assert flagstat_v0119_01.json["fail_qc"]["mapped"] == 0
@@ -84,6 +88,10 @@ def test_flagstat_v11_01_exit_code(flagstat_v11_01):
 def test_flagstat_v11_01_pass_qc_total(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["total"] == 71511
     assert flagstat_v11_01.json["fail_qc"]["total"] == 0
+
+def test_flagstat_v11_01_pass_qc_duplicates(flagstat_v11_01):
+    assert flagstat_v11_01.json["pass_qc"]["duplicates"] == 0
+    assert flagstat_v11_01.json["fail_qc"]["duplicates"] == 0
 
 def test_flagstat_v11_01_pass_qc_secondary(flagstat_v11_01):
     assert flagstat_v11_01.json["pass_qc"]["secondary"] == 122
