@@ -26,7 +26,7 @@ setup(
     author=__author__,
     author_email=__contact__,
     url=__homepage__,
-    packages=find_packages(),
+    packages=find_packages("crimson", exclude=["tests"]),
     include_package_data=True,
     install_requires=requirements,
     license="BSD",
