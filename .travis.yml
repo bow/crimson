@@ -12,6 +12,10 @@ before_install:
 
 install:
     - python setup.py install
+    - pip install coveralls --use-wheel
 
 script:
     - py.test -v --cov-config .coveragerc --cov crimson crimson/tests/
+
+after_success:
+    - coveralls
