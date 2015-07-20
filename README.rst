@@ -1,6 +1,9 @@
 Crimson
 =======
 
+.. image:: https://travis-ci.org/bow/crimson.svg?branch=master
+    :target: https://travis-ci.org/bow/crimson
+
 Crimson converts nonstandard bioinformatics tool outputs to a standard format. Currently, the main target output format
 is JSON.
 
