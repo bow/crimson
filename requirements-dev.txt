@@ -1,4 +1,4 @@
-flake8==2.2.2
+flake8==2.3
 pytest==2.7.2
 pytest-cov==1.8.1
 pytest-flake8==0.1
