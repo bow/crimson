@@ -9,12 +9,12 @@
     :license: BSD
 
 """
-import json
 import re
 from functools import partial
-from os import linesep
 
 import click
+
+from .utils import write_json
 
 
 __all__ = ["flagstat"]
@@ -85,8 +85,4 @@ def flagstat(ctx, input, output):
         "pass_qc": {k: v[0] for k, v in parsed if v[0] is not None},
         "fail_qc": {k: v[1] for k, v in parsed if v[1] is not None},
     }
-    if ctx.parent.params["compact"]:
-        json.dump(payload, output, indent=None, separators=(",", ":"))
-    else:
-        json.dump(payload, output, indent=4)
-        output.write(linesep)
+    write_json(payload, output, ctx.parent.params["compact"])
