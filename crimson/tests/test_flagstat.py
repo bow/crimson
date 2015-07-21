@@ -49,7 +49,7 @@ def test_flagstat_fail_exit_code(flagstat_fail):
 
 
 def test_flagstat_fail_output(flagstat_fail):
-    err_msg = "Input file does not look like a flagstat file."
+    err_msg = "Cannot parse input flagstat file."
     assert err_msg in flagstat_fail.output
 
 

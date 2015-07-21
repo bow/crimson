@@ -86,5 +86,5 @@ def flagstat(ctx, input, output):
         "fail_qc": {k: v[1] for k, v in parsed if v[1] is not None},
     }
     if len(payload["pass_qc"]) == 0 and len(payload["fail_qc"]) == 0:
-        raise click.BadParameter("Input file does not look like a flagstat file.")
+        raise click.BadParameter("Cannot parse input flagstat file.")
     write_json(payload, output, ctx.parent.params["compact"])
