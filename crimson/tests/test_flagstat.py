@@ -19,6 +19,14 @@ from .utils import get_test_file
 
 
 @pytest.fixture(scope="module")
+def flagstat_fail():
+    runner = CliRunner()
+    in_file = get_test_file("samtools_flagstat_nope.txt")
+    result = runner.invoke(cli, ["flagstat", in_file, "-"])
+    return result
+
+
+@pytest.fixture(scope="module")
 def flagstat_v0119_01():
     runner = CliRunner()
     in_file = get_test_file("samtools_flagstat_v0119_01.txt")
@@ -34,6 +42,15 @@ def flagstat_v11_01():
     result = runner.invoke(cli, ["flagstat", in_file, "-"])
     result.json = json.loads(result.output)
     return result
+
+
+def test_flagstat_fail_exit_code(flagstat_fail):
+    assert flagstat_fail.exit_code != 0
+
+
+def test_flagstat_fail_output(flagstat_fail):
+    err_msg = "Input file does not look like a flagstat file."
+    assert err_msg in flagstat_fail.output
 
 
 def test_flagstat_v0119_01_exit_code(flagstat_v0119_01):
