@@ -65,21 +65,21 @@ def flagstat(ctx, input, output):
 
     """
     contents = input.read()
-    search_contents = partial(search, contents)
+    f = partial(search, contents, caster=int)
     parsed = (
-        ("total", search_contents(_RE_TOTAL, int)),
-        ("duplicates", search_contents(_RE_DUPLICATES, int)),
-        ("secondary", search_contents(_RE_SECONDARY, int)),
-        ("supplimentary", search_contents(_RE_SUPPLIMENTARY, int)),
-        ("mapped", search_contents(_RE_MAPPED, int)),
-        ("paired_sequencing", search_contents(_RE_PAIRED_SEQ, int)),
-        ("paired", search_contents(_RE_PAIRED_BAM, int)),
-        ("paired_proper", search_contents(_RE_PAIRED_PROPER, int)),
-        ("read1", search_contents(_RE_READ1, int)),
-        ("read2", search_contents(_RE_READ2, int)),
-        ("singleton", search_contents(_RE_SINGLETON, int)),
-        ("diff_chrom", search_contents(_RE_DIFF, int)),
-        ("diff_chrom_mapq", search_contents(_RE_DIFF_MIN, int)),
+        ("total", f(_RE_TOTAL)),
+        ("duplicates", f(_RE_DUPLICATES)),
+        ("secondary", f(_RE_SECONDARY)),
+        ("supplimentary", f(_RE_SUPPLIMENTARY)),
+        ("mapped", f(_RE_MAPPED)),
+        ("paired_sequencing", f(_RE_PAIRED_SEQ)),
+        ("paired", f(_RE_PAIRED_BAM)),
+        ("paired_proper", f(_RE_PAIRED_PROPER)),
+        ("read1", f(_RE_READ1)),
+        ("read2", f(_RE_READ2)),
+        ("singleton", f(_RE_SINGLETON)),
+        ("diff_chrom", f(_RE_DIFF)),
+        ("diff_chrom_mapq", f(_RE_DIFF_MIN)),
     )
     payload = {
         "pass_qc": {k: v[0] for k, v in parsed if v[0] is not None},
