@@ -67,6 +67,15 @@ class FastQCModule(object):
 
     def _parse(self):
         """Common parser for a FastQC module."""
+
+        # Helper function for converting FastQC values that keeps
+        # the "Base" column as strings (since it can be a number
+        # or a strin denoting a range)
+        def fqc_convert(k, v):
+            if k == "Base":
+                return v
+            return convert(v)
+
         # check that the last line is a proper end mark
         assert self.raw_lines[-1].startswith(self.end_mark)
         # parse name and status from first line
@@ -92,8 +101,6 @@ class FastQCModule(object):
             for line in self.raw_lines[3:-1]:
                 cols = line.strip().split("\t")
                 data.append(cols)
-
-        fqc_convert = lambda k, v: v if k == "Base" else convert(v)
 
         # optional processing for different modules
         if self.name == 'Basic Statistics':
