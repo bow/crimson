@@ -10,7 +10,31 @@
 
 """
 import json
+import re
 from os import linesep
+
+
+RE_INT = re.compile(r"^([-+]?\d+)L?$")
+RE_FLOAT = re.compile(r"^([-+]?\d*\.?\d+(?:[eE][-+]?[0-9]+)?)$")
+
+
+def convert(raw_str):
+    """Tries to convert a string to an int, float, or return it unchanged.
+
+    The function tries first to convert to an int. If it fails, it tries
+    to convert to a float. If it fails, the origin input string is returned.
+
+    :param raw_str: Input string.
+    :type raw_str: str
+
+    """
+    maybe_int = RE_INT.search(raw_str)
+    if maybe_int is not None:
+        return int(maybe_int.group(1))
+    maybe_float = RE_FLOAT.search(raw_str)
+    if maybe_float is not None:
+        return float(maybe_float.group(1))
+    return raw_str
 
 
 def write_json(payload, out_handle, compact=False, indent=4):

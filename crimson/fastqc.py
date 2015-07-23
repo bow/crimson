@@ -9,29 +9,15 @@
     :license: BSD
 
 """
-import re
-
 import click
 
-from .utils import write_json
+from .utils import convert, write_json
 
 
 __all__ = ["fastqc"]
 
 
 _MAX_LINE_SIZE = 1024
-_RE_INT = re.compile(r"^([-+]?\d+)L?$")
-_RE_FLOAT = re.compile(r"^([-+]?\d*\.?\d+(?:[eE][-+]?[0-9]+)?)$")
-
-
-def convert(raw_str):
-    maybe_int = _RE_INT.search(raw_str)
-    if maybe_int is not None:
-        return int(maybe_int.group(1))
-    maybe_float = _RE_FLOAT.search(raw_str)
-    if maybe_float is not None:
-        return float(maybe_float.group(1))
-    return raw_str
 
 
 class FastQCModule(object):
