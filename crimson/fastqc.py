@@ -19,6 +19,7 @@ from .utils import write_json
 __all__ = ["fastqc"]
 
 
+_MAX_LINE_SIZE = 1024
 _RE_INT = re.compile(r"^([-+]?\d+)L?$")
 _RE_FLOAT = re.compile(r"^([-+]?\d*\.?\d+(?:[eE][-+]?[0-9]+)?)$")
 
@@ -144,7 +145,7 @@ class FastQC(object):
         """
         self.modules = {}
 
-        line = fp.readline()
+        line = fp.readline(_MAX_LINE_SIZE)
         attr = ""
         while True:
 
@@ -161,7 +162,7 @@ class FastQC(object):
                 raw_lines = self._read_module(fp, line, tokens[0])
                 self.modules[attr] = FastQCModule(raw_lines)
 
-            line = fp.readline()
+            line = fp.readline(_MAX_LINE_SIZE)
 
     def _read_module(self, fp, line, start_mark):
         """Returns a list of lines in a module.
@@ -178,7 +179,7 @@ class FastQC(object):
         """
         raw = [line]
         while not line.startswith('>>END_MODULE'):
-            line = fp.readline()
+            line = fp.readline(_MAX_LINE_SIZE)
             raw.append(line)
 
             if not line:

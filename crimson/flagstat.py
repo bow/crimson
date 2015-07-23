@@ -20,6 +20,7 @@ from .utils import write_json
 __all__ = ["flagstat"]
 
 
+_MAX_SIZE = 1024 * 10
 _RE_TOTAL = re.compile(r"(\d+) \+ (\d+) in total")
 _RE_DUPLICATES = re.compile(r"(\d+) \+ (\d+) duplicates")
 _RE_SECONDARY = re.compile(r"(\d+) \+ (\d+) secondary")
@@ -64,7 +65,7 @@ def flagstat(ctx, input, output):
     Use "-" for stdin and/or stdout.
 
     """
-    contents = input.read()
+    contents = input.read(_MAX_SIZE)
     f = partial(search, contents, caster=int)
     parsed = (
         ("total", f(_RE_TOTAL)),
