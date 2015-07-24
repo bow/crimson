@@ -14,6 +14,7 @@ import click
 from . import __version__
 from .fastqc import fastqc
 from .flagstat import flagstat
+from .picard import picard
 
 
 @click.group()
@@ -31,3 +32,4 @@ def cli(ctx, compact):
 
 fastqc = cli.command()(fastqc)
 flagstat = cli.command()(flagstat)
+picard = cli.command()(picard)
