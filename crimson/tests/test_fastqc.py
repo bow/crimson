@@ -19,6 +19,18 @@ from .utils import get_test_file, getattr_nested
 
 
 @pytest.fixture(scope="module")
+def fastqc_fail():
+    runner = CliRunner()
+    in_file = get_test_file("fastqc_nope.txt")
+    result = runner.invoke(cli, ["fastqc", in_file, "-"])
+    return result
+
+
+def test_fastqc_fail(fastqc_fail):
+    assert fastqc_fail.exit_code == -1
+
+
+@pytest.fixture(scope="module")
 def fastqc_v0101_01():
     runner = CliRunner()
     in_file = get_test_file("fastqc_v0101_01.txt")
