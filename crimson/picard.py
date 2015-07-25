@@ -10,17 +10,29 @@
 
 """
 import os
+import re
 
 import click
 
 from .utils import convert, write_json
+
+_RE_HEADER = re.compile(r"^#+\s+")
 
 
 __all__ = ["picard"]
 
 
 def fetch(l, pred, first=True):
-    """
+    """Fetches item(s) that return true in the given list.
+
+    :param l: Input list to fetch from.
+    :type l: list
+    :param pred: Predicate function.
+    :type pred: function
+    :param first: Whether to return only the first matching item or
+                  all matching items.
+    :type first: bool
+
     """
     matches = [x for x in l if pred(x)]
     if len(matches) == 0:
@@ -31,18 +43,34 @@ def fetch(l, pred, first=True):
 
 
 def parse_header(header):
+    """Parses the Picard header lines into a dictionary.
+
+    :param header: Raw Picard header string.
+    :type header: str
+    :returns: Parsed header information.
+    :rtype: dict
+
     """
-    """
-    pass
+    parsed = [_RE_HEADER.sub("", x) for x in header.split(os.linesep)]
+    if len(parsed) != 4:
+        raise ValueError("Unexpected Picard header.")
+
+    return { "flags": parsed[1], "time": parsed[3] }
 
 
 def parse_metrics(metrics):
-    """
+    """Parses the Picard metrics lines into a dictionary.
+
+    :param metris: Raw Picard metrics string.
+    :type metrics: str
+    :returns: Parsed metrics table.
+    :rtype: dict
+
     """
     if metrics is None:
         return
 
-    lines = [l.strip() for l in metrics.split(os.linesep)]
+    lines = [l.strip(os.linesep) for l in metrics.split(os.linesep)]
 
     try:
         metrics_class = lines.pop(0).split("\t")[1]
@@ -51,7 +79,7 @@ def parse_metrics(metrics):
 
     parsed = []
     for line in lines:
-        parsed.append([convert(v) for v in line.strip().split("\t")])
+        parsed.append([convert(v) for v in line.split("\t")])
 
     header_cols = parsed.pop(0)
     contents = [dict(zip(header_cols, l)) for l in parsed]
@@ -65,17 +93,23 @@ def parse_metrics(metrics):
 
 
 def parse_histogram(histo):
-    """
+    """Parses the Picard histogram lines into a dictionary.
+
+    :param metris: Raw Picard histogram string.
+    :type metrics: str
+    :returns: Parsed histogram table.
+    :rtype: dict
+
     """
     if histo is None:
         return
 
-    lines = [l.strip() for l in histo.split(os.linesep)]
+    lines = [l.strip(os.linesep) for l in histo.split(os.linesep)]
     lines.pop(0)
 
     parsed = []
     for line in lines:
-        parsed.append([convert(v) for v in line.strip().split("\t")])
+        parsed.append([convert(v) for v in line.split("\t")])
 
     header_cols = parsed.pop(0)
     payload = {"contents": [dict(zip(header_cols, l)) for l in parsed]}
@@ -93,7 +127,7 @@ def picard(ctx, input, output):
 
     """
     contents = input.read(1024 * 1024 * 1)
-    sections = contents.strip().split(os.linesep * 2)
+    sections = contents.strip(os.linesep).split(os.linesep * 2)
 
     header = fetch(sections, lambda x: x.startswith("## htsjdk"))
     if header is None:
