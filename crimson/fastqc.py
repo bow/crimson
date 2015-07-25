@@ -9,9 +9,7 @@
     :license: BSD
 
 """
-import click
-
-from .utils import convert, write_json
+from .utils import convert
 
 
 __all__ = ["fastqc"]
@@ -181,14 +179,6 @@ class FastQC(object):
         return payload
 
 
-@click.argument("input", type=click.File("r"))
-@click.argument("output", type=click.File("w"))
-@click.pass_context
-def fastqc(ctx, input, output):
-    """Converts samtools flagstat output.
-
-    Use "-" for stdin and/or stdout.
-
-    """
-    fq = FastQC(input)
-    write_json(fq.dict, output, ctx.parent.params["compact"])
+def fastqc(input):
+    """Parses an input FastQC data file handle into a dictionary."""
+    return FastQC(input).dict

@@ -12,9 +12,10 @@
 import click
 
 from . import __version__
-from .fastqc import fastqc
-from .flagstat import flagstat
-from .picard import picard
+from .fastqc import fastqc as fastqc_f
+from .flagstat import flagstat as flagstat_f
+from .picard import picard as picard_f
+from .utils import write_json
 
 
 @click.group()
@@ -30,6 +31,44 @@ def cli(ctx, compact):
     """
     ctx.params["compact"] = compact
 
-fastqc = cli.command()(fastqc)
-flagstat = cli.command()(flagstat)
-picard = cli.command()(picard)
+
+@cli.command()
+@click.argument("input", type=click.File("r"))
+@click.argument("output", type=click.File("w"))
+@click.pass_context
+def fastqc(ctx, input, output):
+    """Converts FastQC output.
+
+    Use "-" for stdin and/or stdout.
+
+    """
+    payload = fastqc_f(input)
+    write_json(payload, output, ctx.parent.params["compact"])
+
+
+@cli.command()
+@click.argument("input", type=click.File("r"))
+@click.argument("output", type=click.File("w"))
+@click.pass_context
+def flagstat(ctx, input, output):
+    """Converts samtools flagstat output.
+
+    Use "-" for stdin and/or stdout.
+
+    """
+    payload = flagstat_f(input)
+    write_json(payload, output, ctx.parent.params["compact"])
+
+
+@cli.command()
+@click.argument("input", type=click.File("r"))
+@click.argument("output", type=click.File("w"))
+@click.pass_context
+def picard(ctx, input, output):
+    """Converts Picard metrics output.
+
+    Use "-" for stdin and/or stdout.
+
+    """
+    payload = picard_f(input)
+    write_json(payload, output, ctx.parent.params["compact"])

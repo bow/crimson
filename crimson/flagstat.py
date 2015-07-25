@@ -14,8 +14,6 @@ from functools import partial
 
 import click
 
-from .utils import write_json
-
 
 __all__ = ["flagstat"]
 
@@ -56,15 +54,8 @@ def search(text, pattern, caster=str):
     return [None] * pattern.groups
 
 
-@click.argument("input", type=click.File("r"))
-@click.argument("output", type=click.File("w"))
-@click.pass_context
-def flagstat(ctx, input, output):
-    """Converts samtools flagstat output.
-
-    Use "-" for stdin and/or stdout.
-
-    """
+def flagstat(input):
+    """Parses the an input samtools flagstat file handle into a dictionary."""
     contents = input.read(_MAX_SIZE)
     f = partial(search, contents, caster=int)
     parsed = (
@@ -88,4 +79,5 @@ def flagstat(ctx, input, output):
     }
     if len(payload["pass_qc"]) == 0 and len(payload["fail_qc"]) == 0:
         raise click.BadParameter("Cannot parse input flagstat file.")
-    write_json(payload, output, ctx.parent.params["compact"])
+
+    return payload

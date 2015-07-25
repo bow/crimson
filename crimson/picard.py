@@ -14,7 +14,8 @@ import re
 
 import click
 
-from .utils import convert, write_json
+from .utils import convert
+
 
 _RE_HEADER = re.compile(r"^#+\s+")
 
@@ -55,7 +56,7 @@ def parse_header(header):
     if len(parsed) != 4:
         raise ValueError("Unexpected Picard header.")
 
-    return { "flags": parsed[1], "time": parsed[3] }
+    return {"flags": parsed[1], "time": parsed[3]}
 
 
 def parse_metrics(metrics):
@@ -120,12 +121,8 @@ def parse_histogram(histo):
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"))
 @click.pass_context
-def picard(ctx, input, output):
-    """Converts Picard metrics output.
-
-    Use "-" for stdin and/or stdout.
-
-    """
+def picard(input):
+    """Parses an input FastQC data file handle into a dictionary."""
     contents = input.read(1024 * 1024 * 1)
     sections = contents.strip(os.linesep).split(os.linesep * 2)
 
@@ -135,10 +132,8 @@ def picard(ctx, input, output):
     metrics = fetch(sections, lambda x: x.startswith("## METRICS"))
     histo = fetch(sections, lambda x: x.startswith("## HISTOGRAM"))
 
-    payload = {
+    return {
         "header": parse_header(header),
         "metrics": parse_metrics(metrics),
         "histogram": parse_histogram(histo),
     }
-    write_json({k: v for k, v in payload.items() if v is not None}, output,
-               ctx.parent.params["compact"])
