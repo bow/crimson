@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# flake8: noqa
 """
     crimson
     ~~~~~~~
@@ -17,3 +18,8 @@ __version__ += "-dev" if not RELEASE else ""
 __author__ = "Wibowo Arindrarto"
 __contact__ = "bow@bow.web.id"
 __homepage__ = "http://bow.web.id"
+
+
+from .fastqc import parse_fastqc
+from .flagstat import parse_flagstat
+from .picard import parse_picard

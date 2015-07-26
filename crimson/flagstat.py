@@ -14,8 +14,10 @@ from functools import partial
 
 import click
 
+from .utils import get_handle
 
-__all__ = ["flagstat"]
+
+__all__ = ["parse_flagstat"]
 
 
 _MAX_SIZE = 1024 * 10
@@ -54,9 +56,18 @@ def search(text, pattern, caster=str):
     return [None] * pattern.groups
 
 
-def flagstat(input):
-    """Parses the an input samtools flagstat file handle into a dictionary."""
-    contents = input.read(_MAX_SIZE)
+def parse_flagstat(input):
+    """Parses the an input samtools flagstat file handle into a dictionary.
+
+    :param input: Input flagstat contents.
+    :type input: str or file handle
+    :returns: Parsed flagstat values.
+    :rtype: dict
+
+    """
+    with get_handle(input) as fh:
+        contents = fh.read(_MAX_SIZE)
+
     f = partial(search, contents, caster=int)
     parsed = (
         ("total", f(_RE_TOTAL)),

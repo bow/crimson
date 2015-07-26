@@ -14,13 +14,13 @@ import re
 
 import click
 
-from .utils import convert
+from .utils import convert, get_handle
 
 
 _RE_HEADER = re.compile(r"^#+\s+")
 
 
-__all__ = ["picard"]
+__all__ = ["parse_picard"]
 
 
 def fetch(l, pred, first=True):
@@ -118,12 +118,18 @@ def parse_histogram(histo):
     return payload
 
 
-@click.argument("input", type=click.File("r"))
-@click.argument("output", type=click.File("w"))
-@click.pass_context
-def picard(input):
-    """Parses an input FastQC data file handle into a dictionary."""
-    contents = input.read(1024 * 1024 * 1)
+def parse_picard(input):
+    """Parses an input picard metrics file into a dictionary.
+
+    :param input: Input metrics file.
+    :type input: str or file handle
+    :returns: Parsed metrics values.
+    :rtype: dict
+
+    """
+    with get_handle(input) as fh:
+        contents = fh.read(1024 * 1024 * 1)
+
     sections = contents.strip(os.linesep).split(os.linesep * 2)
 
     header = fetch(sections, lambda x: x.startswith("## htsjdk"))

@@ -9,10 +9,10 @@
     :license: BSD
 
 """
-from .utils import convert
+from .utils import convert, get_handle
 
 
-__all__ = ["fastqc"]
+__all__ = ["parse_fastqc"]
 
 
 _MAX_LINE_SIZE = 1024
@@ -179,6 +179,14 @@ class FastQC(object):
         return payload
 
 
-def fastqc(input):
-    """Parses an input FastQC data file handle into a dictionary."""
-    return FastQC(input).dict
+def parse_fastqc(input):
+    """Parses an input FastQC data file into a dictionary.
+
+    :param input: Input fastqc_data.txt file.
+    :type input: str or file handle
+    :returns: Parsed FastQC values.
+    :rtype: dict
+
+    """
+    with get_handle(input) as fh:
+        return FastQC(fh).dict
