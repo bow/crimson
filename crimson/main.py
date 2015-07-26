@@ -15,23 +15,27 @@ from . import __version__
 from . import fastqc as m_fastqc
 from . import flagstat as m_flagstat
 from . import picard as m_picard
-from .utils import write_json
+from .utils import write_output
 
 __all__ = []
 
 
 @click.group()
 @click.version_option(__version__)
+@click.option("--fmt", default="json", type=click.Choice(["json", "yaml"]),
+              help="Output file format. Default: json.")
+@click.option("--indent", default=2,
+              help="Indentation level. Ignored if the --compact flag is set. "
+              "Default: 2.")
 @click.option("--compact", is_flag=True,
               help="Whether to create a compact JSON or not. "
               "Ignored if output format is YAML.")
-@click.option("--indent", default=2,
-              help="Indentation level. Ignored if the --compact flag is set")
 @click.pass_context
-def cli(ctx, compact, indent):
+def cli(ctx, fmt, indent, compact):
     """Converts bioinformatics tools' output to a standard format."""
-    ctx.params["compact"] = compact
+    ctx.params["fmt"] = fmt
     ctx.params["indent"] = indent
+    ctx.params["compact"] = compact
 
 
 @cli.command()
@@ -45,8 +49,8 @@ def fastqc(ctx, input, output):
 
     """
     payload = m_fastqc.parse(input)
-    write_json(payload, output, ctx.parent.params["compact"],
-               ctx.parent.params["indent"])
+    write_output(payload, output, ctx.parent.params["fmt"],
+                 ctx.parent.params["compact"], ctx.parent.params["indent"])
 
 
 @cli.command()
@@ -60,8 +64,8 @@ def flagstat(ctx, input, output):
 
     """
     payload = m_flagstat.parse(input)
-    write_json(payload, output, ctx.parent.params["compact"],
-               ctx.parent.params["indent"])
+    write_output(payload, output, ctx.parent.params["fmt"],
+                 ctx.parent.params["compact"], ctx.parent.params["indent"])
 
 
 @cli.command()
@@ -75,5 +79,5 @@ def picard(ctx, input, output):
 
     """
     payload = m_picard.parse(input)
-    write_json(payload, output, ctx.parent.params["compact"],
-               ctx.parent.params["indent"])
+    write_output(payload, output, ctx.parent.params["fmt"],
+                 ctx.parent.params["compact"], ctx.parent.params["indent"])

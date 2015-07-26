@@ -16,6 +16,8 @@ import sys
 from contextlib import contextmanager
 from os import linesep
 
+import yaml
+
 
 if sys.version_info[0] > 2:
     basestring = str
@@ -44,27 +46,34 @@ def convert(raw_str):
     return raw_str
 
 
-def write_json(payload, out_handle, compact=False, indent=4):
-    """Writes the given dictionary as JSON to the output handle.
+def write_output(payload, out_handle, fmt="json", compact=False, indent=4):
+    """Writes the given dictionary as JSON or YAML to the output handle.
 
     The output handle must have the ``write`` method.
 
-    :param payload: JSON payload to write.
+    :param payload: Payload to write.
     :type payload: dict
     :param out_handle: Output handle.
     :type out_handle: object with ``write`` method.
-    :param compact: Whether to write a compact JSON or not.
+    :param fmt: Output format.
+    :type fmt: str (``json`` or ``yaml``)
+    :param compact: Whether to write a compact JSON or not. Ignored if the
+                    output format is JSON.
     :type compact: bool
-    :param indent: JSON indentation (ignored if output ``compact`` is true).
+    :param indent: Indentation level (ignored if output ``compact`` is true).
     :type indent: int
 
     """
-    if compact:
-        json.dump(payload, out_handle, sort_keys=True, indent=None,
-                  separators=(",", ":"))
+    if fmt == "json":
+        if compact:
+            json.dump(payload, out_handle, sort_keys=True, indent=None,
+                      separators=(",", ":"))
+        else:
+            json.dump(payload, out_handle, sort_keys=True, indent=indent)
+            out_handle.write(linesep)
     else:
-        json.dump(payload, out_handle, sort_keys=True, indent=indent)
-        out_handle.write(linesep)
+        out_handle.write(yaml.dump(payload, default_flow_style=False,
+                         indent=indent))
 
 
 @contextmanager

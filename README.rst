@@ -8,8 +8,7 @@ Crimson
     :target: https://coveralls.io/github/bow/crimson?branch=master
 
 
-Crimson converts nonstandard bioinformatics tool outputs to a standard format. Currently, the main target output format
-is JSON.
+Crimson converts nonstandard bioinformatics tool outputs to a standard format.
 
 
 Why
