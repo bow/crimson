@@ -22,15 +22,12 @@ __all__ = []
 
 @click.group()
 @click.version_option(__version__)
-@click.option("--compact", is_flag=True)
+@click.option("--compact", is_flag=True,
+              help="Whether to create a compact JSON or not. "
+              "Ignored if output format is YAML.")
 @click.pass_context
 def cli(ctx, compact):
-    """Converts various non-standard bioinformatics tools' output to JSON.
-
-    :param compact: Whether to create a compact JSON output or not.
-    :type compact: bool.
-
-    """
+    """Converts bioinformatics tools' output to a standard format."""
     ctx.params["compact"] = compact
 
 
