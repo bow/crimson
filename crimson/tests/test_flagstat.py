@@ -22,7 +22,7 @@ from .utils import get_test_file
 def flagstat_fail():
     runner = CliRunner()
     in_file = get_test_file("samtools_flagstat_nope.txt")
-    result = runner.invoke(cli, ["flagstat", in_file, "-"])
+    result = runner.invoke(cli, ["flagstat", in_file])
     return result
 
 
@@ -30,7 +30,7 @@ def flagstat_fail():
 def flagstat_v0119_01():
     runner = CliRunner()
     in_file = get_test_file("samtools_flagstat_v0119_01.txt")
-    result = runner.invoke(cli, ["flagstat", in_file, "-"])
+    result = runner.invoke(cli, ["flagstat", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -39,7 +39,7 @@ def flagstat_v0119_01():
 def flagstat_v11_01():
     runner = CliRunner()
     in_file = get_test_file("samtools_flagstat_v11_01.txt")
-    result = runner.invoke(cli, ["flagstat", in_file, "-"])
+    result = runner.invoke(cli, ["flagstat", in_file])
     result.json = json.loads(result.output)
     return result
 

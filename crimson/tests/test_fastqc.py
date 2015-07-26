@@ -22,7 +22,7 @@ from .utils import get_test_file, getattr_nested
 def fastqc_fail():
     runner = CliRunner()
     in_file = get_test_file("fastqc_nope.txt")
-    result = runner.invoke(cli, ["fastqc", in_file, "-"])
+    result = runner.invoke(cli, ["fastqc", in_file])
     return result
 
 
@@ -34,7 +34,7 @@ def test_fastqc_fail(fastqc_fail):
 def fastqc_v0101_01():
     runner = CliRunner()
     in_file = get_test_file("fastqc_v0101_01.txt")
-    result = runner.invoke(cli, ["fastqc", in_file, "-"])
+    result = runner.invoke(cli, ["fastqc", in_file])
     result.json = json.loads(result.output)
     return result
 

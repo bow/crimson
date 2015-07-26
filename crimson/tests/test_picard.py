@@ -22,7 +22,7 @@ from .utils import get_test_file, getattr_nested
 def picard_fail():
     runner = CliRunner()
     in_file = get_test_file("picard_nope.txt")
-    result = runner.invoke(cli, ["picard", in_file, "-"])
+    result = runner.invoke(cli, ["picard", in_file])
     return result
 
 
@@ -34,7 +34,7 @@ def test_picard_fail_exit_code(picard_fail):
 def alignment_summary_v1124_01():
     runner = CliRunner()
     in_file = get_test_file("picard_alignment_summary_v1124_01.txt")
-    result = runner.invoke(cli, ["picard", in_file, "-"])
+    result = runner.invoke(cli, ["picard", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -107,7 +107,7 @@ def test_alignment_summary_v1124_01(alignment_summary_v1124_01, attrs, exp):
 def insert_size_v1124_01():
     runner = CliRunner()
     in_file = get_test_file("picard_insert_size_v1124_01.txt")
-    result = runner.invoke(cli, ["picard", in_file, "-"])
+    result = runner.invoke(cli, ["picard", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -154,7 +154,7 @@ def test_insert_size_v1124_01(insert_size_v1124_01, attrs, exp):
 def library_complexity_v1124_01():
     runner = CliRunner()
     in_file = get_test_file("picard_library_complexity_v1124_01.txt")
-    result = runner.invoke(cli, ["picard", in_file, "-"])
+    result = runner.invoke(cli, ["picard", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -189,7 +189,7 @@ def test_library_complexity_v1124_01(library_complexity_v1124_01, attrs, exp):
 def mark_duplicates_v1124_01():
     runner = CliRunner()
     in_file = get_test_file("picard_mark_duplicates_v1124_01.txt")
-    result = runner.invoke(cli, ["picard", in_file, "-"])
+    result = runner.invoke(cli, ["picard", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -221,7 +221,7 @@ def test_mark_duplicates_v1124_01(mark_duplicates_v1124_01, attrs, exp):
 def rna_seq_v1124_01():
     runner = CliRunner()
     in_file = get_test_file("picard_rna_seq_v1124_01.txt")
-    result = runner.invoke(cli, ["picard", in_file, "-"])
+    result = runner.invoke(cli, ["picard", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -272,7 +272,7 @@ def test_rna_seq_v1124_01(rna_seq_v1124_01, attrs, exp):
 def wgs_v1124_01():
     runner = CliRunner()
     in_file = get_test_file("picard_wgs_v1124_01.txt")
-    result = runner.invoke(cli, ["picard", in_file, "-"])
+    result = runner.invoke(cli, ["picard", in_file])
     result.json = json.loads(result.output)
     return result
 

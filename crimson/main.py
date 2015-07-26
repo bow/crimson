@@ -40,7 +40,7 @@ def cli(ctx, fmt, indent, compact):
 
 @cli.command()
 @click.argument("input", type=click.File("r"))
-@click.argument("output", type=click.File("w"))
+@click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
 def fastqc(ctx, input, output):
     """Converts FastQC output.
@@ -55,7 +55,7 @@ def fastqc(ctx, input, output):
 
 @cli.command()
 @click.argument("input", type=click.File("r"))
-@click.argument("output", type=click.File("w"))
+@click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
 def flagstat(ctx, input, output):
     """Converts samtools flagstat output.
@@ -70,7 +70,7 @@ def flagstat(ctx, input, output):
 
 @cli.command()
 @click.argument("input", type=click.File("r"))
-@click.argument("output", type=click.File("w"))
+@click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
 def picard(ctx, input, output):
     """Converts Picard metrics output.
