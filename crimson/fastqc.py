@@ -9,6 +9,10 @@
     :license: BSD
 
 """
+from os import path, walk
+
+import click
+
 from .utils import convert, get_handle
 
 
@@ -180,13 +184,21 @@ class FastQC(object):
 
 
 def parse(input):
-    """Parses an input FastQC data file into a dictionary.
+    """Parses FastQC results into a dictionary.
 
-    :param input: Input fastqc_data.txt file.
+    :param input: File handle of a fastqc_data.txt file, or path to a
+                  fastqc_data.txt file or path to a FastQC results directory.
     :type input: str or file handle
     :returns: Parsed FastQC values.
     :rtype: dict
 
     """
+    if path.isdir(input):
+        try:
+            ori = input
+            input = path.join(ori, next(walk(ori))[1][0], "fastqc_data.txt")
+        except IndexError:
+            raise click.BadParameter("Cannot find fastqc_data.txt file in "
+                                     "the given directory.")
     with get_handle(input) as fh:
         return FastQC(fh).dict

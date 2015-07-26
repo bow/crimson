@@ -39,7 +39,7 @@ def cli(ctx, fmt, indent, compact):
 
 
 @cli.command()
-@click.argument("input", type=click.File("r"))
+@click.argument("input", type=click.Path(exists=True))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
 def fastqc(ctx, input, output):

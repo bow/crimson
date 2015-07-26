@@ -10,12 +10,19 @@
 
 """
 import json
+import os
+
 import pytest
 from click.testing import CliRunner
 
 from crimson.main import cli
-
 from .utils import get_test_file, getattr_nested
+
+
+def test_fastqc_dir_error():
+    runner = CliRunner()
+    result = runner.invoke(cli, ["fastqc", os.getcwd()])
+    assert result.exit_code != 0
 
 
 @pytest.fixture(scope="module")
@@ -235,3 +242,16 @@ def test_fastqc_v0101_01_kmer_content(fastqc_v0101_01, attrs, exp):
     ori_attrs = list(attrs)
     assert getattr_nested(fastqc_v0101_01.json, attrs) == exp, \
         ", ".join([repr(x) for x in ori_attrs])
+
+
+def test_fastqc_v0101_01_dir():
+    runner = CliRunner()
+    dir_name = "fastqc_v0101_01_dir.fastqc"
+    dir_path = get_test_file(dir_name)
+    dir_result = runner.invoke(cli, ["fastqc", dir_path])
+
+    file_name = "fastqc_v0101_01_dir.fastqc/input.fq_fastqc/fastqc_data.txt"
+    file_path = get_test_file(file_name)
+    file_result = runner.invoke(cli, ["fastqc", file_path])
+
+    assert dir_result.output == file_result.output
