@@ -11,8 +11,13 @@
 """
 import click
 
-from . import __version__, parse_fastqc, parse_flagstat, parse_picard
+from . import __version__
+from . import fastqc as m_fastqc
+from . import flagstat as m_flagstat
+from . import picard as m_picard
 from .utils import write_json
+
+__all__ = []
 
 
 @click.group()
@@ -39,7 +44,7 @@ def fastqc(ctx, input, output):
     Use "-" for stdin and/or stdout.
 
     """
-    payload = parse_fastqc(input)
+    payload = m_fastqc.parse(input)
     write_json(payload, output, ctx.parent.params["compact"])
 
 
@@ -53,7 +58,7 @@ def flagstat(ctx, input, output):
     Use "-" for stdin and/or stdout.
 
     """
-    payload = parse_flagstat(input)
+    payload = m_flagstat.parse(input)
     write_json(payload, output, ctx.parent.params["compact"])
 
 
@@ -67,5 +72,5 @@ def picard(ctx, input, output):
     Use "-" for stdin and/or stdout.
 
     """
-    payload = parse_picard(input)
+    payload = m_picard.parse(input)
     write_json(payload, output, ctx.parent.params["compact"])

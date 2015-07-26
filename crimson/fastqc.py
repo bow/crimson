@@ -12,7 +12,7 @@
 from .utils import convert, get_handle
 
 
-__all__ = ["parse_fastqc"]
+__all__ = ["parse"]
 
 
 _MAX_LINE_SIZE = 1024
@@ -179,7 +179,7 @@ class FastQC(object):
         return payload
 
 
-def parse_fastqc(input):
+def parse(input):
     """Parses an input FastQC data file into a dictionary.
 
     :param input: Input fastqc_data.txt file.

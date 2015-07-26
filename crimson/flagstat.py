@@ -17,7 +17,7 @@ import click
 from .utils import get_handle
 
 
-__all__ = ["parse_flagstat"]
+__all__ = ["parse"]
 
 
 _MAX_SIZE = 1024 * 10
@@ -56,7 +56,7 @@ def search(text, pattern, caster=str):
     return [None] * pattern.groups
 
 
-def parse_flagstat(input):
+def parse(input):
     """Parses the an input samtools flagstat file handle into a dictionary.
 
     :param input: Input flagstat contents.

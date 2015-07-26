@@ -20,7 +20,7 @@ from .utils import convert, get_handle
 _RE_HEADER = re.compile(r"^#+\s+")
 
 
-__all__ = ["parse_picard"]
+__all__ = ["parse"]
 
 
 def fetch(l, pred, first=True):
@@ -118,7 +118,7 @@ def parse_histogram(histo):
     return payload
 
 
-def parse_picard(input):
+def parse(input):
     """Parses an input picard metrics file into a dictionary.
 
     :param input: Input metrics file.
