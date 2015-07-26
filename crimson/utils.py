@@ -9,13 +9,13 @@
     :license: BSD
 
 """
-import io
 import json
 import re
 import sys
 from contextlib import contextmanager
 from os import linesep
 
+import click
 import yaml
 
 
@@ -99,10 +99,7 @@ def get_handle(input, encoding=None, mode="r"):
     if isinstance(input, basestring):
         assert isinstance(input, basestring), \
             "Unexpected input type: " + repr(input)
-        if encoding is not None:
-            fh = io.open(input, mode, encoding)
-        else:
-            fh = open(input, mode)
+        fh = click.open_file(input, mode=mode, encoding=encoding)
     else:
         fh = input
 
