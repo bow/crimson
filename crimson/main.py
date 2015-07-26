@@ -25,10 +25,13 @@ __all__ = []
 @click.option("--compact", is_flag=True,
               help="Whether to create a compact JSON or not. "
               "Ignored if output format is YAML.")
+@click.option("--indent", default=2,
+              help="Indentation level. Ignored if the --compact flag is set")
 @click.pass_context
-def cli(ctx, compact):
+def cli(ctx, compact, indent):
     """Converts bioinformatics tools' output to a standard format."""
     ctx.params["compact"] = compact
+    ctx.params["indent"] = indent
 
 
 @cli.command()
@@ -42,7 +45,8 @@ def fastqc(ctx, input, output):
 
     """
     payload = m_fastqc.parse(input)
-    write_json(payload, output, ctx.parent.params["compact"])
+    write_json(payload, output, ctx.parent.params["compact"],
+               ctx.parent.params["indent"])
 
 
 @cli.command()
@@ -56,7 +60,8 @@ def flagstat(ctx, input, output):
 
     """
     payload = m_flagstat.parse(input)
-    write_json(payload, output, ctx.parent.params["compact"])
+    write_json(payload, output, ctx.parent.params["compact"],
+               ctx.parent.params["indent"])
 
 
 @cli.command()
@@ -70,4 +75,5 @@ def picard(ctx, input, output):
 
     """
     payload = m_picard.parse(input)
-    write_json(payload, output, ctx.parent.params["compact"])
+    write_json(payload, output, ctx.parent.params["compact"],
+               ctx.parent.params["indent"])
