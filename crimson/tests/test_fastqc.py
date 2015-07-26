@@ -16,7 +16,7 @@ import pytest
 from click.testing import CliRunner
 
 from crimson.main import cli
-from .utils import get_test_file, getattr_nested
+from .utils import get_test_path, getattr_nested
 
 
 def test_fastqc_dir_error():
@@ -28,7 +28,7 @@ def test_fastqc_dir_error():
 @pytest.fixture(scope="module")
 def fastqc_fail():
     runner = CliRunner()
-    in_file = get_test_file("fastqc_nope.txt")
+    in_file = get_test_path("fastqc_nope.txt")
     result = runner.invoke(cli, ["fastqc", in_file])
     return result
 
@@ -40,7 +40,7 @@ def test_fastqc_fail(fastqc_fail):
 @pytest.fixture(scope="module")
 def fastqc_v0101_01():
     runner = CliRunner()
-    in_file = get_test_file("fastqc_v0101_01.txt")
+    in_file = get_test_path("fastqc_v0101_01.txt")
     result = runner.invoke(cli, ["fastqc", in_file])
     result.json = json.loads(result.output)
     return result
@@ -247,11 +247,11 @@ def test_fastqc_v0101_01_kmer_content(fastqc_v0101_01, attrs, exp):
 def test_fastqc_v0101_01_dir():
     runner = CliRunner()
     dir_name = "fastqc_v0101_01_dir.fastqc"
-    dir_path = get_test_file(dir_name)
+    dir_path = get_test_path(dir_name)
     dir_result = runner.invoke(cli, ["fastqc", dir_path])
 
     file_name = "fastqc_v0101_01_dir.fastqc/input.fq_fastqc/fastqc_data.txt"
-    file_path = get_test_file(file_name)
+    file_path = get_test_path(file_name)
     file_result = runner.invoke(cli, ["fastqc", file_path])
 
     assert dir_result.output == file_result.output

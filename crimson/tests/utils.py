@@ -15,14 +15,14 @@ from os.path import abspath, dirname, join
 TEST_CASE_DIR = abspath(join(dirname(__file__), "cases"))
 
 
-def get_test_file(bname, test_dir=TEST_CASE_DIR):
-    """Helper method to return the path of a test case file.
+def get_test_path(bname, test_dir=TEST_CASE_DIR):
+    """Helper method to return the path of a test case file or directory.
 
-    :param bname: Test case file name.
+    :param bname: Test case base name.
     :type bname: str
     :param test_dir: Test case directory name.
     :type test_dir: str
-    :returns: Absolute path to the test case file.
+    :returns: Absolute path to the test case file or directory.
     :rtype: str
 
     """
