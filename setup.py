@@ -9,24 +9,26 @@ from crimson import __author__, __contact__, \
 
 with open("README.rst") as src:
     readme = src.read()
+
 with open("HISTORY.rst") as src:
-    history = src.read().replace(".. :changelog:", "")
+    history = src.read().replace(".. :changelog:", "").strip()
 
 with open("requirements.txt") as src:
     requirements = [line.strip() for line in src]
+
 with open("requirements-dev.txt") as src:
     test_requirements = [line.strip() for line in src]
 
 
 setup(
-    name="crimson",
+    name="Crimson",
     version=__version__,
-    description="Converts nonstandard bioinformatics tool outputs to a standard format.",
+    description="Bioinformatics tool outputs converter to JSON or YAML.",
     long_description=readme + "\n\n" + history,
     author=__author__,
     author_email=__contact__,
     url=__homepage__,
-    packages=find_packages("crimson", exclude=["tests"]),
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     include_package_data=True,
     install_requires=requirements,
     license="BSD",
@@ -35,7 +37,7 @@ setup(
     [console_scripts]
     crimson=crimson.main:cli
     """,
-    keywords="crimson bioinformatics json samtools picard fastqc",
+    keywords="crimson bioinformatics json yaml samtools picard fastqc",
     tests_require=test_requirements,
     classifiers=[
         "Development Status :: 3 - Alpha",
@@ -43,7 +45,6 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: POSIX",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
