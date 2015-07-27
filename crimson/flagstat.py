@@ -56,16 +56,16 @@ def search(text, pattern, caster=str):
     return [None] * pattern.groups
 
 
-def parse(input):
-    """Parses the an input samtools flagstat file handle into a dictionary.
+def parse(in_data):
+    """Parses the a samtools flagstat result into a dictionary.
 
-    :param input: Input flagstat contents.
-    :type input: str or file handle
+    :param in_data: Input flagstat contents.
+    :type in_data: str or file handle
     :returns: Parsed flagstat values.
     :rtype: dict
 
     """
-    with get_handle(input) as fh:
+    with get_handle(in_data) as fh:
         contents = fh.read(_MAX_SIZE)
 
     f = partial(search, contents, caster=int)

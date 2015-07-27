@@ -49,8 +49,7 @@ def fastqc(ctx, input, output):
 
     """
     payload = m_fastqc.parse(input)
-    write_output(payload, output, ctx.parent.params["fmt"],
-                 ctx.parent.params["compact"], ctx.parent.params["indent"])
+    write_output(payload, output, **ctx.parent.params)
 
 
 @cli.command()
@@ -64,8 +63,7 @@ def flagstat(ctx, input, output):
 
     """
     payload = m_flagstat.parse(input)
-    write_output(payload, output, ctx.parent.params["fmt"],
-                 ctx.parent.params["compact"], ctx.parent.params["indent"])
+    write_output(payload, output, **ctx.parent.params)
 
 
 @cli.command()
@@ -79,5 +77,4 @@ def picard(ctx, input, output):
 
     """
     payload = m_picard.parse(input)
-    write_output(payload, output, ctx.parent.params["fmt"],
-                 ctx.parent.params["compact"], ctx.parent.params["indent"])
+    write_output(payload, output, **ctx.parent.params)

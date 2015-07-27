@@ -147,20 +147,18 @@ class FastQC(object):
             # parse individual modules
             elif tokens[0] in self._mod_map:
                 attr = self._mod_map[tokens[0]]
-                raw_lines = self._read_module(fp, line, tokens[0])
+                raw_lines = self._read_module(fp, line)
                 self.modules[attr] = FastQCModule(raw_lines)
 
             line = fp.readline(_MAX_LINE_SIZE)
 
-    def _read_module(self, fp, line, start_mark):
+    def _read_module(self, fp, line):
         """Returns a list of lines in a module.
 
         :param fp: open file handle pointing to the FastQC data file
         :type fp: file handle
         :param line: first line in the module
         :type line: str
-        :param start_mark: string denoting start of the module
-        :type start_mark: str
         :returns: a list of lines in the module
         :rtype: list of str
 
@@ -183,22 +181,22 @@ class FastQC(object):
         return payload
 
 
-def parse(input):
+def parse(in_data):
     """Parses FastQC results into a dictionary.
 
-    :param input: File handle of a fastqc_data.txt file, or path to a
-                  fastqc_data.txt file or path to a FastQC results directory.
-    :type input: str or file handle
+    :param in_data: File handle of a fastqc_data.txt file, or path to a
+                    fastqc_data.txt file or path to a FastQC results directory.
+    :type in_data: str or file handle
     :returns: Parsed FastQC values.
     :rtype: dict
 
     """
-    if path.isdir(input):
+    if path.isdir(in_data):
         try:
-            ori = input
-            input = path.join(ori, next(walk(ori))[1][0], "fastqc_data.txt")
+            ori = in_data
+            in_data = path.join(ori, next(walk(ori))[1][0], "fastqc_data.txt")
         except IndexError:
             raise click.BadParameter("Cannot find fastqc_data.txt file in "
                                      "the given directory.")
-    with get_handle(input) as fh:
+    with get_handle(in_data) as fh:
         return FastQC(fh).dict

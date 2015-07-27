@@ -118,16 +118,16 @@ def parse_histogram(histo):
     return payload
 
 
-def parse(input):
-    """Parses an input picard metrics file into a dictionary.
+def parse(in_data):
+    """Parses an input Picard metrics file into a dictionary.
 
-    :param input: Input metrics file.
-    :type input: str or file handle
+    :param in_data: Input metrics file.
+    :type in_data: str or file handle
     :returns: Parsed metrics values.
     :rtype: dict
 
     """
-    with get_handle(input) as fh:
+    with get_handle(in_data) as fh:
         contents = fh.read(1024 * 1024 * 1)
 
     sections = contents.strip(os.linesep).split(os.linesep * 2)
