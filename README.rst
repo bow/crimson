@@ -7,6 +7,8 @@ Crimson
 .. image:: https://coveralls.io/repos/bow/crimson/badge.svg?branch=master&service=github
     :target: https://coveralls.io/github/bow/crimson?branch=master
 
+.. image:: https://badge.fury.io/py/crimson.svg
+    :target: http://badge.fury.io/py/crimson
 
 Crimson converts non-standard bioinformatics tool outputs to JSON or YAML.
 
@@ -18,6 +20,21 @@ Currently it accepts outputs of the following programs:
 
 From those, you can convert the respective output files into JSON (the default) or YAML. You can also use ``crimson``
 in your scripts by importing the parser functions themselves.
+
+Installation
+------------
+
+Crimson is available via the Python Package Index and you can install it via ``pip``:
+
+.. code-block:: bash
+
+    $ pip install crimson
+
+It is tested on Python 2.7, Python 3.3, and Python 3.4, and against the following bioinformatics tools:
+
+* FastQC (version 0.10.1)
+* samtools (version 0.19.1, 1.1)
+* Picard (version 1.124)
 
 Usage
 -----
