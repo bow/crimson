@@ -42,7 +42,8 @@ Usage
 Command-line
 ^^^^^^^^^^^^
 
-The general command is ``crimson {program_name}`` and by default the output is written to ``stdout``, for example:
+The general command is ``crimson {program_name}`` and by default the output is written to ``stdout``. For example,
+to use the ``picard`` parser, you would execute:
 
 .. code-block:: bash
 
@@ -82,11 +83,9 @@ you can do this:
     # You can supply the file name as string ...
     parsed = picard.parse("/path/to/a/picard.metrics")
 
-    # ... or s a file handle directly
+    # ... or a file handle directly
     with open("/path/to/a/picard.metrics") as src:
         parsed = picard.parse(src)
-
-Crimson is tested against Python 2.7, Python 3.3, and Python 3.4.
 
 Why
 ---
@@ -104,7 +103,7 @@ If you are interested, Crimson accepts the following types contribution:
 * Bug reports
 * Support for tools' outputs which can be converted to JSON or YAML.
 
-For any kinds of contributions, feel free to open an issue in the
+For any of these, feel free to open an issue in the
 `issue tracker <https://github.com/bow/crimson/issues>`_ or submitt a pull request.
 
 
