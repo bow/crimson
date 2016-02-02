@@ -3,7 +3,7 @@
     crimson.fastqc
     ~~~~~~~~~~~~~~
 
-    Flagstat subcommand for parsing FastQC output.
+    FastQC output parsing.
 
     :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD
