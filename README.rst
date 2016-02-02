@@ -30,7 +30,7 @@ Crimson is available via the Python Package Index and you can install it via ``p
 
     $ pip install crimson
 
-It is tested on Python 2.7, Python 3.3, and Python 3.4, and against the following bioinformatics tools:
+It is tested on Python 2.7, Python 3.3, and Python 3.4, Python 3.5, and against the following bioinformatics tools:
 
 * FastQC (version 0.10.1)
 * samtools (version 0.19.1, 1.1)
@@ -86,10 +86,8 @@ you can do this:
     with open("/path/to/a/picard.metrics") as src:
         parsed = picard.parse(src)
 
-Crimson is tested against Python 2.7, Python 3.3, and Python 3.4.
-
-Why
----
+Why?
+----
 
 * Not enough tools use standard output formats.
 * I got tired of writing and re-writing the same parsers across different scripts.
