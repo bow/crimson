@@ -3,7 +3,7 @@
     crimson.flagstat
     ~~~~~~~~~~~~~~~~
 
-    Flagstat subcommand.
+    Samtools flagstat output parsing.
 
     :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD

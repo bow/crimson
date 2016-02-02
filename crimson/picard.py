@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    crimson.flagstat
-    ~~~~~~~~~~~~~~~~
+    crimson.picard
+    ~~~~~~~~~~~~~~
 
-    Flagstat subcommand.
+    Picard metrics file parsing.
 
     :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD
