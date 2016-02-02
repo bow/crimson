@@ -3,10 +3,18 @@
 History
 =======
 
-Releases 0.1
+Versions 0.1
 ------------
 
-Version 0.1.0
+Release 0.1.1
+^^^^^^^^^^^^^
+
+`release date: 2 February 2016`
+
+* Minor release that loosens the wheel dependency version, updates some
+  development dependencies, and fixes some typos.
+
+Release 0.1.0
 ^^^^^^^^^^^^^
 
 `release date: 27 July 2015`
