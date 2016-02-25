@@ -57,7 +57,7 @@ def search(text, pattern, caster=str):
 
 
 def parse(in_data):
-    """Parses the a samtools flagstat result into a dictionary.
+    """Parses a samtools flagstat result into a dictionary.
 
     :param in_data: Input flagstat contents.
     :type in_data: str or file handle
