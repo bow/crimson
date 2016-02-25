@@ -15,6 +15,7 @@ from . import __version__
 from . import fastqc as m_fastqc
 from . import flagstat as m_flagstat
 from . import picard as m_picard
+from . import star_fusion as m_star_fusion
 from .utils import write_output
 
 __all__ = []
@@ -77,4 +78,18 @@ def picard(ctx, input, output):
 
     """
     payload = m_picard.parse(input)
+    write_output(payload, output, **ctx.parent.params)
+
+
+@cli.command(name="star-fusion")
+@click.argument("input", type=click.File("r"))
+@click.argument("output", type=click.File("w"), default="-")
+@click.pass_context
+def star_fusion(ctx, input, output):
+    """Converts abridged output of STAR-Fusion.
+
+    Use "-" for stdin and/or stdout.
+
+    """
+    payload = m_star_fusion.parse(input)
     write_output(payload, output, **ctx.parent.params)
