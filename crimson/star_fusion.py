@@ -25,8 +25,6 @@ _COLNAMES = [
 
 # Delimiter strings
 _DELIM = {
-    # Fusion gene names
-    "fusn": "--",
     # Gene name-id
     "gids": "^",
     # Chromosome-coordinate-strand
