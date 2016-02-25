@@ -27,8 +27,8 @@ _COLNAMES = [
 _DELIM = {
     # Fusion gene names
     "fusn": "--",
-    # Gene-transcript name
-    "gtrans": "^",
+    # Gene name-id
+    "gids": "^",
     # Chromosome-coordinate-strand
     "loc": ":",
 }
@@ -44,14 +44,14 @@ def parse_lr_entry(lr_gene, lr_brkpoint):
     :rtype: dict
 
     """
-    lrgene, lrtrans = lr_gene.split(_DELIM["gtrans"])
-    lrchrom, lrcoord, lrstrand = lr_brkpoint.split(_DELIM["loc"])
+    lrgname, lrgid = lr_gene.split(_DELIM["gids"])
+    lrchrom, lrpos, lrstrand = lr_brkpoint.split(_DELIM["loc"])
 
     return {
-        "gene": lrgene,
-        "transcript": lrtrans,
+        "geneName": lrgname,
+        "geneID": lrgid,
         "chromosome": lrchrom,
-        "coordinate": int(lrcoord),
+        "position": int(lrpos),
         "strand": lrstrand,
     }
 
