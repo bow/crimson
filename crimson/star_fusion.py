@@ -71,7 +71,7 @@ def parse_raw_line(raw_line, colnames):
     entries = {k: v for k, v in zip(colnames, values)}
 
     return {
-        "name": entries["fusion_name"],
+        "fusionName": entries["fusion_name"],
         "nJunctionReads": int(entries["JunctionReads"]),
         "nSpanningFrags": int(entries["SpanningFrags"]),
         "spliceType": entries["Splice_type"],

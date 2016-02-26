@@ -45,7 +45,7 @@ def test_star_fusion_fail_output(star_fusion_fail):
 
 
 @pytest.mark.parametrize("attrs, exp", [
-    ([0, "name"], "RUNX1--RUNX1T1"),
+    ([0, "fusionName"], "RUNX1--RUNX1T1"),
     ([0, "nJunctionReads"], 30),
     ([0, "nSpanningFrags"], 8),
     ([0, "spliceType"], "ONLY_REF_SPLICE"),
@@ -59,7 +59,7 @@ def test_star_fusion_fail_output(star_fusion_fail):
     ([0, "right", "chromosome"], "chr8"),
     ([0, "right", "position"], 92017363),
     ([0, "right", "strand"], "-"),
-    ([-1, "name"], "ITM2C--PTMA"),
+    ([-1, "fusionName"], "ITM2C--PTMA"),
     ([-1, "nJunctionReads"], 1),
     ([-1, "nSpanningFrags"], 1),
     ([-1, "spliceType"], "ONLY_REF_SPLICE"),
