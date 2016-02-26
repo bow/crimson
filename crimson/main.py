@@ -86,7 +86,7 @@ def picard(ctx, input, output):
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
 def star_fusion(ctx, input, output):
-    """Converts abridged output of STAR-Fusion.
+    """Converts output of STAR-Fusion.
 
     Use "-" for stdin and/or stdout.
 

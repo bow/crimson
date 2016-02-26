@@ -3,7 +3,7 @@
     crimson.star_fusion
     ~~~~~~~~~~~~~~~~~~~
 
-    STAR-Fusion abridged output parsing.
+    STAR-Fusion output parsing.
 
     :copyright: (c) 2016 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD
@@ -17,10 +17,18 @@ from .utils import get_handle
 __all__ = ["parse"]
 
 # Expected column names
-_COLNAMES = [
+# Abridged column names
+_ABR_COLS = [
     "fusion_name", "JunctionReads", "SpanningFrags", "Splice_type",
     "LeftGene", "LeftBreakpoint",
     "RightGene", "RightBreakpoint",
+]
+# Non-abridged column names
+_NONABR_COLS = [
+    "fusion_name", "JunctionReads", "SpanningFrags", "Splice_type",
+    "LeftGene", "LeftBreakpoint",
+    "RightGene", "RightBreakpoint",
+    "JunctionReads", "SpanningFrags",
 ]
 
 # Delimiter strings
@@ -54,13 +62,15 @@ def parse_lr_entry(lr_gene, lr_brkpoint):
     }
 
 
-def parse_raw_line(raw_line, colnames):
+def parse_raw_line(raw_line, colnames, is_abridged=True):
     """Parses a single line into a dictionary.
 
     :param raw_line: STAR-Fusion result line.
     :type raw_line: str
     :param colnames: Column names present in the file.
     :type colnames: list of str
+    :param is_abridged: Whether the input raw line is from an abridged file.
+    :type is_abridged: bool
     :rtype: dict
 
     """
@@ -68,9 +78,17 @@ def parse_raw_line(raw_line, colnames):
     if len(values) != len(colnames):
         msg = "Line values {0} does not match column names {1}."
         raise click.BadParameter(msg.format(values, colnames))
-    entries = {k: v for k, v in zip(colnames, values)}
 
-    return {
+    entries, reads = {}, {}
+    if is_abridged:
+        entries = {k: v for k, v in zip(colnames, values)}
+    else:
+        entry_colnames, read_colnames = colnames[:-2], colnames[-2:]
+        entry_values, read_values = values[:-2], values[-2:]
+        entries = {k: v for k, v in zip(entry_colnames, entry_values)}
+        reads = {k: v.split(",") for k, v in zip(read_colnames, read_values)}
+
+    ret = {
         "fusionName": entries["fusion_name"],
         "nJunctionReads": int(entries["JunctionReads"]),
         "nSpanningFrags": int(entries["SpanningFrags"]),
@@ -80,6 +98,13 @@ def parse_raw_line(raw_line, colnames):
         "right": parse_lr_entry(entries["RightGene"],
                                 entries["RightBreakpoint"]),
     }
+    if reads:
+        ret["reads"] = {
+            "junctionReads": reads["JunctionReads"],
+            "spanningFrags": reads["SpanningFrags"],
+        }
+
+    return ret
 
 
 def parse(in_data):
@@ -99,11 +124,13 @@ def parse(in_data):
             raise click.BadParameter(msg.format(first_line))
         # Parse column names, after removing the '#' character
         colnames = first_line[1:].split("\t")
-        if not colnames == _COLNAMES:
+        if colnames != _ABR_COLS and colnames != _NONABR_COLS:
             msg = "Unexpected column names: {0}."
             raise click.BadParameter(msg.format(colnames))
-        for line in (x.strip() for x in src):
-            parsed = parse_raw_line(line, colnames)
-            payload.append(parsed)
+        else:
+            is_abridged = colnames == _ABR_COLS
+            for line in (x.strip() for x in src):
+                parsed = parse_raw_line(line, colnames, is_abridged)
+                payload.append(parsed)
 
     return payload
