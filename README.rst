@@ -17,6 +17,7 @@ Currently it accepts outputs of the following programs:
 * `FastQC <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/>`_ (``fastqc``)
 * `samtools <http://www.htslib.org/doc/samtools.html>`_ flagstat (``flagstat``)
 * `Picard <https://broadinstitute.github.io/picard/>`_ metrics tools (``picard``)
+* `STAR-Fusion <https://github.com/STAR-Fusion/STAR-Fusion>`_ hits table (``star-fusion``) -- *not officially released*
 
 From those, you can convert the respective output files into JSON (the default) or YAML. You can also use ``crimson``
 in your scripts by importing the parser functions themselves.
@@ -35,7 +36,7 @@ It is tested on Python 2.7, Python 3.3, and Python 3.4, Python 3.5, and against 
 * FastQC (version 0.10.1)
 * samtools (version 0.19.1, 1.1)
 * Picard (version 1.124)
-* STAR-Fusion (version 0.6.0)
+* STAR-Fusion (version 0.6.0) -- *not officially released*
 
 Usage
 -----

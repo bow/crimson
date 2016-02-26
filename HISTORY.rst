@@ -11,7 +11,7 @@ Release 0.2.0
 
 `release date: TBD`
 
-* Adds support for parsing STAR-Fusion abridged output.
+* Adds support for parsing STAR-Fusion hits table output.
 
 
 Versions 0.1
