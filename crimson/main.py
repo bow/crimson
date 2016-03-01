@@ -17,6 +17,7 @@ from . import flagstat as m_flagstat
 from . import picard as m_picard
 from . import star as m_star
 from . import star_fusion as m_star_fusion
+from . import vep as m_vep
 from .utils import write_output
 
 __all__ = []
@@ -107,4 +108,18 @@ def star_fusion(ctx, input, output):
 
     """
     payload = m_star_fusion.parse(input)
+    write_output(payload, output, **ctx.parent.params)
+
+
+@cli.command(name="vep")
+@click.argument("input", type=click.File("r"))
+@click.argument("output", type=click.File("w"), default="-")
+@click.pass_context
+def vep(ctx, input, output):
+    """Converts plain text output of Variant Effect Predictor.
+
+    Use "-" for stdin and/or stdout.
+
+    """
+    payload = m_vep.parse(input)
     write_output(payload, output, **ctx.parent.params)
