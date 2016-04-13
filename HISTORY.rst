@@ -3,6 +3,15 @@
 History
 =======
 
+Version 0.3
+-----------
+
+Release 0.3.0
+^^^^^^^^^^^^^
+
+`release date: TBD`
+
+
 Version 0.2
 -----------
 
