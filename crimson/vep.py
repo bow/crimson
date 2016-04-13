@@ -9,6 +9,8 @@
     :license: BSD
 
 """
+import click
+
 from .utils import convert, get_handle
 
 
@@ -81,6 +83,10 @@ def parse(in_data, max_size=_MAX_SIZE):
     """
     with get_handle(in_data) as fh:
         contents = fh.read(max_size)
+
+    if not contents.startswith("[VEP run statistics]"):
+        msg = "Unexpected file structure. No contents parsed."
+        raise click.BadParameter(msg)
 
     entries = [group2entry(g) for g in contents.split("\n\n")]
     return dict(entries)
