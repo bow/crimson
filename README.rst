@@ -19,6 +19,7 @@ Currently it accepts outputs of the following programs:
 * `Picard <https://broadinstitute.github.io/picard/>`_ metrics tools (``picard``)
 * `STAR <https://github.com/alexdobin/STAR>`_ log file (``star``) -- *not officially released*
 * `STAR-Fusion <https://github.com/STAR-Fusion/STAR-Fusion>`_ hits table (``star-fusion``) -- *not officially released*
+* `Variant Effect Predictor <http://www.ensembl.org/info/docs/tools/vep/index.html>`_ plain text output (``vep``) -- *not officially released*
 
 From those, you can convert the respective output files into JSON (the default) or YAML. You can also use ``crimson``
 in your scripts by importing the parser functions themselves.
@@ -39,6 +40,7 @@ It is tested on Python 2.7, Python 3.3, and Python 3.4, Python 3.5, and against 
 * Picard (version 1.124)
 * STAR (version 2.3.0) -- *not officially released*
 * STAR-Fusion (version 0.6.0) -- *not officially released*
+* VEP (version 77) -- *not officially released*
 
 Usage
 -----

@@ -13,6 +13,7 @@ Release 0.2.0
 
 * Adds support for parsing STAR-Fusion hits table output.
 * Adds support for parsing STAR alignment log output.
+* Adds support for parsing VEP plain text output.
 
 
 Versions 0.1
