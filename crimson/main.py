@@ -14,6 +14,7 @@ import click
 from . import __version__
 from . import fastqc as m_fastqc
 from . import flagstat as m_flagstat
+from . import fusioncatcher as m_fusioncatcher
 from . import picard as m_picard
 from . import star as m_star
 from . import star_fusion as m_star_fusion
@@ -66,6 +67,20 @@ def flagstat(ctx, input, output):
 
     """
     payload = m_flagstat.parse(input)
+    write_output(payload, output, **ctx.parent.params)
+
+
+@cli.command()
+@click.argument("input", type=click.File("r"))
+@click.argument("output", type=click.File("w"), default="-")
+@click.pass_context
+def fusioncatcher(ctx, input, output):
+    """Converts FusionCatcher output.
+
+    Use "-" for stdin and/or stdout.
+
+    """
+    payload = m_fusioncatcher.parse(input)
     write_output(payload, output, **ctx.parent.params)
 
 
