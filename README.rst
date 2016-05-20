@@ -15,6 +15,7 @@ Crimson converts non-standard bioinformatics tool outputs to JSON or YAML.
 Currently it accepts outputs of the following programs:
 
 * `FastQC <http://www.bioinformatics.babraham.ac.uk/projects/fastqc/>`_ (``fastqc``)
+* `FusionCatcher <https://github.com/ndaniel/fusioncatcher>`_ (``fusioncatcher``)
 * `samtools <http://www.htslib.org/doc/samtools.html>`_ flagstat (``flagstat``)
 * `Picard <https://broadinstitute.github.io/picard/>`_ metrics tools (``picard``)
 * `STAR <https://github.com/alexdobin/STAR>`_ log file (``star``)
