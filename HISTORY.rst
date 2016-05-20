@@ -9,7 +9,9 @@ Version 0.3
 Release 0.3.0
 ^^^^^^^^^^^^^
 
-`release date: TBD`
+`release date: 19 May 2016`
+
+* Adds support for parsing FusionCatcher final fusion genes file.
 
 
 Version 0.2

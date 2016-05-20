@@ -36,6 +36,7 @@ Crimson is available via the Python Package Index and you can install it via ``p
 It is tested on Python 2.7, Python 3.3, and Python 3.4, Python 3.5, and against the following bioinformatics tools:
 
 * FastQC (version 0.10.1)
+* FusionCatcher (version 0.99.5a)
 * samtools (version 0.19.1, 1.1)
 * Picard (version 1.124)
 * STAR (version 2.3.0)
