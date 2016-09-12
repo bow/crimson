@@ -28,14 +28,15 @@ setup(
     author=__author__,
     author_email=__contact__,
     url=__homepage__,
-    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*",
+                                    "tests"]),
     include_package_data=True,
     install_requires=requirements,
     license="BSD",
     zip_safe=False,
     entry_points="""
     [console_scripts]
-    crimson=crimson.main:cli
+    crimson=crimson.cli:main
     """,
     keywords="crimson bioinformatics json yaml samtools picard fastqc",
     tests_require=test_requirements,

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    crimson.main
-    ~~~~~~~~~~~~
+    crimson.cli
+    ~~~~~~~~~~~
 
     Main entry point for command line invocation.
 
@@ -35,14 +35,14 @@ __all__ = []
               help="Whether to create a compact JSON or not. "
               "Ignored if output format is YAML.")
 @click.pass_context
-def cli(ctx, fmt, indent, compact):
+def main(ctx, fmt, indent, compact):
     """Converts bioinformatics tools' output to a standard format."""
     ctx.params["fmt"] = fmt
     ctx.params["indent"] = indent
     ctx.params["compact"] = compact
 
 
-@cli.command()
+@main.command()
 @click.argument("input", type=click.Path(exists=True))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
@@ -56,7 +56,7 @@ def fastqc(ctx, input, output):
     write_output(payload, output, **ctx.parent.params)
 
 
-@cli.command()
+@main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
@@ -70,7 +70,7 @@ def flagstat(ctx, input, output):
     write_output(payload, output, **ctx.parent.params)
 
 
-@cli.command()
+@main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
@@ -84,7 +84,7 @@ def fusioncatcher(ctx, input, output):
     write_output(payload, output, **ctx.parent.params)
 
 
-@cli.command()
+@main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
@@ -98,7 +98,7 @@ def picard(ctx, input, output):
     write_output(payload, output, **ctx.parent.params)
 
 
-@cli.command()
+@main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
@@ -112,7 +112,7 @@ def star(ctx, input, output):
     write_output(payload, output, **ctx.parent.params)
 
 
-@cli.command(name="star-fusion")
+@main.command(name="star-fusion")
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
@@ -126,7 +126,7 @@ def star_fusion(ctx, input, output):
     write_output(payload, output, **ctx.parent.params)
 
 
-@cli.command(name="vep")
+@main.command(name="vep")
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
