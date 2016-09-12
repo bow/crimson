@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    crimson.tests.test_star
-    ~~~~~~~~~~~~~~~~~~~~~~~
-
-    star subcommand tests.
+    star subcommand tests
+    ~~~~~~~~~~~~~~~~~~~~~
 
     :copyright: (c) 2016 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD
@@ -13,7 +11,7 @@ import json
 import pytest
 from click.testing import CliRunner
 
-from crimson.main import cli
+from crimson.cli import main
 
 from .utils import get_test_path
 
@@ -22,7 +20,7 @@ from .utils import get_test_path
 def star_fail():
     runner = CliRunner()
     in_file = get_test_path("star_nope.txt")
-    result = runner.invoke(cli, ["star", in_file])
+    result = runner.invoke(main, ["star", in_file])
     return result
 
 
@@ -30,7 +28,7 @@ def star_fail():
 def star_v230_01():
     runner = CliRunner()
     in_file = get_test_path("star_v230_01.txt")
-    result = runner.invoke(cli, ["star", in_file])
+    result = runner.invoke(main, ["star", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -39,7 +37,7 @@ def star_v230_01():
 def star_v230_02():
     runner = CliRunner()
     in_file = get_test_path("star_v230_02.txt")
-    result = runner.invoke(cli, ["star", in_file])
+    result = runner.invoke(main, ["star", in_file])
     result.json = json.loads(result.output)
     return result
 

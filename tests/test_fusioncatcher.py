@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-    crimson.tests.test_fusioncatcher
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    fusioncatcher subcommand tests
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-    fusioncatcher subcommand tests.
 
     :copyright: (c) 2016 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD
@@ -13,7 +12,7 @@ import json
 import pytest
 from click.testing import CliRunner
 
-from crimson.main import cli
+from crimson.cli import main
 
 from .utils import get_test_path, getattr_nested
 
@@ -22,7 +21,7 @@ from .utils import get_test_path, getattr_nested
 def fusioncatcher_fail():
     runner = CliRunner()
     in_file = get_test_path("fusioncatcher_nope.txt")
-    result = runner.invoke(cli, ["fusioncatcher", in_file])
+    result = runner.invoke(main, ["fusioncatcher", in_file])
     return result
 
 
@@ -30,7 +29,7 @@ def fusioncatcher_fail():
 def fusioncatcher_v0995a():
     runner = CliRunner()
     in_file = get_test_path("fusioncatcher_v0995a.txt")
-    result = runner.invoke(cli, ["fusioncatcher", in_file])
+    result = runner.invoke(main, ["fusioncatcher", in_file])
     result.json = json.loads(result.output)
     return result
 

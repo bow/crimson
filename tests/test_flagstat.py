@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    crimson.tests.test_flagstat
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-    Flagstat subcommand tests.
+    flagstat subcommand tests
+    ~~~~~~~~~~~~~~~~~~~~~~~~~
 
     :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD
@@ -13,7 +11,7 @@ import json
 import pytest
 from click.testing import CliRunner
 
-from crimson.main import cli
+from crimson.cli import main
 
 from .utils import get_test_path
 
@@ -22,7 +20,7 @@ from .utils import get_test_path
 def flagstat_fail():
     runner = CliRunner()
     in_file = get_test_path("samtools_flagstat_nope.txt")
-    result = runner.invoke(cli, ["flagstat", in_file])
+    result = runner.invoke(main, ["flagstat", in_file])
     return result
 
 
@@ -30,7 +28,7 @@ def flagstat_fail():
 def flagstat_v0119_01():
     runner = CliRunner()
     in_file = get_test_path("samtools_flagstat_v0119_01.txt")
-    result = runner.invoke(cli, ["flagstat", in_file])
+    result = runner.invoke(main, ["flagstat", in_file])
     result.json = json.loads(result.output)
     return result
 
@@ -39,7 +37,7 @@ def flagstat_v0119_01():
 def flagstat_v11_01():
     runner = CliRunner()
     in_file = get_test_path("samtools_flagstat_v11_01.txt")
-    result = runner.invoke(cli, ["flagstat", in_file])
+    result = runner.invoke(main, ["flagstat", in_file])
     result.json = json.loads(result.output)
     return result
 
