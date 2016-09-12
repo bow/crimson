@@ -118,7 +118,6 @@ def parse_raw_line(raw_line, colnames=_COLS):
             "geneSymbol": d["Gene_2_symbol(3end_fusion_partner)"],
             "geneID": d["Gene_2_id(3end_fusion_partner)"],
             "exonID": d["Exon_2_id(3end_fusion_partner)"] or None,
-            "exonID": d["Exon_2_id(3end_fusion_partner)"] or None,
             "chromosome": f3[0],
             "position": int(f3[1]),
             "strand": f3[2],
