@@ -4,8 +4,8 @@ Crimson
 .. image:: https://travis-ci.org/bow/crimson.svg?branch=master
     :target: https://travis-ci.org/bow/crimson
 
-.. image:: https://coveralls.io/repos/bow/crimson/badge.svg?branch=master&service=github
-    :target: https://coveralls.io/github/bow/crimson?branch=master
+.. image:: https://codecov.io/gh/bow/crimson/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/bow/crimson
 
 .. image:: https://badge.fury.io/py/crimson.svg
     :target: http://badge.fury.io/py/crimson

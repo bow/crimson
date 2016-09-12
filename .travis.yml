@@ -13,10 +13,10 @@ before_install:
 
 install:
     - python setup.py install
-    - pip install coveralls --use-wheel
+    - pip install codecov==2.0.5
 
 script:
     - py.test --cov --cov-config .coveragerc --flake8 tests crimson
 
 after_success:
-    - coveralls
+    - codecov
