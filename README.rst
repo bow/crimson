@@ -1,13 +1,15 @@
 Crimson
 =======
 
-.. image:: https://travis-ci.org/bow/crimson.svg?branch=master
+|ci| |coverage| |pypi|
+
+.. |ci| image:: https://travis-ci.org/bow/crimson.svg?branch=master
     :target: https://travis-ci.org/bow/crimson
 
-.. image:: https://codecov.io/gh/bow/crimson/branch/master/graph/badge.svg
+.. |coverage| image:: https://codecov.io/gh/bow/crimson/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/bow/crimson
 
-.. image:: https://badge.fury.io/py/crimson.svg
+.. |pypi| image:: https://badge.fury.io/py/crimson.svg
     :target: http://badge.fury.io/py/crimson
 
 Crimson converts non-standard bioinformatics tool outputs to JSON or YAML.
@@ -99,7 +101,7 @@ Why?
 ----
 
 * Not enough tools use standard output formats.
-* I got tired of writing and re-writing the same parsers across different scripts.
+* Writing and re-writing the same parsers across different scripts is not a productive way to spend the day.
 
 
 Contributing
