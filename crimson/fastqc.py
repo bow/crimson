@@ -9,7 +9,9 @@
     :license: BSD
 
 """
+from io import StringIO
 from os import path, walk
+from zipfile import ZipFile
 
 import click
 
@@ -20,6 +22,7 @@ __all__ = ["parse"]
 
 
 _MAX_LINE_SIZE = 1024
+_RESULTS_FNAME = "fastqc_data.txt"
 
 
 class FastQCModule(object):
@@ -185,18 +188,34 @@ def parse(in_data):
     """Parses FastQC results into a dictionary.
 
     :param in_data: File handle of a fastqc_data.txt file, or path to a
-                    fastqc_data.txt file or path to a FastQC results directory.
+                    fastqc_data.txt file, or path to a FastQC results
+                    directory, or path to a zipped FastQC result.
     :type in_data: str or file handle
     :returns: Parsed FastQC values.
     :rtype: dict
 
     """
+    # Input is FastQC directory.
     if path.isdir(in_data):
         try:
             ori = in_data
-            in_data = path.join(ori, next(walk(ori))[1][0], "fastqc_data.txt")
+            in_data = path.join(ori, next(walk(ori))[1][0], _RESULTS_FNAME)
         except IndexError:
-            raise click.BadParameter("Cannot find fastqc_data.txt file in "
-                                     "the given directory.")
+            raise click.BadParameter("Cannot find {0} file in the given"
+                                     " directory.".format(_RESULTS_FNAME))
+    # Input is zipped FastQC result
+    if in_data.endswith(".zip"):
+        zf = ZipFile(in_data)
+        try:
+            data_fname, = [f for f in zf.namelist()
+                           if f.endswith(_RESULTS_FNAME)]
+        except ValueError:
+            raise click.BadParameter("File {0} contains an unexpected number"
+                                     " of files named {1}."
+                                     "".format(in_data, _RESULTS_FNAME))
+        data_contents = zf.read(data_fname).decode("utf-8")
+        return FastQC(StringIO(data_contents)).dict
+
+    # Input is a fastqc_data.txt file handle or path to it.
     with get_handle(in_data) as fh:
         return FastQC(fh).dict

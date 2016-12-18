@@ -73,6 +73,12 @@ path to the FastQC output directory:
 
     $ crimson fastqc /path/to/a/fastqc/dir
 
+or path to a zipped result:
+
+.. code-block:: bash
+
+    $ crimson fastqc /path/to/a/fastqc_result.zip
+
 When in doubt, use the ``--help`` flag:
 
 .. code-block:: bash

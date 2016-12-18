@@ -11,6 +11,8 @@ Release 0.4.0
 
 `release date: TBD`
 
+* Adds support for parsing zipped FastQC result.
+
 
 Version 0.3
 -----------

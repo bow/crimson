@@ -253,3 +253,29 @@ def test_fastqc_v0101_01_dir():
     file_result = runner.invoke(main, ["fastqc", file_path])
 
     assert dir_result.output == file_result.output
+
+
+def test_fastqc_v0101_02_zip():
+    runner = CliRunner()
+    zip_path = get_test_path("fastqc_v0101_02.fq_fastqc.zip")
+    zip_result = runner.invoke(main, ["fastqc", zip_path])
+
+    data_path = get_test_path("fastqc_v0101_02.txt")
+    data_result = runner.invoke(main, ["fastqc", data_path])
+
+    assert data_result.output
+    assert data_result.output == zip_result.output
+
+
+@pytest.fixture(scope="module")
+def fastqc_zip_not_fastqc():
+    runner = CliRunner()
+    in_file = get_test_path("fastqc_not_fastqc.zip")
+    result = runner.invoke(main, ["fastqc", in_file])
+    return result
+
+
+def test_fastqc_zip_not_fastqc(fastqc_zip_not_fastqc):
+    assert fastqc_zip_not_fastqc.exit_code != 0
+    print(dir(fastqc_zip_not_fastqc))
+    assert "contains an unexpected number of" in fastqc_zip_not_fastqc.output
