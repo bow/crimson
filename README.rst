@@ -9,7 +9,7 @@ Crimson
 .. |coverage| image:: https://codecov.io/gh/bow/crimson/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/bow/crimson
 
-.. |pypi| image:: https://badge.fury.io/py/crimson.svg
+.. |pypi| image:: https://badge.fury.io/py/Crimson.svg
     :target: http://badge.fury.io/py/crimson
 
 Crimson converts non-standard bioinformatics tool outputs to JSON or YAML.
