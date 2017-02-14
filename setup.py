@@ -10,8 +10,8 @@ from crimson import __author__, __contact__, \
 with open("README.rst") as src:
     readme = src.read()
 
-with open("HISTORY.rst") as src:
-    history = src.read().replace(".. :changelog:", "").strip()
+with open("CHANGELOG.rst") as src:
+    changelog = src.read().replace(".. :changelog:", "").strip()
 
 with open("requirements.txt") as src:
     requirements = [line.strip() for line in src]
@@ -24,7 +24,7 @@ setup(
     name="Crimson",
     version=__version__,
     description="Bioinformatics tool outputs converter to JSON or YAML.",
-    long_description=readme + "\n\n" + history,
+    long_description=readme + "\n\n" + changelog,
     author=__author__,
     author_email=__contact__,
     url=__homepage__,
