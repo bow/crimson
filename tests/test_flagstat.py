@@ -96,7 +96,7 @@ def test_flagstat_v11_01_exit_code(flagstat_v11_01):
 @pytest.mark.parametrize("attr, exp", [
     ("total", 71511),
     ("secondary", 122),
-    ("supplimentary", 0),
+    ("supplementary", 0),
     ("duplicates", 0),
     ("mapped", 71228),
     ("paired_sequencing", 71389),
@@ -115,7 +115,7 @@ def test_flagstat_v11_01_pass_qc(flagstat_v11_01, attr, exp):
 @pytest.mark.parametrize("attr, exp", [
     ("total", 0),
     ("secondary", 0),
-    ("supplimentary", 0),
+    ("supplementary", 0),
     ("duplicates", 0),
     ("mapped", 0),
     ("paired_sequencing", 0),
