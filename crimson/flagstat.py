@@ -24,7 +24,7 @@ _MAX_SIZE = 1024 * 10
 _RE_TOTAL = re.compile(r"(\d+) \+ (\d+) in total")
 _RE_DUPLICATES = re.compile(r"(\d+) \+ (\d+) duplicates")
 _RE_SECONDARY = re.compile(r"(\d+) \+ (\d+) secondary")
-_RE_SUPPLIMENTARY = re.compile(r"(\d+) \+ (\d+) supplimentary")
+_RE_SUPPLEMENTARY = re.compile(r"(\d+) \+ (\d+) suppl[ie]mentary")
 _RE_MAPPED = re.compile(r"(\d+) \+ (\d+) mapped ")
 _RE_PAIRED_SEQ = re.compile(r"(\d+) \+ (\d+) paired in ")
 _RE_READ1 = re.compile(r"(\d+) \+ (\d+) read1")
@@ -73,7 +73,7 @@ def parse(in_data):
         ("total", f(_RE_TOTAL)),
         ("duplicates", f(_RE_DUPLICATES)),
         ("secondary", f(_RE_SECONDARY)),
-        ("supplimentary", f(_RE_SUPPLIMENTARY)),
+        ("supplementary", f(_RE_SUPPLEMENTARY)),
         ("mapped", f(_RE_MAPPED)),
         ("paired_sequencing", f(_RE_PAIRED_SEQ)),
         ("paired", f(_RE_PAIRED_BAM)),
