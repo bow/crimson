@@ -43,6 +43,8 @@ def convert(raw_str):
     maybe_float = RE_FLOAT.search(raw_str)
     if maybe_float is not None:
         return float(maybe_float.group(1))
+    if raw_str == 'NA':
+        return None
     return raw_str
 
 
