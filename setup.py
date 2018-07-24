@@ -32,6 +32,7 @@ setup(
                                     "tests"]),
     include_package_data=True,
     install_requires=requirements,
+    extras_require={"dev": test_requirements},
     license="BSD",
     zip_safe=False,
     entry_points="""
@@ -39,7 +40,6 @@ setup(
     crimson=crimson.cli:main
     """,
     keywords="crimson bioinformatics json yaml samtools picard fastqc",
-    tests_require=test_requirements,
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Environment :: Console",
