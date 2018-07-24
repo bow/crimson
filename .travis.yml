@@ -10,14 +10,14 @@ python:
   - "2.7"
 
 before_install:
-    - pip install -r requirements-dev.txt
+  - pip install -r requirements-dev.txt
 
 install:
-    - python setup.py install
-    - pip install codecov==2.0.5
+  - python setup.py install
+  - pip install codecov==2.0.5
 
 script:
-    - py.test --cov --cov-config .coveragerc --flake8 tests crimson
+  - py.test --cov --cov-config .coveragerc --flake8 tests crimson
 
 after_success:
-    - codecov
+  - codecov
