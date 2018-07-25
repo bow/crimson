@@ -9,7 +9,7 @@
 # (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 from io import StringIO
 from os import path, walk
-from zipfile import ZipFile
+from zipfile import is_zipfile, ZipFile
 
 import click
 
@@ -18,7 +18,7 @@ from .utils import convert, get_handle
 
 __all__ = ["parse"]
 
-
+_MAX_SIZE = 1024 * 1024 * 10
 _MAX_LINE_SIZE = 1024
 _RESULTS_FNAME = "fastqc_data.txt"
 
@@ -125,11 +125,14 @@ class FastQC(object):
 
     _mod_map = {k: k.lstrip(">") for k in _mod_names}
 
-    def __init__(self, fp, max_line_size=_MAX_LINE_SIZE):
+    def __init__(self, fp, max_size=_MAX_SIZE, max_line_size=_MAX_LINE_SIZE):
         """
 
         :param fp: open file handle pointing to the FastQC data file
         :type fp: file handle
+        :param max_size: Maximum allowed size of the FastQC data file
+                        (default: 10 MiB).
+        :type max_size: int
         :param max_line_size: maximum number of bytes read everytime the
                               underlying ``readline`` is called (default: 1024).
         :type max_line_size: int
@@ -140,7 +143,8 @@ class FastQC(object):
 
         line = fp.readline(self._max_line_size)
         attr = ""
-        while True:
+        read_size = self._max_line_size
+        while read_size <= max_size:
 
             tokens = line.strip().split('\t')
             # break on EOF
@@ -156,6 +160,7 @@ class FastQC(object):
                 self.modules[attr] = FastQCModule(raw_lines)
 
             line = fp.readline(self._max_line_size)
+            read_size += self._max_line_size
 
     def _read_module(self, fp, line):
         """Returns a list of lines in a module.
@@ -186,7 +191,8 @@ class FastQC(object):
         return payload
 
 
-def parse(in_data, encoding="utf-8", results_fname=_RESULTS_FNAME):
+def parse(in_data, encoding="utf-8", results_fname=_RESULTS_FNAME,
+          max_size=_MAX_SIZE):
     """Parses FastQC results into a dictionary.
 
     :param in_data: File handle of a fastqc_data.txt file, or path to a
@@ -199,20 +205,16 @@ def parse(in_data, encoding="utf-8", results_fname=_RESULTS_FNAME):
     :param results_fname: Name of the text file produced by FastQC in which all
                           the results are stored. This is ignored if ``in_data``
                           is a file handle (default: fastqc_data.txt).
+    :param max_size: Maximum allowed size of the FastQC data file
+                     (default: 10 MiB).
+    :type max_size: int
     :returns: Parsed FastQC values.
     :rtype: dict
 
     """
-    # Input is FastQC directory.
-    if path.isdir(in_data):
-        try:
-            ori = in_data
-            in_data = path.join(ori, next(walk(ori))[1][0], results_fname)
-        except IndexError:
-            raise click.BadParameter("Cannot find {0} file in the given"
-                                     " directory.".format(results_fname))
-    # Input is zipped FastQC result
-    if in_data.endswith(".zip"):
+    # Input is zipped FastQC result, extract data file contents into a file-like
+    # handle and parse it.
+    if is_zipfile(in_data):
         zf = ZipFile(in_data)
         try:
             data_fname, = [f for f in zf.namelist()
@@ -221,9 +223,19 @@ def parse(in_data, encoding="utf-8", results_fname=_RESULTS_FNAME):
             raise click.BadParameter("File {0} contains an unexpected number"
                                      " of files named {1}."
                                      "".format(in_data, results_fname))
-        data_contents = zf.read(data_fname).decode(encoding)
+        with zf.open(data_fname) as src:
+            data_contents = src.read(max_size).decode(encoding)
         return FastQC(StringIO(data_contents)).dict
+
+    # Input is FastQC directory.
+    if path.isdir(in_data):
+        try:
+            ori = in_data
+            in_data = path.join(ori, next(walk(ori))[1][0], results_fname)
+        except IndexError:
+            raise click.BadParameter("Cannot find {0} file in the given"
+                                     " directory.".format(results_fname))
 
     # Input is a fastqc_data.txt file handle or path to it.
     with get_handle(in_data, encoding=encoding) as fh:
-        return FastQC(fh).dict
+        return FastQC(fh, max_size=max_size).dict
