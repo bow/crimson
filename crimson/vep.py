@@ -73,7 +73,7 @@ def parse(in_data, max_size=_MAX_SIZE):
 
     :param in_data: Input VEP statistics contents.
     :type in_data: str or file handle
-    :param max_size: Maximum expected size of input contents.
+    :param max_size: Maximum expected size of input contents (default: 500 KiB).
     :type max_size: int
     :returns: Parsed VEP statistics values.
     :rtype: dict
