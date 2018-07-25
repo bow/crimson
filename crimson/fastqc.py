@@ -186,13 +186,16 @@ class FastQC(object):
         return payload
 
 
-def parse(in_data):
+def parse(in_data, results_fname=_RESULTS_FNAME):
     """Parses FastQC results into a dictionary.
 
     :param in_data: File handle of a fastqc_data.txt file, or path to a
                     fastqc_data.txt file, or path to a FastQC results
                     directory, or path to a zipped FastQC result.
     :type in_data: str or file handle
+    :param results_fname: Name of the text file produced by FastQC in which all
+                          the results are stored. This is ignored if ``in_data``
+                          is a file handle (default: fastqc_data.txt).
     :returns: Parsed FastQC values.
     :rtype: dict
 
@@ -201,20 +204,20 @@ def parse(in_data):
     if path.isdir(in_data):
         try:
             ori = in_data
-            in_data = path.join(ori, next(walk(ori))[1][0], _RESULTS_FNAME)
+            in_data = path.join(ori, next(walk(ori))[1][0], results_fname)
         except IndexError:
             raise click.BadParameter("Cannot find {0} file in the given"
-                                     " directory.".format(_RESULTS_FNAME))
+                                     " directory.".format(results_fname))
     # Input is zipped FastQC result
     if in_data.endswith(".zip"):
         zf = ZipFile(in_data)
         try:
             data_fname, = [f for f in zf.namelist()
-                           if f.endswith(_RESULTS_FNAME)]
+                           if f.endswith(results_fname)]
         except ValueError:
             raise click.BadParameter("File {0} contains an unexpected number"
                                      " of files named {1}."
-                                     "".format(in_data, _RESULTS_FNAME))
+                                     "".format(in_data, results_fname))
         data_contents = zf.read(data_fname).decode("utf-8")
         return FastQC(StringIO(data_contents)).dict
 
