@@ -15,6 +15,7 @@ import click
 from .utils import convert, get_handle
 
 
+_MAX_SIZE = 1024 * 1024 * 1
 _RE_HEADER = re.compile(r"^#+\s+")
 
 
@@ -116,17 +117,20 @@ def parse_histogram(histo):
     return payload
 
 
-def parse(in_data):
+def parse(in_data, max_size=_MAX_SIZE):
     """Parses an input Picard metrics file into a dictionary.
 
     :param in_data: Input metrics file.
     :type in_data: str or file handle
+    :param max_size: Maximum allowed size of the Picard metrics file
+                     (default: 10 MiB).
+    :type max_size: int
     :returns: Parsed metrics values.
     :rtype: dict
 
     """
     with get_handle(in_data) as fh:
-        contents = fh.read(1024 * 1024 * 1)
+        contents = fh.read(max_size)
 
     sections = contents.strip(os.linesep).split(os.linesep * 2)
 
