@@ -1,3 +1,2 @@
 click>=6.6
 PyYAML>=3.11
-wheel>=0.23.0
