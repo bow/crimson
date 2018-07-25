@@ -54,17 +54,20 @@ def search(text, pattern, caster=str):
     return [None] * pattern.groups
 
 
-def parse(in_data):
+def parse(in_data, max_size=_MAX_SIZE):
     """Parses a samtools flagstat result into a dictionary.
 
     :param in_data: Input flagstat contents.
     :type in_data: str or file handle
+    :param max_size: Maximum allowed size of the flagstat file
+                     (default: 10 KiB).
+    :type max_size: int
     :returns: Parsed flagstat values.
     :rtype: dict
 
     """
     with get_handle(in_data) as fh:
-        contents = fh.read(_MAX_SIZE)
+        contents = fh.read(max_size)
 
     f = partial(search, contents, caster=int)
     parsed = (
