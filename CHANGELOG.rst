@@ -12,6 +12,8 @@ Release 0.4.0
 `release date: TBD`
 
 * Adds support for parsing zipped FastQC result.
+* Improves detection of zipped FastQC input.
+* Sets configurable file-size limits for flagstat, Picard, and FastQC.
 
 
 Version 0.3
