@@ -9,7 +9,7 @@ Version 0.4
 Release 0.4.0
 ^^^^^^^^^^^^^
 
-`release date: TBD`
+`release date: 25 July 2018`
 
 * Adds support for parsing zipped FastQC result.
 * Improves detection of zipped FastQC input.

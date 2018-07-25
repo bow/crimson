@@ -10,7 +10,7 @@
 """
 # (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 
-RELEASE = False
+RELEASE = True
 
 __version_info__ = ("0", "4", "0")
 __version__ = ".".join(__version_info__)
