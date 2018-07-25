@@ -125,16 +125,20 @@ class FastQC(object):
 
     _mod_map = {k: k.lstrip(">") for k in _mod_names}
 
-    def __init__(self, fp):
+    def __init__(self, fp, max_line_size=_MAX_LINE_SIZE):
         """
 
         :param fp: open file handle pointing to the FastQC data file
         :type fp: file handle
+        :param max_line_size: maximum number of bytes read everytime the
+                              underlying ``readline`` is called (default: 1024).
+        :type max_line_size: int
 
         """
         self.modules = {}
+        self._max_line_size = _MAX_LINE_SIZE
 
-        line = fp.readline(_MAX_LINE_SIZE)
+        line = fp.readline(self._max_line_size)
         attr = ""
         while True:
 
@@ -151,7 +155,7 @@ class FastQC(object):
                 raw_lines = self._read_module(fp, line)
                 self.modules[attr] = FastQCModule(raw_lines)
 
-            line = fp.readline(_MAX_LINE_SIZE)
+            line = fp.readline(self._max_line_size)
 
     def _read_module(self, fp, line):
         """Returns a list of lines in a module.
@@ -166,7 +170,7 @@ class FastQC(object):
         """
         raw = [line]
         while not line.startswith('>>END_MODULE'):
-            line = fp.readline(_MAX_LINE_SIZE)
+            line = fp.readline(self._max_line_size)
             raw.append(line)
 
             if not line:
