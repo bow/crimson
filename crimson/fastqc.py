@@ -186,13 +186,16 @@ class FastQC(object):
         return payload
 
 
-def parse(in_data, results_fname=_RESULTS_FNAME):
+def parse(in_data, encoding="utf-8", results_fname=_RESULTS_FNAME):
     """Parses FastQC results into a dictionary.
 
     :param in_data: File handle of a fastqc_data.txt file, or path to a
                     fastqc_data.txt file, or path to a FastQC results
                     directory, or path to a zipped FastQC result.
     :type in_data: str or file handle
+    :param encoding: Encoding of the input file. This is ignored if ``in_data``
+                     is a file handle (default: utf-8).
+    :type encoding: string
     :param results_fname: Name of the text file produced by FastQC in which all
                           the results are stored. This is ignored if ``in_data``
                           is a file handle (default: fastqc_data.txt).
@@ -218,9 +221,9 @@ def parse(in_data, results_fname=_RESULTS_FNAME):
             raise click.BadParameter("File {0} contains an unexpected number"
                                      " of files named {1}."
                                      "".format(in_data, results_fname))
-        data_contents = zf.read(data_fname).decode("utf-8")
+        data_contents = zf.read(data_fname).decode(encoding)
         return FastQC(StringIO(data_contents)).dict
 
     # Input is a fastqc_data.txt file handle or path to it.
-    with get_handle(in_data) as fh:
+    with get_handle(in_data, encoding=encoding) as fh:
         return FastQC(fh).dict
