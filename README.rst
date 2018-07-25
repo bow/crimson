@@ -123,6 +123,28 @@ If you are interested, Crimson accepts the following types contribution:
 For any of these, feel free to open an issue in the
 `issue tracker <https://github.com/bow/crimson/issues>`_ or submitt a pull request.
 
+Local Development
+-----------------
+
+Setting up a local development requires any of the supported Python version. It is ideal if you have support Python 2.x
+and 3.x versions installed, as that will allow you to run the full tests suite against all versions using ``tox``.
+
+In any case, the following steps can be your guide for setting up your local development environment:
+
+.. code-block:: bash
+
+    # Clone the repository and cd into it
+    $ git clone {repo-url}
+    $ cd crimson
+
+    # Create your virtualenv, using pyenv for example (recommended, https://github.com/pyenv/pyenv)
+    $ pyenv virtualenv 3.7.0 crimson-dev
+    # or using virtualenvwrapper (https://virtualenvwrapper.readthedocs.io/en/latest/)
+    $ mkvirtualenv -p /usr/bin/python3.7 crimson-dev
+
+    # From within the root directory and with an active virtualenv, install the dependencies and package itself
+    $ pip install -e .[dev]
+
 
 License
 =======
