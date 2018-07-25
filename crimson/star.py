@@ -5,10 +5,8 @@
 
     STAR Log.final.out file.
 
-    :copyright: (c) 2016 Wibowo Arindrarto <bow@bow.web.id>
-    :license: BSD
-
 """
+# (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 import os
 
 import click

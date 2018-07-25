@@ -5,10 +5,8 @@
 
     Main entry point for command line invocation.
 
-    :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
-    :license: BSD
-
 """
+# (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 import click
 
 from . import __version__

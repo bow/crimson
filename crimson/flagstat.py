@@ -5,10 +5,8 @@
 
     Samtools flagstat output parsing.
 
-    :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
-    :license: BSD
-
 """
+# (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 import re
 from functools import partial
 

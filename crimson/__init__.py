@@ -3,10 +3,12 @@
     crimson
     ~~~~~~~
 
-    :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
     :license: BSD
 
+    Converter for various bioinformatics tool outputs.
+
 """
+# (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 
 RELEASE = False
 

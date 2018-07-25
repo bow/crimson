@@ -5,10 +5,8 @@
 
     General utilities.
 
-    :copyright: (c) 2015 Wibowo Arindrarto <bow@bow.web.id>
-    :license: BSD
-
 """
+# (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 import json
 import re
 import sys
