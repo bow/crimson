@@ -11,6 +11,8 @@ Release 0.5.0
 
 `release date: TBD`
 
+* Drops support for Python 3.3.
+
 
 
 Version 0.4
