@@ -30,7 +30,7 @@ def fastqc_fail():
 
 
 def test_fastqc_fail(fastqc_fail):
-    assert fastqc_fail.exit_code == -1
+    assert fastqc_fail.exit_code != 0
 
 
 @pytest.fixture(scope="module")
