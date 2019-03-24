@@ -1,0 +1,11 @@
+Bootstrap:docker
+From:python:3.7-alpine
+
+%labels
+    MAINTAINER Wibowo Arindrarto <bow@bow.web.id>
+
+%post
+    pip install crimson
+
+%runscript
+    crimson
