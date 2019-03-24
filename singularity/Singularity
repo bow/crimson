@@ -1,5 +1,5 @@
 Bootstrap:docker
-From:python:3.7-alpine
+From:python:3.7-slim
 
 %labels
     MAINTAINER Wibowo Arindrarto <bow@bow.web.id>
