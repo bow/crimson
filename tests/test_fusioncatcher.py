@@ -31,6 +31,15 @@ def fusioncatcher_v0995a():
     return result
 
 
+@pytest.fixture(scope="module")
+def fusioncatcher_v100():
+    runner = CliRunner()
+    in_file = get_test_path("fusioncatcher_v100.txt")
+    result = runner.invoke(main, ["fusioncatcher", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
 def test_fusioncatcher_fail_exit_code(fusioncatcher_fail):
     assert fusioncatcher_fail.exit_code != 0
 
@@ -40,7 +49,7 @@ def test_fusioncatcher_fail_output(fusioncatcher_fail):
     assert err_msg in fusioncatcher_fail.output
 
 
-@pytest.mark.parametrize("attrs, exp", [
+@pytest.mark.parametrize("attrs, exp_v0955a", [
     ([0, "5end", "geneSymbol"], "RUNX1"),
     ([0, "5end", "geneID"], "ENSG00000159216"),
     ([0, "5end", "exonID"], "ENSE00003512550"),
@@ -128,6 +137,10 @@ def test_fusioncatcher_fail_output(fusioncatcher_fail):
         "LIKGRLKENLYPYLGPSTLRDRPQDIIVFVIGGATYEEALTVYNLNRTTPGVRIVLGGTTVHNTKRDL"
         "RMETSSLHRPRRSAGSGNSAGKGFSGRFGKTAMWC"),
 ])
-def test_fusioncatcher_v0995a(fusioncatcher_v0995a, attrs, exp):
-    assert getattr_nested(fusioncatcher_v0995a.json, attrs) == exp, \
+def test_fusioncatcher_v0995a(fusioncatcher_v0995a, attrs, exp_v0955a):
+    assert getattr_nested(fusioncatcher_v0995a.json, attrs) == exp_v0955a, \
         ", ".join([repr(x) for x in attrs])
+
+
+def test_fusioncatcher_v100(fusioncatcher_v100):
+    pass
