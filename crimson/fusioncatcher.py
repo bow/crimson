@@ -15,7 +15,7 @@ from .utils import get_handle
 __all__ = ["parse"]
 
 # Expected column names
-_COLS = [
+_COLS_0_99_5a = [
     "Gene_1_symbol(5end_fusion_partner)",
     "Gene_2_symbol(3end_fusion_partner)",
     "Fusion_description", "Counts_of_common_mapping_reads",
@@ -27,6 +27,25 @@ _COLS = [
     "Exon_1_id(5end_fusion_partner)", "Exon_2_id(3end_fusion_partner)",
     "Fusion_sequence", "Predicted_effect", "Predicted_fused_transcripts",
     "Predicted_fused_proteins",
+]
+
+_COLS_1_00 = [
+    "Gene_1_symbol(5end_fusion_partner)",
+    "Gene_2_symbol(3end_fusion_partner)",
+    "Fusion_description",
+    "Counts_of_common_mapping_reads",
+    "Spanning_pairs",
+    "Spanning_unique_reads",
+    "Longest_anchor_found",
+    "Fusion_finding_method",
+    "Fusion_point_for_gene_1(5end_fusion_partner)",
+    "Fusion_point_for_gene_2(3end_fusion_partner)",
+    "Gene_1_id(5end_fusion_partner)",
+    "Gene_2_id(3end_fusion_partner)",
+    "Exon_1_id(5end_fusion_partner)",
+    "Exon_2_id(3end_fusion_partner)",
+    "Fusion_sequence",
+    "Predicted_effect"
 ]
 
 # Delimiter strings
@@ -68,22 +87,7 @@ def split_filter(string, delim):
     return string.split(delim)
 
 
-_COLS = [
-    "Gene_1_symbol(5end_fusion_partner)",
-    "Gene_2_symbol(3end_fusion_partner)",
-    "Fusion_description", "Counts_of_common_mapping_reads",
-    "Spanning_pairs", "Spanning_unique_reads", "Longest_anchor_found",
-    "Fusion_finding_method",
-    "Fusion_point_for_gene_1(5end_fusion_partner)",
-    "Fusion_point_for_gene_2(3end_fusion_partner)",
-    "Gene_1_id(5end_fusion_partner)", "Gene_2_id(3end_fusion_partner)",
-    "Exon_1_id(5end_fusion_partner)", "Exon_2_id(3end_fusion_partner)",
-    "Fusion_sequence", "Predicted_effect", "Predicted_fused_transcripts",
-    "Predicted_fused_proteins",
-]
-
-
-def parse_raw_line(raw_line, colnames=_COLS):
+def parse_raw_line(raw_line, colnames):
     """Parses a single line into a dictionary.
 
     :param raw_line: FusionCatcher result line.
@@ -130,11 +134,21 @@ def parse_raw_line(raw_line, colnames=_COLS):
             split_filter(d["Fusion_finding_method"], _DELIM["gen"]),
         "fusionSequence": d["Fusion_sequence"],
         "predictedEffect": d["Predicted_effect"],
-        "predictedFusedTranscripts":
-            split_filter(d["Predicted_fused_transcripts"], _DELIM["gen"]),
-        "predictedFusedProteins":
-            split_filter(d["Predicted_fused_proteins"], _DELIM["gen"]),
     }
+
+    # Does predicted_fused_transcripts exist for the column format
+    if "Predicted_fused_transcripts" in d:
+        FusedTranscripts = split_filter(
+            d["Predicted_fused_transcripts"], _DELIM["gen"]
+        )
+        res["predictedFusedTranscripts"] = FusedTranscripts
+
+    if "Predicted_fused_proteins" in d:
+        FusedProteins = split_filter(
+            d["Predicted_fused_proteins"], _DELIM["gen"]
+        )
+        res["predictedFusedProteins"] = FusedProteins
+
     return res
 
 
@@ -152,11 +166,15 @@ def parse(in_data):
         first_line = src.readline().strip()
         # Parse column names
         colnames = first_line.split("\t")
-        if colnames != _COLS:
+        if colnames == _COLS_0_99_5a:
+            COLS = _COLS_0_99_5a
+        elif colnames == _COLS_1_00:
+            COLS = _COLS_1_00
+        else:
             msg = "Unexpected column names: {0}."
             raise click.BadParameter(msg.format(colnames))
-        for line in (x for x in src):
-            parsed = parse_raw_line(line)
+        for line in src:
+            parsed = parse_raw_line(line, COLS)
             payload.append(parsed)
 
     return payload
