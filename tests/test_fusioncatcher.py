@@ -142,5 +142,13 @@ def test_fusioncatcher_v0995a(fusioncatcher_v0995a, attrs, exp_v0955a):
         ", ".join([repr(x) for x in attrs])
 
 
-def test_fusioncatcher_v100(fusioncatcher_v100):
-    pass
+@pytest.mark.parametrize("attrs, exp_v100", [
+    ([0, "5end", "geneSymbol"], "ADGRE2"),
+    ([0, "3end", "geneSymbol"], "ADGRE5"),
+
+    ([-1, "5end", "geneSymbol"], "NSF"),
+    ([-1, "3end", "geneSymbol"], "LRRC37A3")
+])
+def test_fusioncatcher_v100(fusioncatcher_v100, attrs, exp_v100):
+    assert getattr_nested(fusioncatcher_v100.json, attrs) == exp_v100, \
+        ", ".join([repr(x) for x in attrs])
