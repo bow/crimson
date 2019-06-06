@@ -15,38 +15,39 @@ from .utils import get_handle
 __all__ = ["parse"]
 
 # Expected column names
-_COLS_0_99_5a = [
-    "Gene_1_symbol(5end_fusion_partner)",
-    "Gene_2_symbol(3end_fusion_partner)",
-    "Fusion_description", "Counts_of_common_mapping_reads",
-    "Spanning_pairs", "Spanning_unique_reads", "Longest_anchor_found",
-    "Fusion_finding_method",
-    "Fusion_point_for_gene_1(5end_fusion_partner)",
-    "Fusion_point_for_gene_2(3end_fusion_partner)",
-    "Gene_1_id(5end_fusion_partner)", "Gene_2_id(3end_fusion_partner)",
-    "Exon_1_id(5end_fusion_partner)", "Exon_2_id(3end_fusion_partner)",
-    "Fusion_sequence", "Predicted_effect", "Predicted_fused_transcripts",
-    "Predicted_fused_proteins",
-]
-
-_COLS_1_00 = [
-    "Gene_1_symbol(5end_fusion_partner)",
-    "Gene_2_symbol(3end_fusion_partner)",
-    "Fusion_description",
-    "Counts_of_common_mapping_reads",
-    "Spanning_pairs",
-    "Spanning_unique_reads",
-    "Longest_anchor_found",
-    "Fusion_finding_method",
-    "Fusion_point_for_gene_1(5end_fusion_partner)",
-    "Fusion_point_for_gene_2(3end_fusion_partner)",
-    "Gene_1_id(5end_fusion_partner)",
-    "Gene_2_id(3end_fusion_partner)",
-    "Exon_1_id(5end_fusion_partner)",
-    "Exon_2_id(3end_fusion_partner)",
-    "Fusion_sequence",
-    "Predicted_effect"
-]
+_COLS = {
+    "0.99.5a": [
+        "Gene_1_symbol(5end_fusion_partner)",
+        "Gene_2_symbol(3end_fusion_partner)",
+        "Fusion_description", "Counts_of_common_mapping_reads",
+        "Spanning_pairs", "Spanning_unique_reads", "Longest_anchor_found",
+        "Fusion_finding_method",
+        "Fusion_point_for_gene_1(5end_fusion_partner)",
+        "Fusion_point_for_gene_2(3end_fusion_partner)",
+        "Gene_1_id(5end_fusion_partner)", "Gene_2_id(3end_fusion_partner)",
+        "Exon_1_id(5end_fusion_partner)", "Exon_2_id(3end_fusion_partner)",
+        "Fusion_sequence", "Predicted_effect", "Predicted_fused_transcripts",
+        "Predicted_fused_proteins",
+    ],
+    "1.00": [
+        "Gene_1_symbol(5end_fusion_partner)",
+        "Gene_2_symbol(3end_fusion_partner)",
+        "Fusion_description",
+        "Counts_of_common_mapping_reads",
+        "Spanning_pairs",
+        "Spanning_unique_reads",
+        "Longest_anchor_found",
+        "Fusion_finding_method",
+        "Fusion_point_for_gene_1(5end_fusion_partner)",
+        "Fusion_point_for_gene_2(3end_fusion_partner)",
+        "Gene_1_id(5end_fusion_partner)",
+        "Gene_2_id(3end_fusion_partner)",
+        "Exon_1_id(5end_fusion_partner)",
+        "Exon_2_id(3end_fusion_partner)",
+        "Fusion_sequence",
+        "Predicted_effect"
+    ]
+}
 
 # Delimiter strings
 _DELIM = {
@@ -166,15 +167,17 @@ def parse(in_data):
         first_line = src.readline().strip()
         # Parse column names
         colnames = first_line.split("\t")
-        if colnames == _COLS_0_99_5a:
-            COLS = _COLS_0_99_5a
-        elif colnames == _COLS_1_00:
-            COLS = _COLS_1_00
+
+        # Determine the version of fusioncatcher based on the column names
+        for version in _COLS:
+            if colnames == _COLS[version]:
+                break
         else:
             msg = "Unexpected column names: {0}."
             raise click.BadParameter(msg.format(colnames))
+
         for line in src:
-            parsed = parse_raw_line(line, COLS)
+            parsed = parse_raw_line(line, _COLS[version])
             payload.append(parsed)
 
     return payload
