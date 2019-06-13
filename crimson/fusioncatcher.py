@@ -168,16 +168,13 @@ def parse(in_data):
         # Parse column names
         colnames = first_line.split("\t")
 
-        # Determine the version of fusioncatcher based on the column names
-        for version in _COLS:
-            if colnames == _COLS[version]:
-                break
-        else:
+        # If none of the colnames are recognised
+        if not any(colnames == cols for cols in _COLS.values()):
             msg = "Unexpected column names: {0}."
             raise click.BadParameter(msg.format(colnames))
 
         for line in src:
-            parsed = parse_raw_line(line, _COLS[version])
+            parsed = parse_raw_line(line, colnames)
             payload.append(parsed)
 
     return payload
