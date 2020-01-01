@@ -4,9 +4,9 @@
 
 from setuptools import find_packages, setup
 
-from crimson import (
-    __author__, __contact__, __homepage__, __version__
-)
+import versioneer
+
+from crimson import __author__, __contact__, __homepage__
 
 
 with open("README.rst") as src:
@@ -24,7 +24,8 @@ with open("requirements-dev.txt") as src:
 
 setup(
     name="Crimson",
-    version=__version__,
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     description="Bioinformatics tool outputs converter to JSON or YAML.",
     long_description=readme + "\n\n" + changelog,
     author=__author__,

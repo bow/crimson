@@ -10,12 +10,10 @@
 """
 # (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 
-RELEASE = False
-
-__version_info__ = ("0", "5", "0")
-__version__ = ".".join(__version_info__)
-__version__ += "-dev" if not RELEASE else ""
-
 __author__ = "Wibowo Arindrarto"
 __contact__ = "bow@bow.web.id"
 __homepage__ = "http://bow.web.id"
+
+from ._version import get_versions  # type: ignore
+__version__ = get_versions()["version"]
+del get_versions

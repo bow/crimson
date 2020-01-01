@@ -4,6 +4,8 @@ include LICENSE
 include README.rst
 include requirements.txt
 include requirements-dev.txt
+include versioneer.py
+include crimson/_version.py
 
 recursive-include tests *
 recursive-exclude * __pycache__
