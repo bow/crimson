@@ -16,6 +16,7 @@ install:
 
 script:
   - flake8 --statistics crimson tests setup.py
+  - mypy crimson tests setup.py
   - py.test --cov --cov-config=.coveragerc --cov-report=term-missing tests crimson
 
 after_success:

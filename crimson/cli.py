@@ -19,8 +19,6 @@ from . import star_fusion as m_star_fusion
 from . import vep as m_vep
 from .utils import write_output
 
-__all__ = []
-
 
 @click.group()
 @click.version_option(__version__)
