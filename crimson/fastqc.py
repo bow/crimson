@@ -6,7 +6,8 @@
     FastQC output parsing.
 
 """
-# (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
+# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+
 from io import StringIO
 from os import path, walk
 from zipfile import ZipFile, is_zipfile

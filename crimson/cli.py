@@ -6,7 +6,8 @@
     Main entry point for command line invocation.
 
 """
-# (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
+# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+
 import click
 
 from . import __version__
