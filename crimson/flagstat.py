@@ -31,9 +31,9 @@ _RE_PAIRED_PROPER = re.compile(r"(\d+) \+ (\d+) properly")
 _RE_PAIRED_BAM = re.compile(r"(\d+) \+ (\d+) with itself and")
 _RE_SINGLETON = re.compile(r"(\d+) \+ (\d+) singletons")
 _RE_DIFF = re.compile(r"(\d+) \+ (\d+) with mate mapped "
-                      "to a different chr\s\d")
+                      r"to a different chr\s\d")
 _RE_DIFF_MIN = re.compile(r"(\d+) \+ (\d+) with mate mapped "
-                          "to a different chr\s\(")
+                          r"to a different chr\s\(")
 
 
 def search(text, pattern, caster=str):
