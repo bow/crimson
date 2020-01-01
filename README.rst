@@ -36,8 +36,13 @@ Crimson is available via the Python Package Index and you can install it via ``p
 
     $ pip install crimson
 
-It is tested on Python 2.7, and Python 3.4, Python 3.5, Python 3.6, Python 3.7, and against the following
-bioinformatics tools:
+It is tested on the following Python versions:
+
+* 3.8
+* 3.7
+* 3.6
+
+and against the following bioinformatics tools:
 
 * FastQC (version 0.10.1)
 * FusionCatcher (version 0.99.5a)
