@@ -15,7 +15,7 @@ install:
   - pip install codecov==2.0.15
 
 script:
-  - flake8 --statistics tests crimson
+  - flake8 --statistics crimson tests setup.py
   - py.test --cov --cov-config=.coveragerc --cov-report=term-missing tests crimson
 
 after_success:
