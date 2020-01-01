@@ -15,5 +15,6 @@ __contact__ = "bow@bow.web.id"
 __homepage__ = "http://bow.web.id"
 
 from ._version import get_versions  # type: ignore
+
 __version__ = get_versions()["version"]
 del get_versions

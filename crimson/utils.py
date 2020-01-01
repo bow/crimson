@@ -16,7 +16,6 @@ from os import linesep
 import click
 import yaml
 
-
 if sys.version_info[0] > 2:
     basestring = str
 

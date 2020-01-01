@@ -14,7 +14,6 @@ import click
 
 from .utils import convert, get_handle
 
-
 _MAX_SIZE = 1024 * 1024 * 1
 _RE_HEADER = re.compile(r"^#+\s+")
 

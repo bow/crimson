@@ -6,12 +6,12 @@
 """
 # (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 import json
+
 import pytest
 from click.testing import CliRunner
 
 from crimson.cli import main
-
-from .utils import getattr_nested, get_test_path
+from .utils import get_test_path, getattr_nested
 
 
 @pytest.fixture(scope="module")

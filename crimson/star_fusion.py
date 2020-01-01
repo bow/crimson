@@ -11,7 +11,6 @@ import click
 
 from .utils import get_handle
 
-
 __all__ = ["parse"]
 
 # Expected column names

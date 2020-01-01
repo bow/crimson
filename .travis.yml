@@ -18,6 +18,7 @@ script:
   - flake8 --statistics crimson tests setup.py
   - mypy crimson tests setup.py
   - py.test --cov --cov-config=.coveragerc --cov-report=term-missing tests crimson
+  - isort --check-only --recursive crimson tests setup.py
   - radon cc --total-average --show-closures --show-complexity --min C -e 'crimson/_version.py' crimson
 
 after_success:

@@ -9,12 +9,11 @@
 # (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 from io import StringIO
 from os import path, walk
-from zipfile import is_zipfile, ZipFile
+from zipfile import ZipFile, is_zipfile
 
 import click
 
 from .utils import convert, get_handle
-
 
 __all__ = ["parse"]
 

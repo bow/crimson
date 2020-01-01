@@ -5,9 +5,7 @@
 from setuptools import find_packages, setup
 
 import versioneer
-
 from crimson import __author__, __contact__, __homepage__
-
 
 with open("README.rst") as src:
     readme = src.read()

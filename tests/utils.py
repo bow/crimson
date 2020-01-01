@@ -9,7 +9,6 @@
 # (c) 2015-2018 Wibowo Arindrarto <bow@bow.web.id>
 from os.path import abspath, dirname, join
 
-
 TEST_CASE_DIR = abspath(join(dirname(__file__), "cases"))
 
 
