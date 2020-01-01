@@ -1,2 +1,2 @@
-click>=6.6
-PyYAML>=3.11
+click==7.0
+PyYAML==5.2
