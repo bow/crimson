@@ -16,7 +16,6 @@ from os import linesep
 import click
 import yaml
 
-
 RE_INT = re.compile(r"^([-+]?\d+)L?$")
 RE_FLOAT = re.compile(r"^([-+]?\d*\.?\d+(?:[eE][-+]?[0-9]+)?)$")
 
