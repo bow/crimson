@@ -23,7 +23,7 @@ _MAX_LINE_SIZE = 1024
 _RESULTS_FNAME = "fastqc_data.txt"
 
 
-class FastQCModule(object):
+class FastQCModule:
 
     """Class representing a FastQC analysis module."""
 
@@ -105,7 +105,7 @@ class FastQCModule(object):
         return data
 
 
-class FastQC(object):
+class FastQC:
 
     """Class representing results from a FastQC run."""
 
