@@ -29,8 +29,9 @@ setup(
     author=__author__,
     author_email=__contact__,
     url=__homepage__,
-    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*",
-                                    "tests"]),
+    packages=find_packages(
+        exclude=["*.tests", "*.tests.*", "tests.*", "tests"]
+    ),
     include_package_data=True,
     install_requires=requirements,
     extras_require={"dev": test_requirements},

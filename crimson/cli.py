@@ -23,14 +23,23 @@ from .utils import write_output
 
 @click.group()
 @click.version_option(__version__)
-@click.option("--fmt", default="json", type=click.Choice(["json", "yaml"]),
-              help="Output file format. Default: json.")
-@click.option("--indent", default=2,
-              help="Indentation level. Ignored if the --compact flag is set. "
-              "Default: 2.")
-@click.option("--compact", is_flag=True,
-              help="Whether to create a compact JSON or not. "
-              "Ignored if output format is YAML.")
+@click.option(
+    "--fmt",
+    default="json",
+    type=click.Choice(["json", "yaml"]),
+    help="Output file format. Default: json."
+)
+@click.option(
+    "--indent",
+    default=2,
+    help="Indentation level. Ignored if the --compact flag is set. Default: 2."
+)
+@click.option(
+    "--compact",
+    is_flag=True,
+    help="Whether to create a compact JSON or not. Ignored if output format is"
+    " YAML."
+)
 @click.pass_context
 def main(ctx, fmt, indent, compact):
     """Converts bioinformatics tools' output to a standard format."""
