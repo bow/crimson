@@ -10,6 +10,8 @@
 
 import re
 from functools import partial
+from os import PathLike
+from typing import List, Optional, Pattern, TextIO, Union
 
 import click
 
@@ -38,40 +40,40 @@ _RE_DIFF_MIN = re.compile(
 )
 
 
-def search(text, pattern, caster=str):
-    """Searches a text for a pattern and returns the results as the given type.
+def search(
+    text: str,
+    pattern: Pattern,
+) -> List[Optional[int]]:
+    """Search a text for a pattern and returns the results as integers.
 
     :param text: Text to search against.
-    :type text: str.
     :param pattern: Compiled regular expression.
-    :type pattern: pattern object.
     :param caster: One-argument function that is applied to each search result.
-    :type caster: function with one argument.
     :returns: A list of search results.
 
     """
     search_result = pattern.search(text)
     if search_result is not None:
-        return [caster(x) for x in search_result.groups()]
+        return [int(x) for x in search_result.groups()]
     return [None] * pattern.groups
 
 
-def parse(in_data, max_size=_MAX_SIZE):
-    """Parses a samtools flagstat result into a dictionary.
+def parse(
+    in_data: Union[str, PathLike, TextIO],
+    max_size: int = _MAX_SIZE
+) -> dict:
+    """Parse a samtools flagstat result into a dictionary.
 
     :param in_data: Input flagstat contents.
-    :type in_data: str or file handle
-    :param max_size: Maximum allowed size of the flagstat file
-                     (default: 10 KiB).
-    :type max_size: int
+    :param max_size: Maximum allowed size of the flagstat file (default: 10
+        KiB).
     :returns: Parsed flagstat values.
-    :rtype: dict
 
     """
     with get_handle(in_data) as fh:
         contents = fh.read(max_size)
 
-    f = partial(search, contents, caster=int)
+    f = partial(search, contents)
     parsed = (
         ("total", f(_RE_TOTAL)),
         ("duplicates", f(_RE_DUPLICATES)),

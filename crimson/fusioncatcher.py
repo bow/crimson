@@ -8,6 +8,9 @@
 """
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
+from os import PathLike
+from typing import Dict, List, TextIO, Union
+
 import click
 
 from .utils import get_handle
@@ -50,7 +53,7 @@ _COLS = {
 }
 
 # Delimiter strings
-_DELIM = {
+_DELIM: Dict[str, str] = {
     # Fusion description
     "desc": ",",
     # Chromosome-coordinate-strand
@@ -60,14 +63,14 @@ _DELIM = {
 }
 
 
-def parse_lr_entry(lr_gene, lr_brkpoint):
-    """Parses the gene and breakpoint entry.
+def parse_lr_entry(
+    lr_gene: str,
+    lr_brkpoint: str,
+) -> Dict[str, Union[str, int]]:
+    """Parse the gene and breakpoint entry.
 
     :param lr_gene: Column value for 'LeftGene' or 'RightGene'.
-    :type lr_gene: str
     :param lr_brkpoint: Column value for 'LeftBreakpoint' or 'RightBreakpoint'.
-    :type lr_brkpoint: str
-    :rtype: dict
 
     """
     lrgname, lrgid = lr_gene.split(_DELIM["gids"])
@@ -82,20 +85,25 @@ def parse_lr_entry(lr_gene, lr_brkpoint):
     }
 
 
-def split_filter(string, delim):
+def split_filter(string: str, delim: str) -> List[str]:
+    """Split the given string with the given delimiter.
+
+    If the given string is empty, an empty list is returned.
+
+    :param string: String to split.
+    :param delim: Delimiter character.
+
+    """
     if not string:
         return []
     return string.split(delim)
 
 
-def parse_raw_line(raw_line, colnames):
-    """Parses a single line into a dictionary.
+def parse_raw_line(raw_line: str, colnames: List[str]) -> dict:
+    """Parse a single line into a dictionary.
 
     :param raw_line: FusionCatcher result line.
-    :type raw_line: str
     :param colnames: Column names present in the file.
-    :type colnames: list of str
-    :rtype: dict
 
     """
     values = raw_line.split("\t")
@@ -153,13 +161,11 @@ def parse_raw_line(raw_line, colnames):
     return res
 
 
-def parse(in_data):
-    """Parses the abridged output of a FusionCatcher run.
+def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
+    """Parse the abridged output of a FusionCatcher run.
 
     :param in_data: Input FusionCatcher contents.
-    :type in_data: str or file handle
     :returns: Parsed values.
-    :rtype: dict
 
     """
     payload = []

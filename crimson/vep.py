@@ -8,6 +8,9 @@
 """
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
+from os import PathLike
+from typing import Dict, List, TextIO, Tuple, Union
+
 import click
 
 from .utils import convert, get_handle
@@ -19,7 +22,15 @@ __all__ = ["parse"]
 _MAX_SIZE = 1024 * 500  # 500 Kb
 
 
-def group2entry(group):
+def group2entry(
+    group: str,
+) -> Tuple[
+    str,
+    Union[
+        List[Union[str, int, float]],
+        Dict[str, Union[str, int, float]],
+    ]
+]:
     """Given the raw string of a VEP statistics group, parse it into a
     key, value tuple.
 
@@ -68,15 +79,14 @@ def group2entry(group):
     return key, [convert(v) for _, v in values]
 
 
-def parse(in_data, max_size=_MAX_SIZE):
-    """Parses a VEP plain text statistics file into a dictionary.
+def parse(
+    in_data: Union[str, PathLike, TextIO],
+    max_size: int = _MAX_SIZE,
+) -> dict:
+    """Parse a VEP plain text statistics file into a dictionary.
 
     :param in_data: Input VEP statistics contents.
-    :type in_data: str or file handle
     :param max_size: Maximum expected size of input contents (default: 500 KiB).
-    :type max_size: int
-    :returns: Parsed VEP statistics values.
-    :rtype: dict
 
     """
     with get_handle(in_data) as fh:
@@ -87,4 +97,5 @@ def parse(in_data, max_size=_MAX_SIZE):
         raise click.BadParameter(msg)
 
     entries = [group2entry(g) for g in contents.split("\n\n")]
+
     return dict(entries)

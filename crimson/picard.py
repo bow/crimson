@@ -10,6 +10,7 @@
 
 import os
 import re
+from typing import Any, Callable, Dict, List, Optional, TextIO, Union
 
 import click
 
@@ -22,16 +23,13 @@ _RE_HEADER = re.compile(r"^#+\s+")
 __all__ = ["parse"]
 
 
-def fetch(l, pred, first=True):
-    """Fetches item(s) that return true in the given list.
+def fetch(l: List[Any], pred: Callable[[Any], bool], first: bool = True) -> Any:
+    """Fetch item(s) that return true in the given list.
 
     :param l: Input list to fetch from.
-    :type l: list
     :param pred: Predicate function.
-    :type pred: function
-    :param first: Whether to return only the first matching item or
-                  all matching items.
-    :type first: bool
+    :param first: Whether to return only the first matching item or all matching
+        items.
 
     """
     matches = [x for x in l if pred(x)]
@@ -42,13 +40,10 @@ def fetch(l, pred, first=True):
     return matches
 
 
-def parse_header(header):
-    """Parses the Picard header lines into a dictionary.
+def parse_header(header: str) -> Dict[str, str]:
+    """Parse the Picard header lines into a dictionary.
 
     :param header: Raw Picard header string.
-    :type header: str
-    :returns: Parsed header information.
-    :rtype: dict
 
     """
     parsed = [_RE_HEADER.sub("", x) for x in header.split(os.linesep)]
@@ -58,13 +53,10 @@ def parse_header(header):
     return {"flags": parsed[1], "time": parsed[3]}
 
 
-def parse_metrics(metrics):
-    """Parses the Picard metrics lines into a dictionary.
+def parse_metrics(metrics: str) -> dict:
+    """Parse the Picard metrics lines into a dictionary.
 
     :param metris: Raw Picard metrics string.
-    :type metrics: str
-    :returns: Parsed metrics table.
-    :rtype: dict
 
     """
     if metrics is None:
@@ -72,6 +64,7 @@ def parse_metrics(metrics):
 
     lines = [l.strip(os.linesep) for l in metrics.split(os.linesep)]
 
+    metrics_class: Optional[str]
     try:
         metrics_class = lines.pop(0).split("\t")[1]
     except IndexError:
@@ -82,27 +75,24 @@ def parse_metrics(metrics):
         parsed.append([convert(v) for v in line.split("\t")])
 
     header_cols = parsed.pop(0)
-    contents = [dict(zip(header_cols, l)) for l in parsed]
+    contents: Any = [dict(zip(header_cols, l)) for l in parsed]
     if len(contents) == 1:
         contents = contents.pop()
-    payload = {"contents": contents}
+    payload: dict = {"contents": contents}
     if metrics_class is not None:
         payload["class"] = metrics_class
 
     return payload
 
 
-def parse_histogram(histo):
-    """Parses the Picard histogram lines into a dictionary.
+def parse_histogram(histo: str) -> Optional[dict]:
+    """Parse the Picard histogram lines into a dictionary.
 
     :param metris: Raw Picard histogram string.
-    :type metrics: str
-    :returns: Parsed histogram table.
-    :rtype: dict
 
     """
     if histo is None:
-        return
+        return None
 
     lines = [l.strip(os.linesep) for l in histo.split(os.linesep)]
     lines.pop(0)
@@ -117,16 +107,15 @@ def parse_histogram(histo):
     return payload
 
 
-def parse(in_data, max_size=_MAX_SIZE):
-    """Parses an input Picard metrics file into a dictionary.
+def parse(
+    in_data: Union[str, os.PathLike, TextIO],
+    max_size: int = _MAX_SIZE,
+) -> dict:
+    """Parse an input Picard metrics file into a dictionary.
 
     :param in_data: Input metrics file.
-    :type in_data: str or file handle
-    :param max_size: Maximum allowed size of the Picard metrics file
-                     (default: 10 MiB).
-    :type max_size: int
-    :returns: Parsed metrics values.
-    :rtype: dict
+    :param max_size: Maximum allowed size of the Picard metrics file (default:
+        10 MiB).
 
     """
     with get_handle(in_data) as fh:

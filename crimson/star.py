@@ -9,6 +9,7 @@
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
 import os
+from typing import Any, Callable, Dict, TextIO, Tuple, Union
 
 import click
 
@@ -17,7 +18,7 @@ from .utils import convert, get_handle
 __all__ = ["parse"]
 
 
-def _pct_convert(raw_str):
+def _pct_convert(raw_str: str) -> Union[str, int, float]:
     """Converts the given number ending with '%' to a number."""
     if raw_str.endswith("%"):
         return convert(raw_str[:-1])
@@ -27,7 +28,7 @@ def _pct_convert(raw_str):
 _MAX_SIZE = 1024 * 10
 # Mapping of STAR attribute names to python dictionary attribute names
 # and the function used to parse it.
-_PARSE_MAP = {
+_PARSE_MAP: Dict[str, Tuple[str, Callable[[Any], Union[str, int, float]]]] = {
     "Started job on":
         ("timeJobStart", str),
     "Started mapping on":
@@ -85,35 +86,36 @@ _PARSE_MAP = {
 }
 
 
-def parse(in_data):
-    """Parses the log of a STAR run.
+def parse(in_data: Union[str, os.PathLike, TextIO]) -> dict:
+    """Parse the log of a STAR run.
 
     :param in_data: Input STAR-Fusion contents.
-    :type in_data: str or file handle
     :returns: Parsed values.
-    :rtype: dict
 
     """
-    payload = {}
+    payload: dict = {}
     with get_handle(in_data) as src:
         contents = src.read(_MAX_SIZE)
 
+    val: Union[str, int, float]
     for line in contents.split(os.linesep):
         # pass empty lines
         if line and not line.strip():
             continue
         line = line.strip()
-        if '|' in line:
-            ori_key, val = [x.strip() for x in line.split('|', 1)]
+        if "|" in line:
+            ori_key, val = [x.strip() for x in line.split("|", 1)]
             if ori_key in _PARSE_MAP:
                 key, func = _PARSE_MAP[ori_key]
                 val = func(val)
                 if key in payload:
-                    msg = "Unexpected duplicate key entry: {0} ({1})."
-                    raise click.BadParameter(msg.format(key, ori_key))
+                    raise click.BadParameter(
+                        f"Unexpected duplicate key entry: {key} ({ori_key})."
+                    )
                 payload[key] = val
 
     if not payload:
         msg = "Unexpected file structure. No contents parsed."
         raise click.BadParameter(msg)
+
     return payload

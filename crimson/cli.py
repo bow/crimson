@@ -8,6 +8,9 @@
 """
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
+from pathlib import Path
+from typing import TextIO, cast
+
 import click
 
 from . import __version__
@@ -41,7 +44,7 @@ from .utils import write_output
     " YAML."
 )
 @click.pass_context
-def main(ctx, fmt, indent, compact):
+def main(ctx: click.Context, fmt: str, indent: int, compact: bool) -> None:
     """Converts bioinformatics tools' output to a standard format."""
     ctx.params["fmt"] = fmt
     ctx.params["indent"] = indent
@@ -49,98 +52,105 @@ def main(ctx, fmt, indent, compact):
 
 
 @main.command()
-@click.argument("input", type=click.Path(exists=True))
+@click.argument("input", type=click.Path(exists=True, path_type=str))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
-def fastqc(ctx, input, output):
+def fastqc(ctx: click.Context, input: str, output: TextIO) -> None:
     """Converts FastQC output.
 
     Use "-" for stdin and/or stdout.
 
     """
-    payload = m_fastqc.parse(input)
-    write_output(payload, output, **ctx.parent.params)
+    payload = m_fastqc.parse(Path(input))
+    parent = cast(click.Context, ctx.parent)
+    write_output(payload, output, **parent.params)
 
 
 @main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
-def flagstat(ctx, input, output):
+def flagstat(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     """Converts samtools flagstat output.
 
     Use "-" for stdin and/or stdout.
 
     """
     payload = m_flagstat.parse(input)
-    write_output(payload, output, **ctx.parent.params)
+    parent = cast(click.Context, ctx.parent)
+    write_output(payload, output, **parent.params)
 
 
 @main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
-def fusioncatcher(ctx, input, output):
+def fusioncatcher(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     """Converts FusionCatcher output.
 
     Use "-" for stdin and/or stdout.
 
     """
     payload = m_fusioncatcher.parse(input)
-    write_output(payload, output, **ctx.parent.params)
+    parent = cast(click.Context, ctx.parent)
+    write_output(payload, output, **parent.params)
 
 
 @main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
-def picard(ctx, input, output):
+def picard(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     """Converts Picard metrics output.
 
     Use "-" for stdin and/or stdout.
 
     """
     payload = m_picard.parse(input)
-    write_output(payload, output, **ctx.parent.params)
+    parent = cast(click.Context, ctx.parent)
+    write_output(payload, output, **parent.params)
 
 
 @main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
-def star(ctx, input, output):
+def star(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     """Converts STAR Log.final.out file.
 
     Use "-" for stdin and/or stdout.
 
     """
     payload = m_star.parse(input)
-    write_output(payload, output, **ctx.parent.params)
+    parent = cast(click.Context, ctx.parent)
+    write_output(payload, output, **parent.params)
 
 
 @main.command(name="star-fusion")
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
-def star_fusion(ctx, input, output):
+def star_fusion(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     """Converts output of STAR-Fusion.
 
     Use "-" for stdin and/or stdout.
 
     """
     payload = m_star_fusion.parse(input)
-    write_output(payload, output, **ctx.parent.params)
+    parent = cast(click.Context, ctx.parent)
+    write_output(payload, output, **parent.params)
 
 
 @main.command(name="vep")
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
 @click.pass_context
-def vep(ctx, input, output):
+def vep(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     """Converts plain text output of Variant Effect Predictor.
 
     Use "-" for stdin and/or stdout.
 
     """
     payload = m_vep.parse(input)
-    write_output(payload, output, **ctx.parent.params)
+    parent = cast(click.Context, ctx.parent)
+    write_output(payload, output, **parent.params)

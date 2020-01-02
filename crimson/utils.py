@@ -11,7 +11,9 @@
 import json
 import re
 from contextlib import contextmanager
-from os import linesep
+from os import PathLike, linesep
+from pathlib import Path
+from typing import IO, Generator, List, Optional, TextIO, Union
 
 import click
 import yaml
@@ -20,41 +22,41 @@ RE_INT = re.compile(r"^([-+]?\d+)L?$")
 RE_FLOAT = re.compile(r"^([-+]?\d*\.?\d+(?:[eE][-+]?[0-9]+)?)$")
 
 
-def convert(raw_str):
+def convert(raw_str: str) -> Union[str, int, float]:
     """Tries to convert a string to an int, float, or return it unchanged.
 
     The function tries first to convert to an int. If it fails, it tries
     to convert to a float. If it fails, the origin input string is returned.
 
     :param raw_str: Input string.
-    :type raw_str: str
 
     """
     maybe_int = RE_INT.search(raw_str)
     if maybe_int is not None:
         return int(maybe_int.group(1))
+
     maybe_float = RE_FLOAT.search(raw_str)
     if maybe_float is not None:
         return float(maybe_float.group(1))
+
     return raw_str
 
 
-def write_output(payload, out_handle, fmt="json", compact=False, indent=4):
+def write_output(
+    payload: Union[dict, List[dict]],
+    out_handle: TextIO,
+    fmt: str = "json",
+    compact: bool = False,
+    indent: int = 4,
+) -> None:
     """Writes the given dictionary as JSON or YAML to the output handle.
 
-    The output handle must have the ``write`` method.
-
     :param payload: Payload to write.
-    :type payload: dict
     :param out_handle: Output handle.
-    :type out_handle: object with ``write`` method.
     :param fmt: Output format.
-    :type fmt: str (``json`` or ``yaml``)
     :param compact: Whether to write a compact JSON or not. Ignored if the
-                    output format is JSON.
-    :type compact: bool
+        output format is JSON.
     :param indent: Indentation level (ignored if output ``compact`` is true).
-    :type indent: int
 
     """
     if fmt == "json":
@@ -76,7 +78,11 @@ def write_output(payload, out_handle, fmt="json", compact=False, indent=4):
 
 
 @contextmanager
-def get_handle(input, encoding=None, mode="r"):
+def get_handle(
+    input: Union[str, PathLike, IO],
+    encoding: Optional[str] = None,
+    mode: str = "r",
+) -> Generator[TextIO, None, None]:
     """Context manager for opening files.
 
     This function returns a file handle of the given file name. You may also
@@ -88,16 +94,12 @@ def get_handle(input, encoding=None, mode="r"):
     If a file name is given, it will be closed upon exit.
 
     :param input: Handle of open file or file name.
-    :type input: file handle or obj
     :param encoding: Encoding of the file. Ignored if input is file handle.
-    :type encoding: str
     :param mode: Mode for opening file. Ignored if input is file handle.
-    :type mode: str
 
     """
-    if isinstance(input, str):
-        assert isinstance(input, str), f"Unexpected input type: {repr(input)}"
-        fh = click.open_file(input, mode=mode, encoding=encoding)
+    if isinstance(input, (str, Path)):
+        fh = click.open_file(f"{input}", mode=mode, encoding=encoding)
     else:
         fh = input
 
