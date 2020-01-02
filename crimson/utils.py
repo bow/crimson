@@ -10,15 +10,11 @@
 
 import json
 import re
-import sys
 from contextlib import contextmanager
 from os import linesep
 
 import click
 import yaml
-
-if sys.version_info[0] > 2:
-    basestring = str
 
 
 RE_INT = re.compile(r"^([-+]?\d+)L?$")
@@ -100,15 +96,13 @@ def get_handle(input, encoding=None, mode="r"):
     :type mode: str
 
     """
-    if isinstance(input, basestring):
-        assert isinstance(input, basestring), (
-            "Unexpected input type: " + repr(input)
-        )
+    if isinstance(input, str):
+        assert isinstance(input, str), f"Unexpected input type: {repr(input)}"
         fh = click.open_file(input, mode=mode, encoding=encoding)
     else:
         fh = input
 
     yield fh
 
-    if isinstance(input, basestring):
+    if isinstance(input, str):
         fh.close()
