@@ -10,7 +10,7 @@
 
 import os
 import re
-from typing import Any, Callable, Dict, List, Optional, TextIO, Union
+from typing import Any, Dict, Optional, TextIO, Union
 
 import click
 
@@ -21,23 +21,6 @@ _RE_HEADER = re.compile(r"^#+\s+")
 
 
 __all__ = ["parse"]
-
-
-def fetch(l: List[Any], pred: Callable[[Any], bool], first: bool = True) -> Any:
-    """Fetch item(s) that return true in the given list.
-
-    :param l: Input list to fetch from.
-    :param pred: Predicate function.
-    :param first: Whether to return only the first matching item or all matching
-        items.
-
-    """
-    matches = [x for x in l if pred(x)]
-    if len(matches) == 0:
-        return None
-    if first:
-        return matches[0]
-    return matches
 
 
 def parse_header(header: str) -> Dict[str, str]:
@@ -53,14 +36,14 @@ def parse_header(header: str) -> Dict[str, str]:
     return {"flags": parsed[1], "time": parsed[3]}
 
 
-def parse_metrics(metrics: str) -> dict:
+def parse_metrics(metrics: Optional[str]) -> Optional[dict]:
     """Parse the Picard metrics lines into a dictionary.
 
     :param metris: Raw Picard metrics string.
 
     """
     if metrics is None:
-        return
+        return None
 
     lines = [l.strip(os.linesep) for l in metrics.split(os.linesep)]
 
@@ -85,7 +68,7 @@ def parse_metrics(metrics: str) -> dict:
     return payload
 
 
-def parse_histogram(histo: str) -> Optional[dict]:
+def parse_histogram(histo: Optional[str]) -> Optional[dict]:
     """Parse the Picard histogram lines into a dictionary.
 
     :param metris: Raw Picard histogram string.
@@ -123,11 +106,12 @@ def parse(
 
     sections = contents.strip(os.linesep).split(os.linesep * 2)
 
-    header = fetch(sections, lambda x: x.startswith("## htsjdk"))
+    header = next((x for x in sections if x.startswith("## htsjdk")), None)
     if header is None:
         raise click.BadParameter("Unexpected Picard metrics file format.")
-    metrics = fetch(sections, lambda x: x.startswith("## METRICS"))
-    histo = fetch(sections, lambda x: x.startswith("## HISTOGRAM"))
+
+    metrics = next((x for x in sections if x.startswith("## METRICS")), None)
+    histo = next((x for x in sections if x.startswith("## HISTOGRAM")), None)
 
     return {
         "header": parse_header(header),
