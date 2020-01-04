@@ -77,7 +77,12 @@ class FastQCModule:
             return convert(v)
 
         # check that the last line is a proper end mark
-        assert self.raw_lines[-1].startswith(self.end_mark)
+        if not self.raw_lines[-1].startswith(self.end_mark):
+            raise ValueError(
+                "Module last line does not start with the expected end mark"
+                f" {self.end_mark!r}"
+            )
+
         # parse name and status from first line
         tokens = self.raw_lines[0].strip().split("\t")
         name = tokens[0][2:]
