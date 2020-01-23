@@ -24,6 +24,7 @@ _ABR_COLS = [
     "LeftGene", "LeftBreakpoint",
     "RightGene", "RightBreakpoint",
 ]
+
 # Non-abridged column names
 _NONABR_COLS = [
     "fusion_name", "JunctionReads", "SpanningFrags", "Splice_type",
@@ -31,6 +32,44 @@ _NONABR_COLS = [
     "RightGene", "RightBreakpoint",
     "JunctionReads", "SpanningFrags",
 ]
+
+# Non-abridged column names star-fusion 1.6.0
+_NONABR_COLS_v160 = [
+    "FusionName", "JunctionReadCount", "SpanningFragCount", "SpliceType",
+    "LeftGene", "LeftBreakpoint", "RightGene", "RightBreakpoint",
+    "JunctionReads", "SpanningFrags", "LargeAnchorSupport", "FFPM",
+    "LeftBreakDinuc", "LeftBreakEntropy", "RightBreakDinuc",
+    "RightBreakEntropy", "annots"
+]
+
+# Supported columns
+SUPPORTED = {
+    'v1.6.0': _NONABR_COLS_v160,
+    'v0.6.0': _NONABR_COLS,
+    'v0.6.0_abr': _ABR_COLS
+}
+
+# Special columns, currently shared by all output formats
+# These have to be parsed in special way
+SPECIAL = ["LeftGene", "LeftBreakpoint", "RightGene", "RightBreakpoint"]
+# Mapping of supported columns to output format
+#
+# Column name in file -> field name in json
+#
+# Note: the JunctionReads and SpanningFrags columns are present twice in
+# the output files, with different meanings and content
+COL_MAPPING = {
+    'v0.6.0': {
+        'fusion_name': 'fusionName',
+        'JunctionReads': 'nJunctionReads',
+        'SpanningFrags': 'nSpanningFrags',
+        'Splice_type': 'spliceType',
+        'LeftGene': 'left',
+        'LeftBreakpoint': 'LeftBreakpoint',
+        'RightGene': 'right',
+        'RightBreakpoint': 'RightBreakpoint',
+    }
+}
 
 # Delimiter strings
 _DELIM = {
@@ -62,17 +101,19 @@ def parse_lr_entry(lr_gene: str, lr_brkpoint: str) -> dict:
 
 def parse_raw_line(
     raw_line: str,
-    colnames: List[str],
+    version: str,
     is_abridged: bool = True,
 ) -> dict:
     """Parse a single line into a dictionary.
 
     :param raw_line: STAR-Fusion result line.
-    :param colnames: Column names present in the file.
+    :param version: The version of the output format present in the file.
     :param is_abridged: Whether the input raw line is from an abridged file.
 
     """
     values = raw_line.split("\t")
+    colnames = SUPPORTED[version]
+
     if len(values) != len(colnames):
         msg = "Line values {0} does not match column names {1}."
         raise click.BadParameter(msg.format(values, colnames))
@@ -96,6 +137,25 @@ def parse_raw_line(
         "right": parse_lr_entry(entries["RightGene"],
                                 entries["RightBreakpoint"]),
     }
+    # Create the output dictionary based on the detected star-fusion version
+    ret2 = dict()
+    for colname in entries:
+        if colname in SPECIAL:
+            continue
+        field_name = COL_MAPPING[version][colname]
+        ret2[field_name] = entries[colname]
+
+    # Cast the apropriate entries to int
+    ret2['nJunctionReads'] = int(ret2['nJunctionReads'])
+    ret2['nSpanningFrags'] = int(ret2['nSpanningFrags'])
+
+    # Handle the SPECIAL columns
+    ret2["left"] = parse_lr_entry(entries["LeftGene"],
+                                  entries["LeftBreakpoint"])
+    ret2["right"] = parse_lr_entry(entries["RightGene"],
+                                   entries["RightBreakpoint"])
+
+    ret = ret2
     if reads:
         ret["reads"] = {
             "junctionReads": reads["JunctionReads"],
@@ -103,6 +163,16 @@ def parse_raw_line(
         }
 
     return ret
+
+
+def detect_format(colnames: List[str]) -> str:
+    """ Return the detected column format """
+    for colformat in SUPPORTED:
+        if SUPPORTED[colformat] == colnames:
+            return colformat
+    else:
+        msg = "Unexpected column names: {0}."
+        raise click.BadParameter(msg.format(colnames))
 
 
 def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
@@ -119,13 +189,12 @@ def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
             raise click.BadParameter(msg.format(first_line))
         # Parse column names, after removing the '#' character
         colnames = first_line[1:].split("\t")
-        if colnames != _ABR_COLS and colnames != _NONABR_COLS:
-            msg = "Unexpected column names: {0}."
-            raise click.BadParameter(msg.format(colnames))
-        else:
-            is_abridged = colnames == _ABR_COLS
-            for line in (x.strip() for x in src):
-                parsed = parse_raw_line(line, colnames, is_abridged)
-                payload.append(parsed)
+        # print(first_line)
+        # print(colnames)
+        version = detect_format(colnames)
+        is_abridged = version == 'v0.6.0_abr'
+        for line in (x.strip() for x in src):
+            parsed = parse_raw_line(line, version, is_abridged)
+            payload.append(parsed)
 
     return payload
