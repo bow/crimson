@@ -33,6 +33,14 @@ _NONABR_COLS = [
     "JunctionReads", "SpanningFrags",
 ]
 
+# Abridged column names star-fusion 1.6.0
+_ABR_COLS_v160 = [
+    "FusionName", "JunctionReadCount", "SpanningFragCount", "SpliceType",
+    "LeftGene", "LeftBreakpoint", "RightGene", "RightBreakpoint",
+    "LargeAnchorSupport", "FFPM", "LeftBreakDinuc", "LeftBreakEntropy",
+    "RightBreakDinuc", "RightBreakEntropy", "annots"
+]
+
 # Non-abridged column names star-fusion 1.6.0
 _NONABR_COLS_v160 = [
     "FusionName", "JunctionReadCount", "SpanningFragCount", "SpliceType",
@@ -45,6 +53,7 @@ _NONABR_COLS_v160 = [
 # Supported columns
 SUPPORTED = {
     'v1.6.0': _NONABR_COLS_v160,
+    'v1.6.0_abr': _ABR_COLS_v160,
     'v0.6.0': _NONABR_COLS,
     'v0.6.0_abr': _ABR_COLS
 }
@@ -80,6 +89,19 @@ COL_MAPPING = {
         'SpliceType': 'spliceType',
         'JunctionReads': 'junctionReads',
         'SpanningFrags': 'spanningFrags',
+        'LargeAnchorSupport': 'largeAnchorSupport',
+        'FFPM': 'FFPM',
+        'LeftBreakDinuc': 'leftBreakDinuc',
+        'LeftBreakEntropy': 'leftBreakEntropy',
+        'RightBreakDinuc': 'rightBreakDinuc',
+        'RightBreakEntropy': 'rightBreakEntropy',
+        'annots': 'annots'
+    },
+    'v1.6.0_abr': {
+        'FusionName': 'fusionName',
+        'JunctionReadCount': 'nJunctionReads',
+        'SpanningFragCount': 'nSpanningFrags',
+        'SpliceType': 'spliceType',
         'LargeAnchorSupport': 'largeAnchorSupport',
         'FFPM': 'FFPM',
         'LeftBreakDinuc': 'leftBreakDinuc',
@@ -254,7 +276,7 @@ def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
         # Parse column names, after removing the '#' character
         colnames = first_line[1:].split("\t")
         version = detect_format(colnames)
-        is_abridged = version == 'v0.6.0_abr'
+        is_abridged = version.endswith('_abr')
         for line in (x.strip() for x in src):
             parsed = parse_raw_line(line, version, is_abridged)
             payload.append(parsed)
