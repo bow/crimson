@@ -122,25 +122,55 @@ _DELIM = {
 
 
 def parse_lr_entry(
-    lr_gene: str,
-    lr_brkpoint: str
+    break_side: str,
+    entries: Dict[str, str]
 ) -> Dict[str, Union[str, int]]:
     """Parse the gene and breakpoint entry.
 
-    :param lr_gene: Column value for 'LeftGene' or 'RightGene'.
-    :param lr_brkpoint: Column value for 'LeftBreakpoint' or 'RightBreakpoint'.
+    :param break_side: The side of the break, right or left
+    :param entires: The entries from the current line
 
     """
-    lrgname, lrgid = lr_gene.split(_DELIM["gids"])
-    lrchrom, lrpos, lrstrand = lr_brkpoint.split(_DELIM["loc"])
+    if break_side == "left":
+        gene = entries["LeftGene"]
+        breakpoint = entries["LeftBreakpoint"]
+        prefix = "Left"
+    elif break_side == "right":
+        gene = entries["RightGene"]
+        breakpoint = entries["RightBreakpoint"]
+        prefix = "Right"
+    else:
+        raise RuntimeError("Please specify either right or left")
+    gname, gid = gene.split(_DELIM["gids"])
+    chrom, pos, strand = breakpoint.split(_DELIM["loc"])
 
-    return {
-        "geneName": lrgname,
-        "geneID": lrgid,
-        "chromosome": lrchrom,
-        "position": int(lrpos),
-        "strand": lrstrand,
-    }
+    breakpoint_side = {
+        "geneName": gname,
+        "geneID": gid,
+        "chromosome": chrom,
+        "position": int(pos),
+        "strand": strand,
+    }  # type: Dict[str, Union[str, int]]
+
+    # Get the other side-specific fields from the output
+    sided_fields = [field for field in entries if field.startswith(prefix)]
+
+    # Remove the ones we already parsed
+    if prefix == "Left":
+        sided_fields.remove("LeftGene")
+        sided_fields.remove("LeftBreakpoint")
+    elif prefix == "Right":
+        sided_fields.remove("RightGene")
+        sided_fields.remove("RightBreakpoint")
+
+    for field in sided_fields:
+        # Remove side from field name
+        new_field = field[len(prefix):]
+        # Convert to camelCase
+        camel_case = new_field[0].lower() + new_field[1:]
+        breakpoint_side[camel_case] = entries[field]
+
+    return breakpoint_side
 
 
 def parse_read_columns(
@@ -237,10 +267,8 @@ def parse_raw_line(
             continue
 
     # Handle the SPECIAL columns
-    ret["left"] = parse_lr_entry(entries["LeftGene"],
-                                 entries["LeftBreakpoint"])
-    ret["right"] = parse_lr_entry(entries["RightGene"],
-                                  entries["RightBreakpoint"])
+    ret["left"] = parse_lr_entry("left", entries)
+    ret["right"] = parse_lr_entry("right", entries)
 
     # Parse the annotations into a list. Not present in v0.6.0
     if "annots" in ret:
