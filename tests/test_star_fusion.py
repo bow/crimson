@@ -41,6 +41,24 @@ def star_fusion_v060_02():
     return result
 
 
+@pytest.fixture(scope="module")
+def star_fusion_v160_dummy():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_dummy.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
+@pytest.fixture(scope="module")
+def star_fusion_v160_abr_dummy():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_abr_dummy.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
 def test_star_fusion_fail_exit_code(star_fusion_fail):
     assert star_fusion_fail.exit_code != 0
 
@@ -134,3 +152,26 @@ def test_star_fusion_v060_01(star_fusion_v060_01, attrs, exp):
 def test_star_fusion_v060_02(star_fusion_v060_02, attrs, exp):
     assert getattr_nested(star_fusion_v060_02.json, attrs) == exp, \
         ", ".join([repr(x) for x in attrs])
+
+
+def test_star_fusion_v160_dummy_types(star_fusion_v160_dummy):
+    """ Test whether if the data fields have the correct type """
+    for result in star_fusion_v160_dummy.json:
+        # Test int
+        for field in ("nJunctionReads", "nSpanningFrags"):
+            assert isinstance(result[field], int)
+
+        # Test float
+        for field in ("FFPM leftBreakEntropy rightBreakEntropy".split()):
+            assert isinstance(result[field], float)
+
+        # Test list
+        assert isinstance(result["annots"], list)
+        assert isinstance(result["reads"]["junctionReads"], list)
+        assert isinstance(result["reads"]["spanningFrags"], list)
+
+
+def test_star_fusion_v160_abr_no_reads(star_fusion_v160_abr_dummy):
+    """ Test whether reads are absent from abridged output """
+    for result in star_fusion_v160_abr_dummy.json:
+        assert "reads" not in result
