@@ -242,11 +242,21 @@ def parse_raw_line(
     ret["right"] = parse_lr_entry(entries["RightGene"],
                                   entries["RightBreakpoint"])
 
+    # Parse the annotations into a list. Not present in v0.6.0
+    if "annots" in ret:
+        ret["annots"] = parse_annots(ret["annots"])
+
     if reads:
         ret["reads"] = {
             "junctionReads": reads["JunctionReads"],
             "spanningFrags": reads["SpanningFrags"],
         }
+        # If there are not reads in the star-fusion output file, the column
+        # will contain '.'
+        if ret["reads"]["junctionReads"] == ["."]:
+            ret["reads"]["junctionReads"] = list()
+        if ret["reads"]["spanningFrags"] == ["."]:
+            ret["reads"]["spanningFrags"] = list()
 
     return ret
 
@@ -259,6 +269,20 @@ def detect_format(colnames: List[str]) -> str:
     else:
         msg = "Unexpected column names: {0}."
         raise click.BadParameter(msg.format(colnames))
+
+
+def parse_annots(annots: str) -> List[str]:
+    """ Split the annots field into a list """
+    # Check the format
+    msg = f'Unknown annots format: {annots}'
+    if not annots.startswith('[') or not annots.endswith(']'):
+        raise RuntimeError(msg)
+
+    # Cut of the square brackets
+    annots = annots[1:-1]
+
+    # Split on comma and remove quotes
+    return [annotation.replace('"', '') for annotation in annots.split(',')]
 
 
 def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
