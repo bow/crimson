@@ -162,8 +162,9 @@ def test_star_fusion_v160_dummy_types(star_fusion_v160_dummy):
             assert isinstance(result[field], int)
 
         # Test float
-        for field in ("FFPM leftBreakEntropy rightBreakEntropy".split()):
-            assert isinstance(result[field], float)
+        assert isinstance(result['FFPM'], float)
+        assert isinstance(result['left']['breakEntropy'], float)
+        assert isinstance(result['right']['breakEntropy'], float)
 
         # Test list
         assert isinstance(result["annots"], list)

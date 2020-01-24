@@ -58,17 +58,13 @@ SUPPORTED = {
     'v0.6.0_abr': _ABR_COLS
 }
 
-# Special columns, currently shared by all output formats
-# These have to be parsed in special way
-SPECIAL = ["LeftGene", "LeftBreakpoint", "RightGene", "RightBreakpoint"]
-
 # Mapping of supported columns to output format
 #
 # Column name in file -> field name in json
 #
 # Note: the JunctionReads and SpanningFrags columns are present twice in
 # the output files, with different meanings and content
-# SPECIAL columns are excluded
+# special columns are excluded
 COL_MAPPING = {
     'v0.6.0': {
         'fusion_name': 'fusionName',
@@ -240,8 +236,6 @@ def parse_raw_line(
     # Create the output dictionary based on the detected star-fusion version
     ret = dict()  # type: Dict[str, Any]
     for colname in entries:
-        if colname in SPECIAL:
-            continue
         try:
             field_name = COL_MAPPING[version][colname]
         # For mappings that are handle elsewhere, such as LeftBreakpoint
@@ -254,15 +248,7 @@ def parse_raw_line(
     for int_field in ['nJunctionReads', 'nSpanningFrags']:
         ret[int_field] = int(ret[int_field])
 
-    # Cast the apropriate entries to float
-    # These values can be missing
-    for float_field in ['FFPM', 'leftBreakEntropy', 'rightBreakEntropy']:
-        try:
-            ret[float_field] = float(ret[float_field])
-        except KeyError:
-            continue
-
-    # Handle the SPECIAL columns
+    # Handle the special columns
     ret["left"] = parse_lr_entry("left", entries)
     ret["right"] = parse_lr_entry("right", entries)
 
@@ -270,13 +256,30 @@ def parse_raw_line(
     if "annots" in ret:
         ret["annots"] = parse_annots(ret["annots"])
 
+    # Cast the apropriate entries to float
+    # These values can be missing
+    if "FFPM" in ret:
+        ret["FFPM"] = float(ret["FFPM"])
+
+    # Cast right entropy to float, not present in v0.6.0
+    try:
+        ret["right"]["breakEntropy"] = float(ret["right"]["breakEntropy"])
+    except KeyError:
+        pass
+
+    # Cast left entropy to float, not present in v0.6.0
+    try:
+        ret["left"]["breakEntropy"] = float(ret["left"]["breakEntropy"])
+    except KeyError:
+        pass
+
     if reads:
         ret["reads"] = {
             "junctionReads": reads["JunctionReads"],
             "spanningFrags": reads["SpanningFrags"],
         }
         # If there are not reads in the star-fusion output file, the column
-        # will contain '.'
+        # will contain '.'. We need to clean that up
         if ret["reads"]["junctionReads"] == ["."]:
             ret["reads"]["junctionReads"] = list()
         if ret["reads"]["spanningFrags"] == ["."]:
