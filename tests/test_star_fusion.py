@@ -59,6 +59,24 @@ def star_fusion_v160_abr_dummy():
     return result
 
 
+@pytest.fixture(scope="module")
+def star_fusion_v160_NB4():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_NB4.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
+@pytest.fixture(scope="module")
+def star_fusion_v160_abr_NB4():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_abr_NB4.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
 def test_star_fusion_fail_exit_code(star_fusion_fail):
     assert star_fusion_fail.exit_code != 0
 
@@ -186,3 +204,121 @@ def test_star_fusion_v160_empty_list(star_fusion_v160_dummy):
     assert second_result["reads"]["junctionReads"] == ["read1", "read2"]
     assert third_result["reads"]["spanningFrags"] == []
     assert third_result["reads"]["junctionReads"] == []
+
+
+@pytest.mark.parametrize("attrs, exp", [
+    ([0, "fusionName"], "PLAA--MIR31HG"),
+    ([0, "nJunctionReads"], 200),
+    ([0, "nSpanningFrags"], 101),
+    ([0, "spliceType"], "ONLY_REF_SPLICE"),
+    ([0, "FFPM"], 3.671),
+    ([0, "largeAnchorSupport"], "YES_LDAS"),
+    ([0, "annots", 0], "CCLE_StarF2019"),
+    ([0, "annots", -1], "INTRACHROMOSOMAL[chr9:5.34Mb]"),
+    ([0, "left", "geneName"], "PLAA"),
+    ([0, "left", "geneID"], "ENSG00000137055.15"),
+    ([0, "left", "chromosome"], "chr9"),
+    ([0, "left", "position"], 26919310),
+    ([0, "left", "strand"], "-"),
+    ([0, "left", "breakDinuc"], "GT"),
+    ([0, "left", "breakEntropy"], 1.9329),
+    ([0, "right", "geneName"], "MIR31HG"),
+    ([0, "right", "geneID"], "ENSG00000171889.4"),
+    ([0, "right", "chromosome"], "chr9"),
+    ([0, "right", "position"], 21455944),
+    ([0, "right", "strand"], "-"),
+    ([0, "right", "breakDinuc"], "AG"),
+    ([0, "right", "breakEntropy"], 1.9329),
+    ([0, "reads", "junctionReads", 0],
+     "SRR8615343.84218969"),
+    ([0, "reads", "junctionReads", -1],
+     "SRR8615343.30282436"),
+    ([0, "reads", "spanningFrags", 0],
+     "SRR8615343.30281602"),
+    ([0, "reads", "spanningFrags", -1],
+     "SRR8615343.30278507"),
+    ([-1, "fusionName"], "STX8--IDI2"),
+    ([-1, "nJunctionReads"], 2),
+    ([-1, "nSpanningFrags"], 8),
+    ([-1, "spliceType"], "ONLY_REF_SPLICE"),
+    ([-1, "FFPM"], 0.122),
+    ([-1, "largeAnchorSupport"], "YES_LDAS"),
+    ([-1, "annots", 0], "CCLE_StarF2019"),
+    ([-1, "annots", -1], "INTERCHROMOSOMAL[chr17--chr10]"),
+    ([-1, "left", "geneName"], "STX8"),
+    ([-1, "left", "geneID"], "ENSG00000170310.15"),
+    ([-1, "left", "chromosome"], "chr17"),
+    ([-1, "left", "position"], 9545172),
+    ([-1, "left", "strand"], "-"),
+    ([-1, "left", "breakDinuc"], "GT"),
+    ([-1, "left", "breakEntropy"], 1.8892),
+    ([-1, "right", "geneName"], "IDI2"),
+    ([-1, "right", "geneID"], "ENSG00000148377.6"),
+    ([-1, "right", "chromosome"], "chr10"),
+    ([-1, "right", "position"], 1022775),
+    ([-1, "right", "strand"], "-"),
+    ([-1, "right", "breakDinuc"], "AG"),
+    ([-1, "right", "breakEntropy"], 1.8323),
+    ([-1, "reads", "junctionReads", 0],
+     "SRR8615343.54793320"),
+    ([-1, "reads", "junctionReads", -1],
+     "SRR8615343.97918844"),
+    ([-1, "reads", "spanningFrags", 0],
+     "SRR8615343.32910761"),
+    ([-1, "reads", "spanningFrags", -1],
+     "SRR8615343.93902364"),
+])
+def test_star_fusion_v160_NB4(star_fusion_v160_NB4, attrs, exp):
+    assert getattr_nested(star_fusion_v160_NB4.json, attrs) == exp, \
+        ", ".join([repr(x) for x in attrs])
+
+
+@pytest.mark.parametrize("attrs, exp", [
+    ([0, "fusionName"], "PLAA--MIR31HG"),
+    ([0, "nJunctionReads"], 200),
+    ([0, "nSpanningFrags"], 101),
+    ([0, "spliceType"], "ONLY_REF_SPLICE"),
+    ([0, "FFPM"], 3.671),
+    ([0, "largeAnchorSupport"], "YES_LDAS"),
+    ([0, "annots", 0], "CCLE_StarF2019"),
+    ([0, "annots", -1], "INTRACHROMOSOMAL[chr9:5.34Mb]"),
+    ([0, "left", "geneName"], "PLAA"),
+    ([0, "left", "geneID"], "ENSG00000137055.15"),
+    ([0, "left", "chromosome"], "chr9"),
+    ([0, "left", "position"], 26919310),
+    ([0, "left", "strand"], "-"),
+    ([0, "left", "breakDinuc"], "GT"),
+    ([0, "left", "breakEntropy"], 1.9329),
+    ([0, "right", "geneName"], "MIR31HG"),
+    ([0, "right", "geneID"], "ENSG00000171889.4"),
+    ([0, "right", "chromosome"], "chr9"),
+    ([0, "right", "position"], 21455944),
+    ([0, "right", "strand"], "-"),
+    ([0, "right", "breakDinuc"], "AG"),
+    ([0, "right", "breakEntropy"], 1.9329),
+    ([-1, "fusionName"], "STX8--IDI2"),
+    ([-1, "nJunctionReads"], 2),
+    ([-1, "nSpanningFrags"], 8),
+    ([-1, "spliceType"], "ONLY_REF_SPLICE"),
+    ([-1, "FFPM"], 0.122),
+    ([-1, "largeAnchorSupport"], "YES_LDAS"),
+    ([-1, "annots", 0], "CCLE_StarF2019"),
+    ([-1, "annots", -1], "INTERCHROMOSOMAL[chr17--chr10]"),
+    ([-1, "left", "geneName"], "STX8"),
+    ([-1, "left", "geneID"], "ENSG00000170310.15"),
+    ([-1, "left", "chromosome"], "chr17"),
+    ([-1, "left", "position"], 9545172),
+    ([-1, "left", "strand"], "-"),
+    ([-1, "left", "breakDinuc"], "GT"),
+    ([-1, "left", "breakEntropy"], 1.8892),
+    ([-1, "right", "geneName"], "IDI2"),
+    ([-1, "right", "geneID"], "ENSG00000148377.6"),
+    ([-1, "right", "chromosome"], "chr10"),
+    ([-1, "right", "position"], 1022775),
+    ([-1, "right", "strand"], "-"),
+    ([-1, "right", "breakDinuc"], "AG"),
+    ([-1, "right", "breakEntropy"], 1.8323),
+])
+def test_star_fusion_v160_abr_NB4(star_fusion_v160_abr_NB4, attrs, exp):
+    assert getattr_nested(star_fusion_v160_abr_NB4.json, attrs) == exp, \
+        ", ".join([repr(x) for x in attrs])
