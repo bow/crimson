@@ -175,3 +175,13 @@ def test_star_fusion_v160_abr_no_reads(star_fusion_v160_abr_dummy):
     """ Test whether reads are absent from abridged output """
     for result in star_fusion_v160_abr_dummy.json:
         assert "reads" not in result
+
+
+def test_star_fusion_v160_empty_list(star_fusion_v160_dummy):
+    second_result = star_fusion_v160_dummy.json[1]
+    third_result = star_fusion_v160_dummy.json[2]
+
+    assert second_result["reads"]["spanningFrags"] == []
+    assert second_result["reads"]["junctionReads"] == ["read1", "read2"]
+    assert third_result["reads"]["spanningFrags"] == []
+    assert third_result["reads"]["junctionReads"] == []
