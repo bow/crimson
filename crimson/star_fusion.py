@@ -91,10 +91,6 @@ COL_MAPPING = {
         'SpanningFrags': 'spanningFrags',
         'LargeAnchorSupport': 'largeAnchorSupport',
         'FFPM': 'FFPM',
-        'LeftBreakDinuc': 'leftBreakDinuc',
-        'LeftBreakEntropy': 'leftBreakEntropy',
-        'RightBreakDinuc': 'rightBreakDinuc',
-        'RightBreakEntropy': 'rightBreakEntropy',
         'annots': 'annots'
     },
     'v1.6.0_abr': {
@@ -104,10 +100,6 @@ COL_MAPPING = {
         'SpliceType': 'spliceType',
         'LargeAnchorSupport': 'largeAnchorSupport',
         'FFPM': 'FFPM',
-        'LeftBreakDinuc': 'leftBreakDinuc',
-        'LeftBreakEntropy': 'leftBreakEntropy',
-        'RightBreakDinuc': 'rightBreakDinuc',
-        'RightBreakEntropy': 'rightBreakEntropy',
         'annots': 'annots'
     }
 }
@@ -250,7 +242,11 @@ def parse_raw_line(
     for colname in entries:
         if colname in SPECIAL:
             continue
-        field_name = COL_MAPPING[version][colname]
+        try:
+            field_name = COL_MAPPING[version][colname]
+        # For mappings that are handle elsewhere, such as LeftBreakpoint
+        except KeyError:
+            continue
         ret[field_name] = entries[colname]
 
     # Cast the apropriate entries to int
