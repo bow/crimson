@@ -147,7 +147,7 @@ def parse_lr_entry(
     if prefix == "Left":
         sided_fields.remove("LeftGene")
         sided_fields.remove("LeftBreakpoint")
-    elif prefix == "Right":
+    else:  # prefix is either "Left or "Right":
         sided_fields.remove("RightGene")
         sided_fields.remove("RightBreakpoint")
 
@@ -187,14 +187,14 @@ def parse_read_columns(
 
     # Extract the JunctionReads
     rev = together[::-1]
-    for name, val in rev:
+    for name, val in rev:  # pragma: no branch
         if name == 'JunctionReads':
             together.remove((name, val))
             break
     reads[name] = val.split(',')
 
     # Extract the SpanningFrags
-    for name, val in rev:
+    for name, val in rev:  # pragma: no branch
         if name == 'SpanningFrags':
             together.remove((name, val))
             break

@@ -9,9 +9,16 @@
 import json
 
 import pytest
+from click import BadParameter
 from click.testing import CliRunner
 
 from crimson.cli import main
+from crimson.star_fusion import (
+    detect_format,
+    parse_annots,
+    parse_lr_entry,
+    parse_raw_line
+)
 from .utils import get_test_path, getattr_nested
 
 
@@ -322,3 +329,23 @@ def test_star_fusion_v160_NB4(star_fusion_v160_NB4, attrs, exp):
 def test_star_fusion_v160_abr_NB4(star_fusion_v160_abr_NB4, attrs, exp):
     assert getattr_nested(star_fusion_v160_abr_NB4.json, attrs) == exp, \
         ", ".join([repr(x) for x in attrs])
+
+
+def test_parse_rl_entry_raises():
+    with pytest.raises(RuntimeError):
+        parse_lr_entry('middle', dict())
+
+
+def test_parse_raw_line_raises():
+    with pytest.raises(BadParameter):
+        parse_raw_line(raw_line='Wrong raw line', version='v1.6.0')
+
+
+def test_detect_format_raises():
+    with pytest.raises(BadParameter):
+        detect_format(colnames='Wrong column names')
+
+
+def test_parse_annots_raises():
+    with pytest.raises(RuntimeError):
+        parse_annots('Does not start with [')
