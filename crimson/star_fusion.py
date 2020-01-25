@@ -52,10 +52,10 @@ _NONABR_COLS_v160 = [
 
 # Supported columns
 SUPPORTED = {
-    'v1.6.0': _NONABR_COLS_v160,
-    'v1.6.0_abr': _ABR_COLS_v160,
-    'v0.6.0': _NONABR_COLS,
-    'v0.6.0_abr': _ABR_COLS
+    "v1.6.0": _NONABR_COLS_v160,
+    "v1.6.0_abr": _ABR_COLS_v160,
+    "v0.6.0": _NONABR_COLS,
+    "v0.6.0_abr": _ABR_COLS
 }
 
 # Mapping of supported columns to output format
@@ -66,37 +66,37 @@ SUPPORTED = {
 # the output files, with different meanings and content
 # special columns are excluded
 COL_MAPPING = {
-    'v0.6.0': {
-        'fusion_name': 'fusionName',
-        'JunctionReads': 'nJunctionReads',
-        'SpanningFrags': 'nSpanningFrags',
-        'Splice_type': 'spliceType'
+    "v0.6.0": {
+        "fusion_name": "fusionName",
+        "JunctionReads": "nJunctionReads",
+        "SpanningFrags": "nSpanningFrags",
+        "Splice_type": "spliceType"
     },
-    'v0.6.0_abr': {
-        'fusion_name': 'fusionName',
-        'JunctionReads': 'nJunctionReads',
-        'SpanningFrags': 'nSpanningFrags',
-        'Splice_type': 'spliceType'
+    "v0.6.0_abr": {
+        "fusion_name": "fusionName",
+        "JunctionReads": "nJunctionReads",
+        "SpanningFrags": "nSpanningFrags",
+        "Splice_type": "spliceType"
     },
-    'v1.6.0': {
-        'FusionName': 'fusionName',
-        'JunctionReadCount': 'nJunctionReads',
-        'SpanningFragCount': 'nSpanningFrags',
-        'SpliceType': 'spliceType',
-        'JunctionReads': 'junctionReads',
-        'SpanningFrags': 'spanningFrags',
-        'LargeAnchorSupport': 'largeAnchorSupport',
-        'FFPM': 'FFPM',
-        'annots': 'annots'
+    "v1.6.0": {
+        "FusionName": "fusionName",
+        "JunctionReadCount": "nJunctionReads",
+        "SpanningFragCount": "nSpanningFrags",
+        "SpliceType": "spliceType",
+        "JunctionReads": "junctionReads",
+        "SpanningFrags": "spanningFrags",
+        "LargeAnchorSupport": "largeAnchorSupport",
+        "FFPM": "FFPM",
+        "annots": "annots"
     },
-    'v1.6.0_abr': {
-        'FusionName': 'fusionName',
-        'JunctionReadCount': 'nJunctionReads',
-        'SpanningFragCount': 'nSpanningFrags',
-        'SpliceType': 'spliceType',
-        'LargeAnchorSupport': 'largeAnchorSupport',
-        'FFPM': 'FFPM',
-        'annots': 'annots'
+    "v1.6.0_abr": {
+        "FusionName": "fusionName",
+        "JunctionReadCount": "nJunctionReads",
+        "SpanningFragCount": "nSpanningFrags",
+        "SpliceType": "spliceType",
+        "LargeAnchorSupport": "largeAnchorSupport",
+        "FFPM": "FFPM",
+        "annots": "annots"
     }
 }
 
@@ -188,17 +188,17 @@ def parse_read_columns(
     # Extract the JunctionReads
     rev = together[::-1]
     for name, val in rev:  # pragma: no branch
-        if name == 'JunctionReads':
+        if name == "JunctionReads":
             together.remove((name, val))
             break
-    reads[name] = val.split(',')
+    reads[name] = val.split(",")
 
     # Extract the SpanningFrags
     for name, val in rev:  # pragma: no branch
-        if name == 'SpanningFrags':
+        if name == "SpanningFrags":
             together.remove((name, val))
             break
-    reads[name] = val.split(',')
+    reads[name] = val.split(",")
 
     # The other columns are regular entries
     entries = {k: v for k, v in together}
@@ -245,7 +245,7 @@ def parse_raw_line(
 
     # Cast the apropriate entries to int
     # These values should always exist
-    for int_field in ['nJunctionReads', 'nSpanningFrags']:
+    for int_field in ["nJunctionReads", "nSpanningFrags"]:
         ret[int_field] = int(ret[int_field])
 
     # Handle the special columns
@@ -279,7 +279,7 @@ def parse_raw_line(
             "spanningFrags": reads["SpanningFrags"],
         }
         # If there are not reads in the star-fusion output file, the column
-        # will contain '.'. We need to clean that up
+        # will contain ".". We need to clean that up
         if ret["reads"]["junctionReads"] == ["."]:
             ret["reads"]["junctionReads"] = list()
         if ret["reads"]["spanningFrags"] == ["."]:
@@ -301,15 +301,15 @@ def detect_format(colnames: List[str]) -> str:
 def parse_annots(annots: str) -> List[str]:
     """ Split the annots field into a list """
     # Check the format
-    msg = f'Unknown annots format: {annots}'
-    if not annots.startswith('[') or not annots.endswith(']'):
+    msg = f"Unknown annots format: {annots}"
+    if not annots.startswith("[") or not annots.endswith("]"):
         raise RuntimeError(msg)
 
     # Cut of the square brackets
     annots = annots[1:-1]
 
     # Split on comma and remove quotes
-    return [annotation.replace('"', '') for annotation in annots.split(',')]
+    return [annotation.replace('"', '') for annotation in annots.split(",")]
 
 
 def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
@@ -324,10 +324,10 @@ def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
         if not first_line.startswith("#"):
             msg = "Unexpected header line: '{0}'."
             raise click.BadParameter(msg.format(first_line))
-        # Parse column names, after removing the '#' character
+        # Parse column names, after removing the "#" character
         colnames = first_line[1:].split("\t")
         version = detect_format(colnames)
-        is_abridged = version.endswith('_abr')
+        is_abridged = version.endswith("_abr")
         for line in (x.strip() for x in src):
             parsed = parse_raw_line(line, version, is_abridged)
             payload.append(parsed)
