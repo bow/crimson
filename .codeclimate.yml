@@ -1,0 +1,21 @@
+---
+version: "2"
+checks:
+  argument-count:
+    config:
+      threshold: 8
+  file-lines:
+    enabled: false
+plugins:
+  radon:
+    enabled: true
+    exclude_patterns:
+      - "tests/*"
+      - "versioneer.py"
+      - "crimson/_version.py"
+    config:
+      threshold: "C"
+exclude_patterns:
+  - "tests/*"
+  - "versioneer.py"
+  - "crimson/_version.py"

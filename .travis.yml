@@ -7,12 +7,21 @@ python:
   - "3.7"
   - "3.8"
 
+env:
+  global:
+    - CC_TEST_REPORTER_ID=5628a5e97c86f62d22b934c1457e537fe79dec58e9e47cd9e7e6980d9f83120c
+
 before_install:
   - pip install -r requirements-dev.txt
 
 install:
   - python setup.py install
   - pip install codecov==2.0.15
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 
 script:
   - flake8 --statistics crimson tests setup.py
@@ -23,4 +32,4 @@ script:
   - radon cc --total-average --show-closures --show-complexity --min C -e 'crimson/_version.py' crimson
 
 after_success:
-  - codecov
+  - if [[ "$TRAVIS_PULL_REQUEST" == "false" && "$TRAVIS_PYTHON_VERSION" == "3.8" ]]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi
