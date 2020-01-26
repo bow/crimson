@@ -1,16 +1,20 @@
 Crimson
 =======
 
-|ci| |coverage| |pypi|
+|pypi| |ci| |cov| |qual|
 
-.. |ci| image:: https://travis-ci.org/bow/crimson.svg?branch=master
+.. |pypi| image:: https://img.shields.io/pypi/v/crimson?color=007c5b&style=flat-square
+    :target: https://pypi.org/project/Crimson/
+
+.. |ci| image:: https://img.shields.io/travis/bow/crimson?color=007c5b&style=flat-square
     :target: https://travis-ci.org/bow/crimson
 
-.. |coverage| image:: https://codecov.io/gh/bow/crimson/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/bow/crimson
+.. |cov| image:: https://img.shields.io/codeclimate/coverage/bow/crimson?color=007c5b&style=flat-square
+    :target: https://codeclimate.com/github/bow/crimson
 
-.. |pypi| image:: https://badge.fury.io/py/Crimson.svg
-    :target: http://badge.fury.io/py/crimson
+.. |qual| image:: https://img.shields.io/codeclimate/maintainability/bow/crimson?color=007c5b&style=flat-square
+    :target: https://codeclimate.com/github/bow/crimson
+
 
 Crimson converts non-standard bioinformatics tool outputs to JSON or YAML.
 
