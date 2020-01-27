@@ -184,7 +184,7 @@ def parse_read_columns(
     If there is only one (as is the case for v1.6.0), it contains the reads
 
     :param values: List of values from the file
-    :para colnames: List of column names from the file
+    :param colnames: List of column names from the file
     """
     entries = dict()
     reads = dict()
