@@ -187,9 +187,9 @@ def test_star_fusion_v160_dummy_types(star_fusion_v160_dummy):
             assert isinstance(result[field], int)
 
         # Test float
-        assert isinstance(result['FFPM'], float)
-        assert isinstance(result['left']['breakEntropy'], float)
-        assert isinstance(result['right']['breakEntropy'], float)
+        assert isinstance(result["FFPM"], float)
+        assert isinstance(result["left"]["breakEntropy"], float)
+        assert isinstance(result["right"]["breakEntropy"], float)
 
         # Test list
         assert isinstance(result["annots"], list)
@@ -333,19 +333,19 @@ def test_star_fusion_v160_abr_NB4(star_fusion_v160_abr_NB4, attrs, exp):
 
 def test_parse_rl_entry_raises():
     with pytest.raises(RuntimeError):
-        parse_lr_entry('middle', dict())
+        parse_lr_entry("middle", dict())
 
 
 def test_parse_raw_line_raises():
     with pytest.raises(BadParameter):
-        parse_raw_line(raw_line='Wrong raw line', version='v1.6.0')
+        parse_raw_line(raw_line="Wrong raw line", version="v1.6.0")
 
 
 def test_detect_format_raises():
     with pytest.raises(BadParameter):
-        detect_format(colnames='Wrong column names')
+        detect_format(colnames="Wrong column names")
 
 
 def test_parse_annots_raises():
     with pytest.raises(RuntimeError):
-        parse_annots('Does not start with [')
+        parse_annots("Does not start with [")
