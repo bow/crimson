@@ -140,25 +140,32 @@ def parse_lr_entry(
         "strand": strand,
     }  # type: Dict[str, Union[str, int]]
 
-    # Get the other side-specific fields from the output
-    sided_fields = [field for field in entries if field.startswith(prefix)]
+    # Get the other side-specific fields from the output, excluding the
+    # Rigth/LeftGene and -Breakpoint fields
+    sided_fields = {
+        to_camel_case(field, prefix): value for field, value in entries.items()
+        if (
+            field.startswith(prefix) and field not in {f"{prefix}Gene",
+                                                       f"{prefix}Breakpoint"}
+        )
+    }
 
-    # Remove the ones we already parsed
-    if prefix == "Left":
-        sided_fields.remove("LeftGene")
-        sided_fields.remove("LeftBreakpoint")
-    else:  # prefix is either "Left or "Right":
-        sided_fields.remove("RightGene")
-        sided_fields.remove("RightBreakpoint")
-
-    for field in sided_fields:
-        # Remove side from field name
-        new_field = field[len(prefix):]
-        # Convert to camelCase
-        camel_case = new_field[0].lower() + new_field[1:]
-        breakpoint_side[camel_case] = entries[field]
+    breakpoint_side.update(**sided_fields)
 
     return breakpoint_side
+
+
+def to_camel_case(field: str, prefix: str) -> str:
+    """ Convert a STAR-fusion output column name
+
+    - Remove the prefix (either "Left" or "Right"
+    - Convert the first character to lower case
+    """
+    # Remove side from field name
+    new_field = field[len(prefix):]
+    # Convert to camelCase
+    camel_case = new_field[0].lower() + new_field[1:]
+    return camel_case
 
 
 def parse_read_columns(
