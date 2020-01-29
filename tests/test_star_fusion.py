@@ -9,9 +9,16 @@
 import json
 
 import pytest
+from click import BadParameter
 from click.testing import CliRunner
 
 from crimson.cli import main
+from crimson.star_fusion import (
+    detect_format,
+    parse_annots,
+    parse_lr_entry,
+    parse_raw_line
+)
 from .utils import get_test_path, getattr_nested
 
 
@@ -36,6 +43,42 @@ def star_fusion_v060_01():
 def star_fusion_v060_02():
     runner = CliRunner()
     in_file = get_test_path("star_fusion_v060_02.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
+@pytest.fixture(scope="module")
+def star_fusion_v160_dummy():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_dummy.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
+@pytest.fixture(scope="module")
+def star_fusion_v160_abr_dummy():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_abr_dummy.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
+@pytest.fixture(scope="module")
+def star_fusion_v160_NB4():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_NB4.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
+@pytest.fixture(scope="module")
+def star_fusion_v160_abr_NB4():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v160_abr_NB4.txt")
     result = runner.invoke(main, ["star-fusion", in_file])
     result.json = json.loads(result.output)
     return result
@@ -134,3 +177,175 @@ def test_star_fusion_v060_01(star_fusion_v060_01, attrs, exp):
 def test_star_fusion_v060_02(star_fusion_v060_02, attrs, exp):
     assert getattr_nested(star_fusion_v060_02.json, attrs) == exp, \
         ", ".join([repr(x) for x in attrs])
+
+
+def test_star_fusion_v160_dummy_types(star_fusion_v160_dummy):
+    """ Test whether if the data fields have the correct type """
+    for result in star_fusion_v160_dummy.json:
+        # Test int
+        for field in ("nJunctionReads", "nSpanningFrags"):
+            assert isinstance(result[field], int)
+
+        # Test float
+        assert isinstance(result["FFPM"], float)
+        assert isinstance(result["left"]["breakEntropy"], float)
+        assert isinstance(result["right"]["breakEntropy"], float)
+
+        # Test list
+        assert isinstance(result["annots"], list)
+        assert isinstance(result["reads"]["junctionReads"], list)
+        assert isinstance(result["reads"]["spanningFrags"], list)
+
+
+def test_star_fusion_v160_abr_no_reads(star_fusion_v160_abr_dummy):
+    """ Test whether reads are absent from abridged output """
+    for result in star_fusion_v160_abr_dummy.json:
+        assert "reads" not in result
+
+
+def test_star_fusion_v160_empty_list(star_fusion_v160_dummy):
+    second_result = star_fusion_v160_dummy.json[1]
+    third_result = star_fusion_v160_dummy.json[2]
+
+    assert second_result["reads"]["spanningFrags"] == []
+    assert second_result["reads"]["junctionReads"] == ["read1", "read2"]
+    assert third_result["reads"]["spanningFrags"] == []
+    assert third_result["reads"]["junctionReads"] == []
+
+
+@pytest.mark.parametrize("attrs, exp", [
+    ([0, "fusionName"], "PLAA--MIR31HG"),
+    ([0, "nJunctionReads"], 200),
+    ([0, "nSpanningFrags"], 101),
+    ([0, "spliceType"], "ONLY_REF_SPLICE"),
+    ([0, "FFPM"], 3.671),
+    ([0, "largeAnchorSupport"], "YES_LDAS"),
+    ([0, "annots", 0], "CCLE_StarF2019"),
+    ([0, "annots", -1], "INTRACHROMOSOMAL[chr9:5.34Mb]"),
+    ([0, "left", "geneName"], "PLAA"),
+    ([0, "left", "geneID"], "ENSG00000137055.15"),
+    ([0, "left", "chromosome"], "chr9"),
+    ([0, "left", "position"], 26919310),
+    ([0, "left", "strand"], "-"),
+    ([0, "left", "breakDinuc"], "GT"),
+    ([0, "left", "breakEntropy"], 1.9329),
+    ([0, "right", "geneName"], "MIR31HG"),
+    ([0, "right", "geneID"], "ENSG00000171889.4"),
+    ([0, "right", "chromosome"], "chr9"),
+    ([0, "right", "position"], 21455944),
+    ([0, "right", "strand"], "-"),
+    ([0, "right", "breakDinuc"], "AG"),
+    ([0, "right", "breakEntropy"], 1.9329),
+    ([0, "reads", "junctionReads", 0],
+     "SRR8615343.84218969"),
+    ([0, "reads", "junctionReads", -1],
+     "SRR8615343.30282436"),
+    ([0, "reads", "spanningFrags", 0],
+     "SRR8615343.30281602"),
+    ([0, "reads", "spanningFrags", -1],
+     "SRR8615343.30278507"),
+    ([-1, "fusionName"], "STX8--IDI2"),
+    ([-1, "nJunctionReads"], 2),
+    ([-1, "nSpanningFrags"], 8),
+    ([-1, "spliceType"], "ONLY_REF_SPLICE"),
+    ([-1, "FFPM"], 0.122),
+    ([-1, "largeAnchorSupport"], "YES_LDAS"),
+    ([-1, "annots", 0], "CCLE_StarF2019"),
+    ([-1, "annots", -1], "INTERCHROMOSOMAL[chr17--chr10]"),
+    ([-1, "left", "geneName"], "STX8"),
+    ([-1, "left", "geneID"], "ENSG00000170310.15"),
+    ([-1, "left", "chromosome"], "chr17"),
+    ([-1, "left", "position"], 9545172),
+    ([-1, "left", "strand"], "-"),
+    ([-1, "left", "breakDinuc"], "GT"),
+    ([-1, "left", "breakEntropy"], 1.8892),
+    ([-1, "right", "geneName"], "IDI2"),
+    ([-1, "right", "geneID"], "ENSG00000148377.6"),
+    ([-1, "right", "chromosome"], "chr10"),
+    ([-1, "right", "position"], 1022775),
+    ([-1, "right", "strand"], "-"),
+    ([-1, "right", "breakDinuc"], "AG"),
+    ([-1, "right", "breakEntropy"], 1.8323),
+    ([-1, "reads", "junctionReads", 0],
+     "SRR8615343.54793320"),
+    ([-1, "reads", "junctionReads", -1],
+     "SRR8615343.97918844"),
+    ([-1, "reads", "spanningFrags", 0],
+     "SRR8615343.32910761"),
+    ([-1, "reads", "spanningFrags", -1],
+     "SRR8615343.93902364"),
+])
+def test_star_fusion_v160_NB4(star_fusion_v160_NB4, attrs, exp):
+    assert getattr_nested(star_fusion_v160_NB4.json, attrs) == exp, \
+        ", ".join([repr(x) for x in attrs])
+
+
+@pytest.mark.parametrize("attrs, exp", [
+    ([0, "fusionName"], "PLAA--MIR31HG"),
+    ([0, "nJunctionReads"], 200),
+    ([0, "nSpanningFrags"], 101),
+    ([0, "spliceType"], "ONLY_REF_SPLICE"),
+    ([0, "FFPM"], 3.671),
+    ([0, "largeAnchorSupport"], "YES_LDAS"),
+    ([0, "annots", 0], "CCLE_StarF2019"),
+    ([0, "annots", -1], "INTRACHROMOSOMAL[chr9:5.34Mb]"),
+    ([0, "left", "geneName"], "PLAA"),
+    ([0, "left", "geneID"], "ENSG00000137055.15"),
+    ([0, "left", "chromosome"], "chr9"),
+    ([0, "left", "position"], 26919310),
+    ([0, "left", "strand"], "-"),
+    ([0, "left", "breakDinuc"], "GT"),
+    ([0, "left", "breakEntropy"], 1.9329),
+    ([0, "right", "geneName"], "MIR31HG"),
+    ([0, "right", "geneID"], "ENSG00000171889.4"),
+    ([0, "right", "chromosome"], "chr9"),
+    ([0, "right", "position"], 21455944),
+    ([0, "right", "strand"], "-"),
+    ([0, "right", "breakDinuc"], "AG"),
+    ([0, "right", "breakEntropy"], 1.9329),
+    ([-1, "fusionName"], "STX8--IDI2"),
+    ([-1, "nJunctionReads"], 2),
+    ([-1, "nSpanningFrags"], 8),
+    ([-1, "spliceType"], "ONLY_REF_SPLICE"),
+    ([-1, "FFPM"], 0.122),
+    ([-1, "largeAnchorSupport"], "YES_LDAS"),
+    ([-1, "annots", 0], "CCLE_StarF2019"),
+    ([-1, "annots", -1], "INTERCHROMOSOMAL[chr17--chr10]"),
+    ([-1, "left", "geneName"], "STX8"),
+    ([-1, "left", "geneID"], "ENSG00000170310.15"),
+    ([-1, "left", "chromosome"], "chr17"),
+    ([-1, "left", "position"], 9545172),
+    ([-1, "left", "strand"], "-"),
+    ([-1, "left", "breakDinuc"], "GT"),
+    ([-1, "left", "breakEntropy"], 1.8892),
+    ([-1, "right", "geneName"], "IDI2"),
+    ([-1, "right", "geneID"], "ENSG00000148377.6"),
+    ([-1, "right", "chromosome"], "chr10"),
+    ([-1, "right", "position"], 1022775),
+    ([-1, "right", "strand"], "-"),
+    ([-1, "right", "breakDinuc"], "AG"),
+    ([-1, "right", "breakEntropy"], 1.8323),
+])
+def test_star_fusion_v160_abr_NB4(star_fusion_v160_abr_NB4, attrs, exp):
+    assert getattr_nested(star_fusion_v160_abr_NB4.json, attrs) == exp, \
+        ", ".join([repr(x) for x in attrs])
+
+
+def test_parse_rl_entry_raises():
+    with pytest.raises(RuntimeError):
+        parse_lr_entry("middle", dict())
+
+
+def test_parse_raw_line_raises():
+    with pytest.raises(BadParameter):
+        parse_raw_line(raw_line="Wrong raw line", version="v1.6.0")
+
+
+def test_detect_format_raises():
+    with pytest.raises(BadParameter):
+        detect_format(colnames="Wrong column names")
+
+
+def test_parse_annots_raises():
+    with pytest.raises(RuntimeError):
+        parse_annots("Does not start with [")
