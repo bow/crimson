@@ -3,16 +3,16 @@ Crimson
 
 |pypi| |ci| |cov| |qual|
 
-.. |pypi| image:: https://img.shields.io/pypi/v/crimson?color=007c5b&style=flat-square
+.. |pypi| image:: https://img.shields.io/pypi/v/crimson?labelColor=4d4d4d&color=007c5b&style=flat
     :target: https://pypi.org/project/Crimson/
 
-.. |ci| image:: https://img.shields.io/travis/bow/crimson?color=007c5b&style=flat-square
+.. |ci| image:: https://img.shields.io/travis/bow/crimson?labelColor=4d4d4d&color=007c5b&style=flat
     :target: https://travis-ci.org/bow/crimson
 
-.. |cov| image:: https://img.shields.io/codeclimate/coverage/bow/crimson?color=007c5b&style=flat-square
+.. |cov| image:: https://img.shields.io/codeclimate/coverage/bow/crimson?labelColor=4d4d4d&color=007c5b&style=flat
     :target: https://codeclimate.com/github/bow/crimson
 
-.. |qual| image:: https://img.shields.io/codeclimate/maintainability/bow/crimson?color=007c5b&style=flat-square
+.. |qual| image:: https://img.shields.io/codeclimate/maintainability/bow/crimson?labelColor=4d4d4d&color=007c5b&style=flat
     :target: https://codeclimate.com/github/bow/crimson
 
 
