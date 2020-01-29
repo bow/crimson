@@ -12,7 +12,8 @@ Release 0.5.0
 `release date: TBD`
 
 * Drops support for Python 2.7, 3.3, 3.4, and 3.5
-
+* Added support for parsing output of STAR-Fusion v1.6.0 under the same
+  ``star-fusion`` parser. Thank you @Redmar-van-den-Berg!
 
 
 Version 0.4

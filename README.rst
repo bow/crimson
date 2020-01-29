@@ -53,7 +53,7 @@ and against the following bioinformatics tools:
 * samtools (version 0.19.1, 1.1)
 * Picard (version 1.124)
 * STAR (version 2.3.0)
-* STAR-Fusion (version 0.6.0)
+* STAR-Fusion (version 0.6.0, 1.6.0)
 * VEP (version 77)
 
 Usage
