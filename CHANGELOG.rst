@@ -11,6 +11,10 @@ adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 Unreleased
 ----------
 
+
+[0.5.0] - 2020-02-04
+--------------------
+
 Added
 ~~~~~
 * Support for parsing output of STAR-Fusion v1.6.0 under the same
