@@ -16,7 +16,6 @@ before_install:
 
 install:
   - python setup.py install
-  - pip install codecov==2.0.15
 
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
