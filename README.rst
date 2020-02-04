@@ -1,5 +1,5 @@
-crimson
-=======
+``crimson``
+===========
 
 |pypi| |ci| |cov| |qual|
 
