@@ -21,7 +21,7 @@ with open("requirements-dev.txt") as src:
 
 
 setup(
-    name="Crimson",
+    name="crimson",
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     description="Bioinformatics tool outputs converter to JSON or YAML.",
