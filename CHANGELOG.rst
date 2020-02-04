@@ -3,71 +3,67 @@
 Changelog
 =========
 
-Version 0.5
------------
+This format is based on
+`Keep a Changelog <https://keepachangelog.com/en/1.0.0/>`_ and this project
+adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
-Release 0.5.0
-^^^^^^^^^^^^^
 
-`release date: TBD`
+Unreleased
+^^^^^^^^^^
 
-* Drops support for Python 2.7, 3.3, 3.4, and 3.5
-* Added support for parsing output of STAR-Fusion v1.6.0 under the same
+Added
+-----
+* Support for parsing output of STAR-Fusion v1.6.0 under the same
   ``star-fusion`` parser. Thank you @Redmar-van-den-Berg!
 
+Removed
+-------
+* Support for Python 2.7, 3.3, 3.4, and 3.5
 
-Version 0.4
------------
 
-Release 0.4.0
-^^^^^^^^^^^^^
+[0.4.0] - 2018-07-25
+^^^^^^^^^^^^^^^^^^^^
 
-`release date: 25 July 2018`
+Added
+-----
+* Support for parsing zipped FastQC result.
 
-* Adds support for parsing zipped FastQC result.
+Changed
+-------
 * Improves detection of zipped FastQC input.
 * Sets configurable file-size limits for flagstat, Picard, and FastQC.
 
 
-Version 0.3
------------
+[0.3.0] - 2016-05-19
+^^^^^^^^^^^^^^^^^^^^
 
-Release 0.3.0
-^^^^^^^^^^^^^
-
-`release date: 19 May 2016`
-
-* Adds support for parsing FusionCatcher final fusion genes file.
+Added
+-----
+* Support for parsing FusionCatcher final fusion genes file.
 
 
-Version 0.2
------------
+[0.2.0] - 2016-04-13
+^^^^^^^^^^^^^^^^^^^^
 
-Release 0.2.0
-^^^^^^^^^^^^^
-
-`release date: 13 April 2016`
-
-* Adds support for parsing STAR-Fusion hits table output.
-* Adds support for parsing STAR alignment log output.
-* Adds support for parsing VEP plain text output.
+Added
+-----
+* Support for parsing STAR-Fusion hits table output.
+* Support for parsing STAR alignment log output.
+* Support for parsing VEP plain text output.
 
 
-Versions 0.1
-------------
+[0.1.1] - 2016-02-02
+^^^^^^^^^^^^^^^^^^^^
 
-Release 0.1.1
-^^^^^^^^^^^^^
+Changed
+-------
+* Test and build dependencies.
 
-`release date: 2 February 2016`
 
-* Minor release that loosens the wheel dependency version, updates some
-  development dependencies, and fixes some typos.
+[0.1.0] - 2015-07-27
+^^^^^^^^^^^^^^^^^^^^
 
-Release 0.1.0
-^^^^^^^^^^^^^
-
-`release date: 27 July 2015`
-
+Added
+-----
 * First release.
 * Support for parsing FastQC, samtools flagstat, and Picard.
