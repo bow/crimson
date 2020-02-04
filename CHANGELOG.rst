@@ -30,8 +30,8 @@ Added
 
 Changed
 ~~~~~~~
-* Improves detection of zipped FastQC input.
-* Sets configurable file-size limits for flagstat, Picard, and FastQC.
+* Improved detection of zipped FastQC input.
+* Set configurable file-size limits for flagstat, Picard, and FastQC.
 
 
 [0.3.0] - 2016-05-19
