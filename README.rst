@@ -60,7 +60,7 @@ Usage
 -----
 
 Command-line
-^^^^^^^^^^^^
+~~~~~~~~~~~~
 
 The general command is ``crimson {program_name}`` and by default the output is written to ``stdout``. For example,
 to use the ``picard`` parser, you would execute:
@@ -97,7 +97,7 @@ When in doubt, use the ``--help`` flag:
     $ crimson fastqc --help     # for parser-specific (FastQC) help
 
 Python Module
-^^^^^^^^^^^^^
+~~~~~~~~~~~~~
 
 The function to import is located at ``crimson.{program_name}.parser``. So to use the ``picard`` parser in your script,
 you can do this:

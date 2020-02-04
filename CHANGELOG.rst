@@ -9,61 +9,61 @@ adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
 
 Unreleased
-^^^^^^^^^^
+----------
 
 Added
------
+~~~~~
 * Support for parsing output of STAR-Fusion v1.6.0 under the same
   ``star-fusion`` parser. Thank you @Redmar-van-den-Berg!
 
 Removed
--------
+~~~~~~~
 * Support for Python 2.7, 3.3, 3.4, and 3.5
 
 
 [0.4.0] - 2018-07-25
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Added
------
+~~~~~
 * Support for parsing zipped FastQC result.
 
 Changed
--------
+~~~~~~~
 * Improves detection of zipped FastQC input.
 * Sets configurable file-size limits for flagstat, Picard, and FastQC.
 
 
 [0.3.0] - 2016-05-19
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Added
------
+~~~~~
 * Support for parsing FusionCatcher final fusion genes file.
 
 
 [0.2.0] - 2016-04-13
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Added
------
+~~~~~
 * Support for parsing STAR-Fusion hits table output.
 * Support for parsing STAR alignment log output.
 * Support for parsing VEP plain text output.
 
 
 [0.1.1] - 2016-02-02
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Changed
--------
+~~~~~~~
 * Test and build dependencies.
 
 
 [0.1.0] - 2015-07-27
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 Added
------
+~~~~~
 * First release.
 * Support for parsing FastQC, samtools flagstat, and Picard.

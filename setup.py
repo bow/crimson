@@ -26,6 +26,7 @@ setup(
     cmdclass=versioneer.get_cmdclass(),
     description="Bioinformatics tool outputs converter to JSON or YAML.",
     long_description=readme + "\n\n" + changelog,
+    long_description_content_type="text/x-rst",
     author=__author__,
     author_email=__contact__,
     url=__homepage__,
