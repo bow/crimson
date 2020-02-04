@@ -42,7 +42,7 @@ def get_config():
     cfg = VersioneerConfig()
     cfg.VCS = "git"
     cfg.style = "pep440"
-    cfg.tag_prefix = "release-"
+    cfg.tag_prefix = "v"
     cfg.parentdir_prefix = "None"
     cfg.versionfile_source = "crimson/_version.py"
     cfg.verbose = False
