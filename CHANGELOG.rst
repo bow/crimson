@@ -10,6 +10,13 @@ adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 
 Unreleased
 ----------
+
+
+[0.5.1] - 2020-02027
+--------------------
+
+Changed
+~~~~~~~
 * Relaxed Click and YAML requirements. Now crimon requires only minimum
   versions of these dependencies instead of exact ones.
 
