@@ -41,6 +41,15 @@ def fusioncatcher_v100():
     return result
 
 
+@pytest.fixture(scope="module")
+def fusioncatcher_v120_empty():
+    runner = CliRunner()
+    in_file = get_test_path("fusioncatcher_v120_empty.txt")
+    result = runner.invoke(main, ["fusioncatcher", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
 def test_fusioncatcher_fail_exit_code(fusioncatcher_fail):
     assert fusioncatcher_fail.exit_code != 0
 
@@ -153,3 +162,8 @@ def test_fusioncatcher_v0995a(fusioncatcher_v0995a, attrs, exp_v0955a):
 def test_fusioncatcher_v100(fusioncatcher_v100, attrs, exp_v100):
     assert getattr_nested(fusioncatcher_v100.json, attrs) == exp_v100, \
         ", ".join([repr(x) for x in attrs])
+
+
+def test_fusioncatcher_v120_empty(fusioncatcher_v120_empty):
+    err_msg = "Unexpected column names:"
+    assert err_msg not in fusioncatcher_v120_empty.output
