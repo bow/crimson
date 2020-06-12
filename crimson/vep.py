@@ -67,7 +67,12 @@ def group2entry(
          [1, 40, 35, 50, ...])
 
     """
+    # If there is no data, only a header, we return an empty dictionary
+    if '\n' not in group:
+        return group[1:-1], dict()
+
     raw_key, raw_value = group.split("\n", 1)
+
     key = raw_key[1:-1]
 
     values = (line.split("\t", 1) for line in raw_value.strip().split("\n"))
