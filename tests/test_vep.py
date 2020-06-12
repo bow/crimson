@@ -66,5 +66,8 @@ def test_vep_v77_01(vep_v77_01, attrs, exp):
         ", ".join([repr(x) for x in attrs])
 
 
-def test_vep_v97_empty(vep_v97_with_empty):
-    pass
+def test_vep_v97_headers(vep_v97_with_empty):
+    """ Test if the empty headers are in the output json """
+    headers = ["Coding consequences", "SIFT summary", "PolyPhen summary"]
+    for header in headers:
+        assert header in vep_v97_with_empty.json
