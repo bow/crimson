@@ -32,6 +32,15 @@ def vep_v77_01():
     return result
 
 
+@pytest.fixture(scope="module")
+def vep_v97_with_empty():
+    runner = CliRunner()
+    in_file = get_test_path("vep_v97_with_empty.txt")
+    result = runner.invoke(main, ["vep", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
 def test_vep_fail_exit_code(vep_fail):
     assert vep_fail.exit_code != 0
 
@@ -55,3 +64,7 @@ def test_vep_fail_output(vep_fail):
 def test_vep_v77_01(vep_v77_01, attrs, exp):
     assert getattr_nested(vep_v77_01.json, attrs) == exp, \
         ", ".join([repr(x) for x in attrs])
+
+
+def test_vep_v97_empty(vep_v97_with_empty):
+    pass
