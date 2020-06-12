@@ -1,0 +1,40 @@
+[VEP run statistics]
+VEP version (API)	 97 (97)
+Annotation sources	Cache: /exports/sasc-testing/fixtures/HAMLET/deps/vep/ensembl-vep/cache_dir/homo_sapiens_merged/97_GRCh38; Custom: /exports/sasc-testing/fixtures/HAMLET/deps/data/1KG.phase3.GRCh38.with_chr.vcf.gz (exact); Custom: /exports/sasc-testing/fixtures/HAMLET/deps/data/gonl.grch38.sorted.filtered.snps_indels.r5.vcf.gz (exact)
+Species	homo_sapiens
+Command line options	--allele_number --assembly GRCh38 --cache --cache_version 97 --custom /exports/sasc-testing/fixtures/HAMLET/deps/data/1KG.phase3.GRCh38.with_chr.vcf.gz,P3,vcf,exact,0,AF,AFR_AF,AMR_AF,EAS_AF,EUR_AF,SAS_AF --custom /exports/sasc-testing/fixtures/HAMLET/deps/data/gonl.grch38.sorted.filtered.snps_indels.r5.vcf.gz,GONL,vcf,exact,0,AF --dir /exports/sasc-testing/fixtures/HAMLET/deps/vep/ensembl-vep/cache_dir/ --everything --fasta /exports/sasc-testing/fixtures/HAMLET/deps/vep/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz --force_overwrite --fork 8 --input_file no-variants/snv-indels/no-variants.raw.vcf.gz --merged --offline --output_file STDOUT --stats_file no-variants/snv-indels/no-variants.vep_stats.txt --stats_text --vcf
+Start time	2020-06-11 11:36:28
+End time	2020-06-11 11:36:30
+Run time	2 seconds
+Input file	no-variants/snv-indels/no-variants.raw.vcf.gz
+Output file	STDOUT
+
+[General statistics]
+Lines of input read	1
+Variants processed	1
+Variants filtered out	0
+Novel / existing variants	-
+Overlapped genes	5
+Overlapped transcripts	12
+Overlapped regulatory features	2
+
+[Variant classes]
+SNV	1
+
+[Consequences (most severe)]
+non_coding_transcript_exon_variant	1
+
+[Consequences (all)]
+non_coding_transcript_exon_variant	3
+upstream_gene_variant	9
+TF_binding_site_variant	1
+regulatory_region_variant	2
+
+[Coding consequences]
+
+[SIFT summary]
+
+[PolyPhen summary]
+
+[Variants by chromosome]
+chr6	1
