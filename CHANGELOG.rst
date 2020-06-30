@@ -12,6 +12,15 @@ Unreleased
 ----------
 
 
+[0.5.2] - 2020-06-30
+--------------------
+
+Fixed
+~~~~~
+* FusionCatcher v1.20 output without any result rows is now parsed properly (see #11).
+* Sections in VEP files containing no data is now parsed properly (see #13).
+
+
 [0.5.1] - 2020-02-27
 --------------------
 
