@@ -172,8 +172,22 @@ def star_fusion(ctx: click.Context, input: TextIO, output: TextIO) -> None:
 @main.command(name="vep")
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
+@click.option(
+    "--input-linesep",
+    default=None,
+    type=click.Choice(["nt", "posix"]),
+    help=(
+        "Line separator for input files; used when parsing. Default: native"
+        " value for current operating system."
+    )
+)
 @click.pass_context
-def vep(ctx: click.Context, input: TextIO, output: TextIO) -> None:
+def vep(
+    ctx: click.Context,
+    input: TextIO,
+    output: TextIO,
+    input_linesep: Optional[str],
+) -> None:
     """Converts plain text output of Variant Effect Predictor.
 
     Use "-" for stdin and/or stdout.
