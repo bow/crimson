@@ -9,7 +9,7 @@
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
 from pathlib import Path
-from typing import TextIO, cast
+from typing import Optional, TextIO, cast
 
 import click
 
@@ -99,14 +99,28 @@ def fusioncatcher(ctx: click.Context, input: TextIO, output: TextIO) -> None:
 @main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
+@click.option(
+    "--input-linesep",
+    default=None,
+    type=click.Choice(["posix", "windows"]),
+    help=(
+        "Line separator for input files; used when parsing. Default: native value"
+        " for current operating system."
+    )
+)
 @click.pass_context
-def picard(ctx: click.Context, input: TextIO, output: TextIO) -> None:
+def picard(
+    ctx: click.Context,
+    input: TextIO,
+    output: TextIO,
+    input_linesep: Optional[str],
+) -> None:
     """Converts Picard metrics output.
 
     Use "-" for stdin and/or stdout.
 
     """
-    payload = m_picard.parse(input)
+    payload = m_picard.parse(input, input_linesep)
     parent = cast(click.Context, ctx.parent)
     write_output(payload, output, **parent.params)
 
@@ -114,14 +128,28 @@ def picard(ctx: click.Context, input: TextIO, output: TextIO) -> None:
 @main.command()
 @click.argument("input", type=click.File("r"))
 @click.argument("output", type=click.File("w"), default="-")
+@click.option(
+    "--input-linesep",
+    default=None,
+    type=click.Choice(["nt", "posix"]),
+    help=(
+        "Line separator for input files; used when parsing. Default: native value"
+        " for current operating system."
+    )
+)
 @click.pass_context
-def star(ctx: click.Context, input: TextIO, output: TextIO) -> None:
+def star(
+    ctx: click.Context,
+    input: TextIO,
+    output: TextIO,
+    input_linesep: Optional[str],
+) -> None:
     """Converts STAR Log.final.out file.
 
     Use "-" for stdin and/or stdout.
 
     """
-    payload = m_star.parse(input)
+    payload = m_star.parse(input, input_linesep)
     parent = cast(click.Context, ctx.parent)
     write_output(payload, output, **parent.params)
 

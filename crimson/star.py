@@ -13,7 +13,7 @@ from typing import Any, Callable, Dict, TextIO, Tuple, Union
 
 import click
 
-from .utils import convert, get_handle
+from .utils import convert, get_handle, get_linesep
 
 __all__ = ["parse"]
 
@@ -75,7 +75,7 @@ _PARSE_MAP: Dict[str, Tuple[str, Callable[[Any], Union[str, int, float]]]] = {
         ("pctMappedMultipleLoci", _pct_convert),
     "Number of reads mapped to too many loci":
         ("nMappedTooManyLoci", convert),
-    "% of reads mapped to too many loci":
+    "% of reads mapped to too many loci":locicli
         ("pctMappedTooManyLoci", _pct_convert),
     "% of reads unmapped: too many mismatches":
         ("pctUnmappedForTooManyMismatches", _pct_convert),
@@ -86,10 +86,15 @@ _PARSE_MAP: Dict[str, Tuple[str, Callable[[Any], Union[str, int, float]]]] = {
 }
 
 
-def parse(in_data: Union[str, os.PathLike, TextIO]) -> dict:
+def parse(
+    in_data: Union[str, os.PathLike, TextIO],
+    input_linesep: Optional[str] = None,
+) -> dict:
     """Parse the log of a STAR run.
 
     :param in_data: Input STAR-Fusion contents.
+    :param input_linesep: Name of the operating system used for determining input
+        line separator. Valid values are 'nt', 'posix', or None.
     :returns: Parsed values.
 
     """
@@ -97,8 +102,9 @@ def parse(in_data: Union[str, os.PathLike, TextIO]) -> dict:
     with get_handle(in_data) as src:
         contents = src.read(_MAX_SIZE)
 
+    linesep = get_linesep(input_linesep)
     val: Union[str, int, float]
-    for line in contents.split(os.linesep):
+    for line in contents.split(linesep):
         # pass empty lines
         if line and not line.strip():
             continue

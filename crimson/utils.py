@@ -18,6 +18,8 @@ from typing import IO, Generator, List, Optional, TextIO, Union
 import click
 import yaml
 
+
+LINESEPS = {"nt": "\r\n", "posix": "\n"}
 RE_INT = re.compile(r"^([-+]?\d+)L?$")
 RE_FLOAT = re.compile(r"^([-+]?\d*\.?\d+(?:[eE][-+]?[0-9]+)?)$")
 
@@ -107,3 +109,16 @@ def get_handle(
 
     if isinstance(input, str):
         fh.close()
+
+
+def get_linesep(system: Optional[str]) -> str:
+    """Returns the line separator character(s) for the given system"""
+
+    if system is None:
+        return os.linesep
+
+    linesep = LINESEPS.get(system.lower())
+    if linesep is not None:
+        return linesep
+
+    raise ValueError(f"Can not resolve linesep for system {system!r}")
