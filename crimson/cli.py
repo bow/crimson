@@ -104,8 +104,8 @@ def fusioncatcher(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     default=None,
     type=click.Choice(["posix", "windows"]),
     help=(
-        "Line separator for input files; used when parsing. Default: native value"
-        " for current operating system."
+        "Line separator for input files; used when parsing. Default: native"
+        " value for current operating system."
     )
 )
 @click.pass_context
@@ -133,8 +133,8 @@ def picard(
     default=None,
     type=click.Choice(["nt", "posix"]),
     help=(
-        "Line separator for input files; used when parsing. Default: native value"
-        " for current operating system."
+        "Line separator for input files; used when parsing. Default: native"
+        " value for current operating system."
     )
 )
 @click.pass_context

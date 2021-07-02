@@ -9,7 +9,7 @@
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
 import os
-from typing import Any, Callable, Dict, TextIO, Tuple, Union
+from typing import Any, Callable, Dict, Optional, TextIO, Tuple, Union
 
 import click
 
@@ -75,7 +75,7 @@ _PARSE_MAP: Dict[str, Tuple[str, Callable[[Any], Union[str, int, float]]]] = {
         ("pctMappedMultipleLoci", _pct_convert),
     "Number of reads mapped to too many loci":
         ("nMappedTooManyLoci", convert),
-    "% of reads mapped to too many loci":locicli
+    "% of reads mapped to too many loci":
         ("pctMappedTooManyLoci", _pct_convert),
     "% of reads unmapped: too many mismatches":
         ("pctUnmappedForTooManyMismatches", _pct_convert),
@@ -93,8 +93,8 @@ def parse(
     """Parse the log of a STAR run.
 
     :param in_data: Input STAR-Fusion contents.
-    :param input_linesep: Name of the operating system used for determining input
-        line separator. Valid values are 'nt', 'posix', or None.
+    :param input_linesep: Name of the operating system used for determining
+        input line separator. Valid values are 'nt', 'posix', or None.
     :returns: Parsed values.
 
     """

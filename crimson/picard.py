@@ -101,8 +101,8 @@ def parse(
     """Parse an input Picard metrics file into a dictionary.
 
     :param in_data: Input metrics file.
-    :param input_linesep: Name of the operating system used for determining input
-        line separator. Valid values are 'nt', 'posix', or None.
+    :param input_linesep: Name of the operating system used for determining
+        input line separator. Valid values are 'nt', 'posix', or None.
     :param max_size: Maximum allowed size of the Picard metrics file (default:
         10 MiB).
 

@@ -9,6 +9,7 @@
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
 import json
+import os
 import re
 from contextlib import contextmanager
 from os import PathLike, linesep
@@ -17,7 +18,6 @@ from typing import IO, Generator, List, Optional, TextIO, Union
 
 import click
 import yaml
-
 
 LINESEPS = {"nt": "\r\n", "posix": "\n"}
 RE_INT = re.compile(r"^([-+]?\d+)L?$")
