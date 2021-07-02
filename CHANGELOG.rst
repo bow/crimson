@@ -11,6 +11,17 @@ adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0.html>`_.
 Unreleased
 ----------
 
+[1.0.0-alpha1] - 2021-07-02
+------------~--------------
+
+Added
+~~~~~
+* ``--input-linesep`` CLI argument for ``picard``, ``star``, and ``vep`` for specifying
+  the line separator used when parsing the input file. This is also exposed in the
+  ``parser`` functions as ``input_linesep``. For ``vep`` in particular, this is a
+  backwards-incompatible change, as the previous behavior is to always parse using the
+  POSIX new line separator.
+
 
 [0.5.2] - 2020-06-30
 --------------------
