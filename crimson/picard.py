@@ -47,7 +47,7 @@ def parse_metrics(metrics: Optional[str], linesep: str) -> Optional[dict]:
     if metrics is None:
         return None
 
-    lines = [l.strip(linesep) for l in metrics.split(linesep)]
+    lines = [line.strip(linesep) for line in metrics.split(linesep)]
 
     metrics_class: Optional[str]
     try:
@@ -60,7 +60,7 @@ def parse_metrics(metrics: Optional[str], linesep: str) -> Optional[dict]:
         parsed.append([convert(v) for v in line.split("\t")])
 
     header_cols = parsed.pop(0)
-    contents: Any = [dict(zip(header_cols, l)) for l in parsed]
+    contents: Any = [dict(zip(header_cols, line)) for line in parsed]
     if len(contents) == 1:
         contents = contents.pop()
     payload: dict = {"contents": contents}
@@ -80,7 +80,7 @@ def parse_histogram(histo: Optional[str], linesep: str) -> Optional[dict]:
     if histo is None:
         return None
 
-    lines = [l.strip(linesep) for l in histo.split(linesep)]
+    lines = [line.strip(linesep) for line in histo.split(linesep)]
     lines.pop(0)
 
     parsed = []
@@ -88,7 +88,7 @@ def parse_histogram(histo: Optional[str], linesep: str) -> Optional[dict]:
         parsed.append([convert(v) for v in line.split("\t")])
 
     header_cols = parsed.pop(0)
-    payload = {"contents": [dict(zip(header_cols, l)) for l in parsed]}
+    payload = {"contents": [dict(zip(header_cols, line)) for line in parsed]}
 
     return payload
 
