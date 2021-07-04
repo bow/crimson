@@ -35,11 +35,7 @@ class FastQCModule:
 
     """Class representing a FastQC analysis module."""
 
-    def __init__(
-        self,
-        raw_lines: List[str],
-        end_mark: str = ">>END_MODULE"
-    ) -> None:
+    def __init__(self, raw_lines: List[str], end_mark: str = ">>END_MODULE") -> None:
         """Initialize an instance.
 
         :param raw_lines: List of lines in the module.
@@ -118,7 +114,8 @@ class FastQCModule:
             for zpd in [
                 # zip column names and its values ~ each item in array ==
                 # one row
-                zip(columns, [v for v in d]) for d in lines
+                zip(columns, [v for v in d])
+                for d in lines
             ]
         ]
 
@@ -204,9 +201,7 @@ class FastQC:
     def dict(self) -> Dict[str, Union[str, FastQCModulePayload]]:
         """FastQC data as a dictionary."""
         payload: Dict[str, Union[str, FastQCModulePayload]]
-        payload = {
-            k: v.dict for k, v in self.modules.items()
-        }
+        payload = {k: v.dict for k, v in self.modules.items()}
         payload["version"] = self.version
 
         return payload
@@ -238,9 +233,7 @@ def parse(
     if is_zipfile(in_data):
         zf = ZipFile(in_data)
         try:
-            data_fname, = [
-                f for f in zf.namelist() if f.endswith(results_fname)
-            ]
+            (data_fname,) = [f for f in zf.namelist() if f.endswith(results_fname)]
         except ValueError:
             raise click.BadParameter(
                 f"File {in_data} contains an unexpected number of"
@@ -257,18 +250,14 @@ def parse(
     # Make sure strings become Path instances.
     # Also, from this point on we only expect to see TextIO.
     in_data = cast(
-        Union[Path, TextIO],
-        Path(in_data) if isinstance(in_data, str) else in_data
+        Union[Path, TextIO], Path(in_data) if isinstance(in_data, str) else in_data
     )
 
     # Input is FastQC directory.
     if isinstance(in_data, Path) and in_data.is_dir():
         try:
             ori = in_data
-            in_data = ori.joinpath(
-                next(walk(ori))[1][0],
-                results_fname
-            )
+            in_data = ori.joinpath(next(walk(ori))[1][0], results_fname)
         except IndexError:
             raise click.BadParameter(
                 f"Cannot find {results_fname} file in the given directory."

@@ -29,60 +29,36 @@ _MAX_SIZE = 1024 * 10
 # Mapping of STAR attribute names to python dictionary attribute names
 # and the function used to parse it.
 _PARSE_MAP: Dict[str, Tuple[str, Callable[[Any], Union[str, int, float]]]] = {
-    "Started job on":
-        ("timeJobStart", str),
-    "Started mapping on":
-        ("timeMappingStart", str),
-    "Finished on":
-        ("timeEnd", str),
-    "Mapping speed, Million of reads per hour":
-        ("mappingSpeed", convert),
-    "Number of input reads":
-        ("nInput", convert),
-    "Average input read length":
-        ("avgInputLength", convert),
-    "Uniquely mapped reads number":
-        ("nUniquelyMapped", convert),
-    "Uniquely mapped reads %":
-        ("pctUniquelyMapped", _pct_convert),
-    "Average mapped length":
-        ("avgMappedLength", convert),
-    "Number of splices: Total":
-        ("nSplicesTotal", convert),
-    "Number of splices: Annotated (sjdb)":
-        ("nSplicesAnnotated", convert),
-    "Number of splices: GT/AG":
-        ("nSplicesGTAG", convert),
-    "Number of splices: GC/AG":
-        ("nSplicesGCAG", convert),
-    "Number of splices: AT/AC":
-        ("nSplicesATAC", convert),
-    "Number of splices: Non-canonical":
-        ("nSplicesNonCanonical", convert),
-    "Mismatch rate per base, %":
-        ("rateMismatchPerBase", _pct_convert),
-    "Deletion rate per base":
-        ("rateDeletionPerBase", _pct_convert),
-    "Deletion average length":
-        ("avgDeletionLength", convert),
-    "Insertion rate per base":
-        ("rateInsertionPerBase", _pct_convert),
-    "Insertion average length":
-        ("avgInsertionLength", convert),
-    "Number of reads mapped to multiple loci":
-        ("nMappedMultipleLoci", convert),
-    "% of reads mapped to multiple loci":
-        ("pctMappedMultipleLoci", _pct_convert),
-    "Number of reads mapped to too many loci":
-        ("nMappedTooManyLoci", convert),
-    "% of reads mapped to too many loci":
-        ("pctMappedTooManyLoci", _pct_convert),
-    "% of reads unmapped: too many mismatches":
-        ("pctUnmappedForTooManyMismatches", _pct_convert),
-    "% of reads unmapped: too short":
-        ("pctUnmappedForTooShort", _pct_convert),
-    "% of reads unmapped: other":
-        ("pctUnmappedForOther", _pct_convert),
+    "Started job on": ("timeJobStart", str),
+    "Started mapping on": ("timeMappingStart", str),
+    "Finished on": ("timeEnd", str),
+    "Mapping speed, Million of reads per hour": ("mappingSpeed", convert),
+    "Number of input reads": ("nInput", convert),
+    "Average input read length": ("avgInputLength", convert),
+    "Uniquely mapped reads number": ("nUniquelyMapped", convert),
+    "Uniquely mapped reads %": ("pctUniquelyMapped", _pct_convert),
+    "Average mapped length": ("avgMappedLength", convert),
+    "Number of splices: Total": ("nSplicesTotal", convert),
+    "Number of splices: Annotated (sjdb)": ("nSplicesAnnotated", convert),
+    "Number of splices: GT/AG": ("nSplicesGTAG", convert),
+    "Number of splices: GC/AG": ("nSplicesGCAG", convert),
+    "Number of splices: AT/AC": ("nSplicesATAC", convert),
+    "Number of splices: Non-canonical": ("nSplicesNonCanonical", convert),
+    "Mismatch rate per base, %": ("rateMismatchPerBase", _pct_convert),
+    "Deletion rate per base": ("rateDeletionPerBase", _pct_convert),
+    "Deletion average length": ("avgDeletionLength", convert),
+    "Insertion rate per base": ("rateInsertionPerBase", _pct_convert),
+    "Insertion average length": ("avgInsertionLength", convert),
+    "Number of reads mapped to multiple loci": ("nMappedMultipleLoci", convert),
+    "% of reads mapped to multiple loci": ("pctMappedMultipleLoci", _pct_convert),
+    "Number of reads mapped to too many loci": ("nMappedTooManyLoci", convert),
+    "% of reads mapped to too many loci": ("pctMappedTooManyLoci", _pct_convert),
+    "% of reads unmapped: too many mismatches": (
+        "pctUnmappedForTooManyMismatches",
+        _pct_convert,
+    ),
+    "% of reads unmapped: too short": ("pctUnmappedForTooShort", _pct_convert),
+    "% of reads unmapped: other": ("pctUnmappedForOther", _pct_convert),
 }
 
 

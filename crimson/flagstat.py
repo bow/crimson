@@ -32,12 +32,8 @@ _RE_READ2 = re.compile(r"(\d+) \+ (\d+) read2")
 _RE_PAIRED_PROPER = re.compile(r"(\d+) \+ (\d+) properly")
 _RE_PAIRED_BAM = re.compile(r"(\d+) \+ (\d+) with itself and")
 _RE_SINGLETON = re.compile(r"(\d+) \+ (\d+) singletons")
-_RE_DIFF = re.compile(
-    r"(\d+) \+ (\d+) with mate mapped to a different chr\s\d"
-)
-_RE_DIFF_MIN = re.compile(
-    r"(\d+) \+ (\d+) with mate mapped to a different chr\s\("
-)
+_RE_DIFF = re.compile(r"(\d+) \+ (\d+) with mate mapped to a different chr\s\d")
+_RE_DIFF_MIN = re.compile(r"(\d+) \+ (\d+) with mate mapped to a different chr\s\(")
 
 
 def search(
@@ -58,10 +54,7 @@ def search(
     return [None] * pattern.groups
 
 
-def parse(
-    in_data: Union[str, PathLike, TextIO],
-    max_size: int = _MAX_SIZE
-) -> dict:
+def parse(in_data: Union[str, PathLike, TextIO], max_size: int = _MAX_SIZE) -> dict:
     """Parse a samtools flagstat result into a dictionary.
 
     :param in_data: Input flagstat contents.

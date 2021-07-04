@@ -22,14 +22,21 @@ _COLS = {
     "0.99.5a": [
         "Gene_1_symbol(5end_fusion_partner)",
         "Gene_2_symbol(3end_fusion_partner)",
-        "Fusion_description", "Counts_of_common_mapping_reads",
-        "Spanning_pairs", "Spanning_unique_reads", "Longest_anchor_found",
+        "Fusion_description",
+        "Counts_of_common_mapping_reads",
+        "Spanning_pairs",
+        "Spanning_unique_reads",
+        "Longest_anchor_found",
         "Fusion_finding_method",
         "Fusion_point_for_gene_1(5end_fusion_partner)",
         "Fusion_point_for_gene_2(3end_fusion_partner)",
-        "Gene_1_id(5end_fusion_partner)", "Gene_2_id(3end_fusion_partner)",
-        "Exon_1_id(5end_fusion_partner)", "Exon_2_id(3end_fusion_partner)",
-        "Fusion_sequence", "Predicted_effect", "Predicted_fused_transcripts",
+        "Gene_1_id(5end_fusion_partner)",
+        "Gene_2_id(3end_fusion_partner)",
+        "Exon_1_id(5end_fusion_partner)",
+        "Exon_2_id(3end_fusion_partner)",
+        "Fusion_sequence",
+        "Predicted_effect",
+        "Predicted_fused_transcripts",
         "Predicted_fused_proteins",
     ],
     "1.00": [
@@ -48,7 +55,7 @@ _COLS = {
         "Exon_1_id(5end_fusion_partner)",
         "Exon_2_id(3end_fusion_partner)",
         "Fusion_sequence",
-        "Predicted_effect"
+        "Predicted_effect",
     ],
     # The non empty output of version 1.20 is the same as version 1.00
     "1.20-empty": [
@@ -67,7 +74,7 @@ _COLS = {
         "Fusion_exon_1(5end_partner)",
         "Fusion_exon_2(3end_partner)",
         "Fusion_sequence",
-    ]
+    ],
 }
 
 # Delimiter strings
@@ -151,29 +158,23 @@ def parse_raw_line(raw_line: str, colnames: List[str]) -> dict:
             "position": int(f3[1]),
             "strand": f3[2],
         },
-        "fusionDescription":
-            split_filter(d["Fusion_description"], _DELIM["desc"]),
+        "fusionDescription": split_filter(d["Fusion_description"], _DELIM["desc"]),
         "nCommonMappingReads": int(d["Counts_of_common_mapping_reads"]),
         "nSpanningPairs": int(d["Spanning_pairs"]),
         "nSpanningUniqueReads": int(d["Spanning_unique_reads"]),
         "longestAnchorLength": int(d["Longest_anchor_found"]),
-        "fusionFindingMethod":
-            split_filter(d["Fusion_finding_method"], _DELIM["gen"]),
+        "fusionFindingMethod": split_filter(d["Fusion_finding_method"], _DELIM["gen"]),
         "fusionSequence": d["Fusion_sequence"],
         "predictedEffect": d["Predicted_effect"],
     }
 
     # Does predicted_fused_transcripts exist for the column format
     if "Predicted_fused_transcripts" in d:
-        FusedTranscripts = split_filter(
-            d["Predicted_fused_transcripts"], _DELIM["gen"]
-        )
+        FusedTranscripts = split_filter(d["Predicted_fused_transcripts"], _DELIM["gen"])
         res["predictedFusedTranscripts"] = FusedTranscripts
 
     if "Predicted_fused_proteins" in d:
-        FusedProteins = split_filter(
-            d["Predicted_fused_proteins"], _DELIM["gen"]
-        )
+        FusedProteins = split_filter(d["Predicted_fused_proteins"], _DELIM["gen"])
         res["predictedFusedProteins"] = FusedProteins
 
     return res

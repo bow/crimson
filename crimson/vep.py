@@ -30,7 +30,7 @@ def group2entry(
     Union[
         List[Union[str, int, float]],
         Dict[str, Union[str, int, float]],
-    ]
+    ],
 ]:
     """Given the raw string of a VEP statistics group, parse it into a
     key, value tuple.

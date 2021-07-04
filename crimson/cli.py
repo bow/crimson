@@ -30,18 +30,18 @@ from .utils import write_output
     "--fmt",
     default="json",
     type=click.Choice(["json", "yaml"]),
-    help="Output file format. Default: json."
+    help="Output file format. Default: json.",
 )
 @click.option(
     "--indent",
     default=2,
-    help="Indentation level. Ignored if the --compact flag is set. Default: 2."
+    help="Indentation level. Ignored if the --compact flag is set. Default: 2.",
 )
 @click.option(
     "--compact",
     is_flag=True,
     help="Whether to create a compact JSON or not. Ignored if output format is"
-    " YAML."
+    " YAML.",
 )
 @click.pass_context
 def main(ctx: click.Context, fmt: str, indent: int, compact: bool) -> None:
@@ -106,7 +106,7 @@ def fusioncatcher(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     help=(
         "Line separator for input files; used when parsing. Default: native"
         " value for current operating system."
-    )
+    ),
 )
 @click.pass_context
 def picard(
@@ -135,7 +135,7 @@ def picard(
     help=(
         "Line separator for input files; used when parsing. Default: native"
         " value for current operating system."
-    )
+    ),
 )
 @click.pass_context
 def star(
@@ -179,7 +179,7 @@ def star_fusion(ctx: click.Context, input: TextIO, output: TextIO) -> None:
     help=(
         "Line separator for input files; used when parsing. Default: native"
         " value for current operating system."
-    )
+    ),
 )
 @click.pass_context
 def vep(

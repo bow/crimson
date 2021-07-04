@@ -50,24 +50,30 @@ def test_vep_fail_output(vep_fail):
     assert err_msg in vep_fail.output
 
 
-@pytest.mark.parametrize("attrs, exp", [
-    (["VEP run statistics", "Cache/Database"],
-     "/home/user/.vep/homo_sapiens/77_GRCh38"),
-    (["Variant classes", "insertion"], 35),
-    (["Variant classes", "deletion"], 18),
-    (["Variant classes", "SNV"], 448),
-    (["Variants by chromosome", "1"], 42),
-    (["Variants by chromosome", "21"], 45),
-    (["Position in protein", "90-100%"], 7),
-    (["Distribution of variants on chromosome 21", 46], 0),
-])
+@pytest.mark.parametrize(
+    "attrs, exp",
+    [
+        (
+            ["VEP run statistics", "Cache/Database"],
+            "/home/user/.vep/homo_sapiens/77_GRCh38",
+        ),
+        (["Variant classes", "insertion"], 35),
+        (["Variant classes", "deletion"], 18),
+        (["Variant classes", "SNV"], 448),
+        (["Variants by chromosome", "1"], 42),
+        (["Variants by chromosome", "21"], 45),
+        (["Position in protein", "90-100%"], 7),
+        (["Distribution of variants on chromosome 21", 46], 0),
+    ],
+)
 def test_vep_v77_01(vep_v77_01, attrs, exp):
-    assert getattr_nested(vep_v77_01.json, attrs) == exp, \
-        ", ".join([repr(x) for x in attrs])
+    assert getattr_nested(vep_v77_01.json, attrs) == exp, ", ".join(
+        [repr(x) for x in attrs]
+    )
 
 
 def test_vep_v97_headers(vep_v97_with_empty):
-    """ Test if the empty headers are in the output json """
+    """Test if the empty headers are in the output json"""
     headers = ["Coding consequences", "SIFT summary", "PolyPhen summary"]
     for header in headers:
         assert header in vep_v97_with_empty.json

@@ -64,19 +64,13 @@ def write_output(
     if fmt == "json":
         if compact:
             json.dump(
-                payload,
-                out_handle,
-                sort_keys=True,
-                indent=None,
-                separators=(",", ":")
+                payload, out_handle, sort_keys=True, indent=None, separators=(",", ":")
             )
         else:
             json.dump(payload, out_handle, sort_keys=True, indent=indent)
             out_handle.write(linesep)
     else:
-        out_handle.write(
-            yaml.dump(payload, default_flow_style=False, indent=indent)
-        )
+        out_handle.write(yaml.dump(payload, default_flow_style=False, indent=indent))
 
 
 @contextmanager

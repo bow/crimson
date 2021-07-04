@@ -20,34 +20,68 @@ __all__ = ["parse"]
 # Expected column names
 # Abridged column names
 _ABR_COLS = [
-    "fusion_name", "JunctionReads", "SpanningFrags", "Splice_type",
-    "LeftGene", "LeftBreakpoint",
-    "RightGene", "RightBreakpoint",
+    "fusion_name",
+    "JunctionReads",
+    "SpanningFrags",
+    "Splice_type",
+    "LeftGene",
+    "LeftBreakpoint",
+    "RightGene",
+    "RightBreakpoint",
 ]
 
 # Non-abridged column names
 _NONABR_COLS = [
-    "fusion_name", "JunctionReads", "SpanningFrags", "Splice_type",
-    "LeftGene", "LeftBreakpoint",
-    "RightGene", "RightBreakpoint",
-    "JunctionReads", "SpanningFrags",
+    "fusion_name",
+    "JunctionReads",
+    "SpanningFrags",
+    "Splice_type",
+    "LeftGene",
+    "LeftBreakpoint",
+    "RightGene",
+    "RightBreakpoint",
+    "JunctionReads",
+    "SpanningFrags",
 ]
 
 # Abridged column names star-fusion 1.6.0
 _ABR_COLS_v160 = [
-    "FusionName", "JunctionReadCount", "SpanningFragCount", "SpliceType",
-    "LeftGene", "LeftBreakpoint", "RightGene", "RightBreakpoint",
-    "LargeAnchorSupport", "FFPM", "LeftBreakDinuc", "LeftBreakEntropy",
-    "RightBreakDinuc", "RightBreakEntropy", "annots"
+    "FusionName",
+    "JunctionReadCount",
+    "SpanningFragCount",
+    "SpliceType",
+    "LeftGene",
+    "LeftBreakpoint",
+    "RightGene",
+    "RightBreakpoint",
+    "LargeAnchorSupport",
+    "FFPM",
+    "LeftBreakDinuc",
+    "LeftBreakEntropy",
+    "RightBreakDinuc",
+    "RightBreakEntropy",
+    "annots",
 ]
 
 # Non-abridged column names star-fusion 1.6.0
 _NONABR_COLS_v160 = [
-    "FusionName", "JunctionReadCount", "SpanningFragCount", "SpliceType",
-    "LeftGene", "LeftBreakpoint", "RightGene", "RightBreakpoint",
-    "JunctionReads", "SpanningFrags", "LargeAnchorSupport", "FFPM",
-    "LeftBreakDinuc", "LeftBreakEntropy", "RightBreakDinuc",
-    "RightBreakEntropy", "annots"
+    "FusionName",
+    "JunctionReadCount",
+    "SpanningFragCount",
+    "SpliceType",
+    "LeftGene",
+    "LeftBreakpoint",
+    "RightGene",
+    "RightBreakpoint",
+    "JunctionReads",
+    "SpanningFrags",
+    "LargeAnchorSupport",
+    "FFPM",
+    "LeftBreakDinuc",
+    "LeftBreakEntropy",
+    "RightBreakDinuc",
+    "RightBreakEntropy",
+    "annots",
 ]
 
 # Supported columns
@@ -55,7 +89,7 @@ SUPPORTED = {
     "v1.6.0": _NONABR_COLS_v160,
     "v1.6.0_abr": _ABR_COLS_v160,
     "v0.6.0": _NONABR_COLS,
-    "v0.6.0_abr": _ABR_COLS
+    "v0.6.0_abr": _ABR_COLS,
 }
 
 # Mapping of supported columns to output format
@@ -70,13 +104,13 @@ COL_MAPPING = {
         "fusion_name": "fusionName",
         "JunctionReads": "nJunctionReads",
         "SpanningFrags": "nSpanningFrags",
-        "Splice_type": "spliceType"
+        "Splice_type": "spliceType",
     },
     "v0.6.0_abr": {
         "fusion_name": "fusionName",
         "JunctionReads": "nJunctionReads",
         "SpanningFrags": "nSpanningFrags",
-        "Splice_type": "spliceType"
+        "Splice_type": "spliceType",
     },
     "v1.6.0": {
         "FusionName": "fusionName",
@@ -87,7 +121,7 @@ COL_MAPPING = {
         "SpanningFrags": "spanningFrags",
         "LargeAnchorSupport": "largeAnchorSupport",
         "FFPM": "FFPM",
-        "annots": "annots"
+        "annots": "annots",
     },
     "v1.6.0_abr": {
         "FusionName": "fusionName",
@@ -96,8 +130,8 @@ COL_MAPPING = {
         "SpliceType": "spliceType",
         "LargeAnchorSupport": "largeAnchorSupport",
         "FFPM": "FFPM",
-        "annots": "annots"
-    }
+        "annots": "annots",
+    },
 }
 
 # Delimiter strings
@@ -110,8 +144,7 @@ _DELIM = {
 
 
 def parse_lr_entry(
-    break_side: str,
-    entries: Dict[str, str]
+    break_side: str, entries: Dict[str, str]
 ) -> Dict[str, Union[str, int]]:
     """Parse the gene and breakpoint entry.
 
@@ -143,10 +176,11 @@ def parse_lr_entry(
     # Get the other side-specific fields from the output, excluding the
     # Rigth/LeftGene and -Breakpoint fields
     sided_fields = {
-        to_camel_case(field, prefix): value for field, value in entries.items()
+        to_camel_case(field, prefix): value
+        for field, value in entries.items()
         if (
-            field.startswith(prefix) and field not in {f"{prefix}Gene",
-                                                       f"{prefix}Breakpoint"}
+            field.startswith(prefix)
+            and field not in {f"{prefix}Gene", f"{prefix}Breakpoint"}
         )
     }
 
@@ -156,21 +190,20 @@ def parse_lr_entry(
 
 
 def to_camel_case(field: str, prefix: str) -> str:
-    """ Convert a STAR-fusion output column name
+    """Convert a STAR-fusion output column name
 
     - Remove the prefix (either "Left" or "Right"
     - Convert the first character to lower case
     """
     # Remove side from field name
-    new_field = field[len(prefix):]
+    new_field = field[len(prefix) :]
     # Convert to camelCase
     camel_case = new_field[0].lower() + new_field[1:]
     return camel_case
 
 
 def parse_read_columns(
-    colnames: List[str],
-    values: List[str]
+    colnames: List[str], values: List[str]
 ) -> Tuple[Dict[str, str], Dict[str, List[str]]]:
     """Parse the read columns out and return them seperately
 
@@ -296,7 +329,7 @@ def parse_raw_line(
 
 
 def detect_format(colnames: List[str]) -> str:
-    """ Return the detected column format """
+    """Return the detected column format"""
     for colformat in SUPPORTED:
         if SUPPORTED[colformat] == colnames:
             return colformat
@@ -306,7 +339,7 @@ def detect_format(colnames: List[str]) -> str:
 
 
 def parse_annots(annots: str) -> List[str]:
-    """ Split the annots field into a list """
+    """Split the annots field into a list"""
     # Check the format
     msg = f"Unknown annots format: {annots}"
     if not annots.startswith("[") or not annots.endswith("]"):
@@ -316,7 +349,7 @@ def parse_annots(annots: str) -> List[str]:
     annots = annots[1:-1]
 
     # Split on comma and remove quotes
-    return [annotation.replace('"', '') for annotation in annots.split(",")]
+    return [annotation.replace('"', "") for annotation in annots.split(",")]
 
 
 def parse(in_data: Union[str, PathLike, TextIO]) -> List[dict]:
