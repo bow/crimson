@@ -1,0 +1,60 @@
+[tool.poetry]
+name = "crimson"
+version = "1.0.0-alpha1"
+description = "Bioinformatics tool outputs converter to JSON or YAML"
+authors = ["Wibowo Arindrarto <contact@arindrarto.dev>"]
+repository = "https://git.sr.ht/~bow/crimson"
+readme = "README.rst"
+packages = [{ include = "crimson" }]
+include = ["CHANGELOG.rst"]
+license = "BSD-3-Clause"
+keywords = ["bioinformatics", "json", "yaml"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: BSD License",
+    "Operating System :: POSIX",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Utilities",
+    "Topic :: Software Development :: Libraries",
+
+]
+
+[tool.poetry.scripts]
+crimson = "crimson.cli:main"
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+pattern = "^v?(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+click = "^7.0"
+PyYAML = "^5.2"
+single-source = "^0.2.0"
+
+[tool.poetry.dev-dependencies]
+black = { version = "^21.6b0", allow-prereleases = true }
+pytest = "^6.2.4"
+pytest-cov = "^2.12.1"
+pytest-sugar = "^0.9.4"
+bandit = "^1.7.0"
+flake8 = "^3.9.2"
+flake8-polyfill = "^1.0.2"
+mypy = "^0.910"
+mypy-extensions = "^0.4.3"
+radon = "^5.0.1"
+pytest-flake8 = "^1.0.7"
+types-PyYAML = "^5.4.3"
+twine = "^3.4.1"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
