@@ -1,19 +1,13 @@
 ``crimson``
 ===========
 
-|pypi| |ci| |cov| |qual|
+|pypi| |sourcehut|
 
-.. |pypi| image:: https://img.shields.io/pypi/v/crimson?labelColor=4d4d4d&color=007c5b&style=flat
+.. |pypi| image:: https://img.shields.io/pypi/v/crimson
     :target: https://pypi.org/project/crimson/
 
-.. |ci| image:: https://img.shields.io/travis/bow/crimson?labelColor=4d4d4d&color=007c5b&style=flat
-    :target: https://travis-ci.org/bow/crimson
-
-.. |cov| image:: https://img.shields.io/codeclimate/coverage/bow/crimson?labelColor=4d4d4d&color=007c5b&style=flat
-    :target: https://codeclimate.com/github/bow/crimson
-
-.. |qual| image:: https://img.shields.io/codeclimate/maintainability/bow/crimson?labelColor=4d4d4d&color=007c5b&style=flat
-    :target: https://codeclimate.com/github/bow/crimson
+.. |sourcehut| image:: https://builds.sr.ht/~bow/crimson.svg
+    target: https://builds.sr.ht/~bow/crimson?
 
 
 ``crimson`` converts non-standard bioinformatics tool outputs to JSON or YAML.
