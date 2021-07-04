@@ -48,17 +48,14 @@ dev:
 .PHONY: dev-pyenv
 dev-pyenv:
 	@if command -v pyenv virtualenv 1>/dev/null 2>&1; then \
-		for py_version in $(PYTHON_VERSIONS); do \
-			printf "%s\n" "Installing Python $${py_version} with pyenv ..." 1>&2 \
-				&& pyenv install -s "$${py_version}"; \
-		done \
-			&& printf "%s\n" "Setting up virtualenv $(VENV_NAME) in Python $(PYTHON_VERSION) ..." 1>&2 \
+		echo $(PYTHON_VERSIONS) | tr ' ' '\n' | xargs -P 4 -I '{}' pyenv install -s '{}' \
+			&& printf "%s\n" "Setting up virtualenv $(VENV_NAME) in Python $(PYTHON_VERSION)..." 1>&2 \
 			&& pyenv virtualenv -f "$(PYTHON_VERSION)" "$(VENV_NAME)" \
 			&& printf "%s\n" "$(VENV_NAME)" > .python-version \
 			&& for py_version in $(PYTHON_VERSIONS); do \
 				echo "$${py_version}" >> .python-version; \
 			done \
-			&& printf "%s\n" "Completed pyenv setup." 1>&2; \
+			&& printf "%s\n" "Completed pyenv setup" 1>&2; \
 	else \
 		printf "pyenv not found" 1>&2 && exit 1; \
 	fi
@@ -67,7 +64,7 @@ dev-pyenv:
 # Run the linter suite.
 .PHONY: lint
 lint:
-	tox -qe security,style,types
+	tox --parallel auto -qe security,style,types
 
 
 # Run the test suite.
