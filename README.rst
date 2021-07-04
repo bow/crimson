@@ -7,7 +7,7 @@
     :target: https://pypi.org/project/crimson/
 
 .. |sourcehut| image:: https://builds.sr.ht/~bow/crimson.svg
-    target: https://builds.sr.ht/~bow/crimson?
+    :target: https://builds.sr.ht/~bow/crimson?
 
 
 ``crimson`` converts non-standard bioinformatics tool outputs to JSON or YAML.
