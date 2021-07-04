@@ -142,21 +142,19 @@ In any case, the following steps can be your guide for setting up your local dev
 
 .. code-block:: bash
 
-    # Clone the repository and cd into it
+    # Clone the repository and cd into it.
     $ git clone {repo-url}
     $ cd crimson
 
-    # Create your virtualenv, using pyenv for example (recommended, https://github.com/pyenv/pyenv).
-    $ pyenv virtualenv 3.9.5 crimson-dev
+    # Create your virtualenv.
+    # If you already have pyenv installed, you may use the Makefile rule below.
+    $ make dev-pyenv
 
-    # Upgrade pip and install some global dependencies.
-    $ pip install --upgrade pip tox poetry
+    # Install the package along with its development dependencies.
+    $ make dev
 
-    # From within the root directory and with an active virtualenv, install the dependencies and package itself.
-    $ poetry install
-
-    # Run the test suite to verify the setup.
-    $ tox -q
+    # Run the test and linter suite to verify the setup.
+    $ make lint test
 
 
 License
