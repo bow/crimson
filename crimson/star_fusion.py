@@ -189,7 +189,7 @@ def to_camel_case(field: str, prefix: str) -> str:
     - Convert the first character to lower case
     """
     # Remove side from field name
-    new_field = field[len(prefix) :]
+    new_field = field[len(prefix) :]  # noqa: E203
     # Convert to camelCase
     camel_case = new_field[0].lower() + new_field[1:]
     return camel_case
