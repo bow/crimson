@@ -42,9 +42,9 @@ Installation
 
 It is tested on the following Python versions:
 
+* 3.9
 * 3.8
 * 3.7
-* 3.6
 
 and against the following bioinformatics tools:
 
@@ -76,8 +76,8 @@ named ``converted.json``:
 
     $ crimson picard /path/to/a/picard.metrics converted.json
 
-Some parsers may also accept additional input format. The FastQC parser, for example, also works if you give it a
-path to the FastQC output directory:
+Some parsers may also accept additional input format. The FastQC parser, for example, also works if you specify a
+path to a FastQC output directory:
 
 .. code-block:: bash
 
@@ -99,17 +99,17 @@ When in doubt, use the ``--help`` flag:
 Python Module
 ~~~~~~~~~~~~~
 
-The function to import is located at ``crimson.{program_name}.parser``. So to use the ``picard`` parser in your script,
-you can do this:
+Generally, the function to import is located at ``crimson.{program_name}.parser``. For example, to use the ``picard``
+parser in your script, you can do:
 
 .. code-block:: python
 
     from crimson import picard
 
-    # You can supply the file name as string ...
+    # You can specify the input file name as a string ...
     parsed = picard.parse("/path/to/a/picard.metrics")
 
-    # ... or a file handle directly
+    # ... or a file handle
     with open("/path/to/a/picard.metrics") as src:
         parsed = picard.parse(src)
 
@@ -135,10 +135,10 @@ For any of these, feel free to open an issue in the
 Local Development
 -----------------
 
-Setting up a local development requires any of the supported Python version. It is ideal if you have support Python 2.x
-and 3.x versions installed, as that will allow you to run the full tests suite against all versions using ``tox``.
+Setting up a local development requires that you set up all of the supported Python versions. We recommend using
+`pyenv <https://github.com/pyenv/pyenv>`_ for this.
 
-In any case, the following steps can be your guide for setting up your local development environment:
+The following steps can be your guide for your local development setup:
 
 .. code-block:: bash
 
