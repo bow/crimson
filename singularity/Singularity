@@ -2,7 +2,7 @@ Bootstrap:docker
 From:python:3.9-slim
 
 %labels
-    MAINTAINER Wibowo Arindrarto <bow@bow.web.id>
+    MAINTAINER Wibowo Arindrarto <contact@arindrarto.dev>
 
 %post
     pip install crimson

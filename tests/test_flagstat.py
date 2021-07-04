@@ -1,10 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    flagstat subcommand tests
-    ~~~~~~~~~~~~~~~~~~~~~~~~~
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""flagstat subcommand tests"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 import json
 

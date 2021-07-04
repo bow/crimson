@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.picard
-    ~~~~~~~~~~~~~~
-
-    Picard metrics file parsing.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""Parser for Picard metrics files"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 import os
 import re

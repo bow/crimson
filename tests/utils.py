@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.tests.utils
-    ~~~~~~~~~~~~~~~~~~~
-
-    General test utilities.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""General test utilities"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 from os.path import abspath, dirname, join
 

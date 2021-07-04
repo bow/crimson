@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.fastqc
-    ~~~~~~~~~~~~~~
-
-    FastQC output parsing.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""Parser for FastQC output"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 from io import StringIO
 from os import PathLike, walk

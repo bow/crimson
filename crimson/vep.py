@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.vep
-    ~~~~~~~~~~~
-
-    VEP plain text statistics file output parsing.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""Parser for VEP plain text statistics file"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 from os import PathLike
 from typing import Dict, List, Optional, TextIO, Tuple, Union

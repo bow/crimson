@@ -1,10 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    star-fusion subcommand tests
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""star-fusion subcommand tests"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 import json
 

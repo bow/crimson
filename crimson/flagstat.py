@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.flagstat
-    ~~~~~~~~~~~~~~~~
-
-    Samtools flagstat output parsing.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""Parser for samtools flagstat output"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 import re
 from functools import partial

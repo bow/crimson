@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.star
-    ~~~~~~~~~~~~
-
-    STAR Log.final.out file.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""Parser for STAR Log.final.out file"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 import os
 from typing import Any, Callable, Dict, Optional, TextIO, Tuple, Union

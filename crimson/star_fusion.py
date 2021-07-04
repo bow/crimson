@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.star_fusion
-    ~~~~~~~~~~~~~~~~~~~
-
-    STAR-Fusion output parsing.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""Parser for STAR-Fusion output"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 from os import PathLike
 from typing import Any, Dict, List, TextIO, Tuple, Union

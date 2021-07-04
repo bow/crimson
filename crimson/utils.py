@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.utils
-    ~~~~~~~~~~~~~
-
-    General utilities.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""General utilities"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 import json
 import os

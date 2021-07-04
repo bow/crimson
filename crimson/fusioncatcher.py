@@ -1,12 +1,5 @@
-# -*- coding: utf-8 -*-
-"""
-    crimson.fusioncatcher
-    ~~~~~~~~~~~~~~~~~~~~~
-
-    FusionCatcher output parsing.
-
-"""
-# (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
+"""Parser for FusionCatcher"""
+# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
 from os import PathLike
 from typing import Dict, List, TextIO, Union
