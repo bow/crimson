@@ -1,0 +1,30 @@
+---
+repos:
+  - repo: https://github.com/psf/black
+    rev: 21.6b0
+    hooks:
+      - id: black
+        name: "Apply Black"
+        language_version: python3
+        args: [
+          "--exclude",
+          '/(\.eggs|\.git|\.mypy_cache|\.tox|\.venv|_build|build|dist)/',
+        ]
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.20.0
+    hooks:
+      - id: yamllint
+        name: "Lint YAMLs"
+        types: [yaml]
+        args: ["-c=.yamllint.yaml"]
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.3.0
+    hooks:
+      - id: debug-statements
+        name: "Ensure debugger is never invoked"
+      - id: end-of-file-fixer
+        name: "Ensure uniform file endings"
+      - id: trailing-whitespace
+        name: "Remove trailing whitespaces"
+      - id: debug-statements
+        name: "Ensure no debug statements remain"

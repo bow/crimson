@@ -11,7 +11,7 @@ PYTHON_VERSIONS := 3.9.5 3.8.10 3.7.10
 PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
 
 # Dependencies installed via pip.
-PIP_DEPS := poetry poetry-dynamic-versioning tox
+PIP_DEPS := poetry poetry-dynamic-versioning pre-commit tox
 
 
 ## Rules ##
@@ -39,6 +39,7 @@ clean-pyenv:
 .PHONY: dev
 dev:
 	pip install $(PIP_DEPS)
+	pre-commit install
 	poetry install
 	@pyenv rehash 2> /dev/null || true
 
