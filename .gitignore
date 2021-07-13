@@ -1,5 +1,6 @@
 *.py[cod]
 .python-version
+__pycache__
 
 # C extensions
 *.so
@@ -29,18 +30,11 @@ coverage.xml
 .coverage.xml
 htmlcov
 .cache
+.mypy_cache
+.pytest_cache
 
-# Translations
+# Misc
 *.mo
-
-# Mr Developer
 .mr.developer.cfg
 .project
 .pydevproject
-
-# Complexity
-output/*.html
-output/*/index.html
-
-# Sphinx
-docs/_build
