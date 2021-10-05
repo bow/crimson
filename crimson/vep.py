@@ -27,7 +27,14 @@ def parse_raw_value(raw_value):
     """ Parse raw values from VEP """
     parsed = list()
     for line in raw_value.strip().split("\n"):
-        parsed.append(line.split("\t", 1))
+        # This is the regular case
+        if '\t' in line:
+            parsed.append(line.split("\t", 1))
+        # Special cases where VEP was run on an emtpy input file
+        elif line == 'Lines of input read':
+            parsed.append(['Lines of input read', '0'])
+        elif line == 'Variants processed':
+            parsed.append(['Variants processed', '0'])
     return parsed
 
 

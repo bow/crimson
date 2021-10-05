@@ -77,7 +77,12 @@ def test_vep_group2entry_empty_section():
 @pytest.mark.parametrize('raw, processed', [
     ('deletion\t18', [['deletion', '18']]),
     ('insertion\t35', [['insertion', '35']]),
-    ('del\t18\nins\t35', [['del', '18'], ['ins', '35']])
+    ('del\t18\nins\t35', [['del', '18'], ['ins', '35']]),
+    # Special cases when VEP annotates and empty file
+    ('Lines of input read', [['Lines of input read', '0']]),
+    ('Variants processed', [['Variants processed', '0']]),
+    ('Variants filtered out\t0', [['Variants filtered out', '0']]),
+    ('Novel / existing variants\t-', [['Novel / existing variants', '-']])
 ])
 def test_parse_raw_values_vep(raw, processed):
     values = parse_raw_value(raw)
