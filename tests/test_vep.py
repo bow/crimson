@@ -69,8 +69,9 @@ def test_vep_group2entry():
 
 
 def test_vep_group2entry_empty_section():
-    group ='[Variant classes]\n'
+    group ='[Variant classes]'
     key, value_dict = group2entry(group)
+    assert key == 'Variant classes'
     assert value_dict['deletion'] == 0
 
 

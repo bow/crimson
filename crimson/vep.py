@@ -83,13 +83,17 @@ def group2entry(
          [1, 40, 35, 50, ...])
 
     """
-    raw_key, raw_value = group.split("\n", 1)
-    key = raw_key[1:-1]
-
     # If there are no values for this section, return a default dict of
     # integers, so that any property a user requests will be 0
-    if not raw_value:
+    if '\n' not in group:
+        # Remove the brackets from the key
+        key = group[1:-1]
         return key, collections.defaultdict(int)
+
+    raw_key, raw_value = group.split("\n", 1)
+
+    # Remove the brackets from the key
+    key = raw_key[1:-1]
 
     values = parse_raw_value(raw_value)
 
