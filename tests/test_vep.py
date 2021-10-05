@@ -14,6 +14,8 @@ from click.testing import CliRunner
 from crimson.cli import main
 from .utils import get_test_path, getattr_nested
 
+from crimson.vep import group2entry
+
 
 @pytest.fixture(scope="module")
 def vep_fail():
@@ -35,7 +37,6 @@ def vep_v77_01():
 def test_vep_fail_exit_code(vep_fail):
     assert vep_fail.exit_code != 0
 
-
 def test_vep_fail_output(vep_fail):
     err_msg = "Unexpected file structure. No contents parsed."
     assert err_msg in vep_fail.output
@@ -55,3 +56,13 @@ def test_vep_fail_output(vep_fail):
 def test_vep_v77_01(vep_v77_01, attrs, exp):
     assert getattr_nested(vep_v77_01.json, attrs) == exp, \
         ", ".join([repr(x) for x in attrs])
+
+
+def test_vep_group2entry():
+    group = """ [Variant classes]
+                deletion\t18
+                insertion\t35
+                SNV\t448
+    """
+    key, value_dict = group2entry(group)
+    assert value_dict['deletion'] == 18
