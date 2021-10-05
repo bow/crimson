@@ -23,6 +23,14 @@ __all__ = ["parse"]
 _MAX_SIZE = 1024 * 500  # 500 Kb
 
 
+def parse_raw_value(raw_value):
+    """ Parse raw values from VEP """
+    parsed = list()
+    for line in raw_value.strip().split("\n"):
+        parsed.append(line.split("\t", 1))
+    return parsed
+
+
 def group2entry(
     group: str,
 ) -> Tuple[
@@ -76,7 +84,7 @@ def group2entry(
     if not raw_value:
         return key, collections.defaultdict(int)
 
-    values = (line.split("\t", 1) for line in raw_value.strip().split("\n"))
+    values = parse_raw_value(raw_value)
 
     if not key.startswith("Distribution of variants on"):
         valued = {k: convert(v) for k, v in values}

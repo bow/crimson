@@ -14,7 +14,7 @@ from click.testing import CliRunner
 from crimson.cli import main
 from .utils import get_test_path, getattr_nested
 
-from crimson.vep import group2entry
+from crimson.vep import group2entry, parse_raw_value
 
 
 @pytest.fixture(scope="module")
@@ -72,3 +72,13 @@ def test_vep_group2entry_empty_section():
     group ='[Variant classes]\n'
     key, value_dict = group2entry(group)
     assert value_dict['deletion'] == 0
+
+
+@pytest.mark.parametrize('raw, processed', [
+    ('deletion\t18', [['deletion', '18']]),
+    ('insertion\t35', [['insertion', '35']]),
+    ('del\t18\nins\t35', [['del', '18'], ['ins', '35']])
+])
+def test_parse_raw_values_vep(raw, processed):
+    values = parse_raw_value(raw)
+    assert values == processed
