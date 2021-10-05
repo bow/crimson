@@ -8,6 +8,7 @@
 """
 # (c) 2015-2020 Wibowo Arindrarto <bow@bow.web.id>
 
+import collections
 from os import PathLike
 from typing import Dict, List, TextIO, Tuple, Union
 
@@ -69,6 +70,11 @@ def group2entry(
     """
     raw_key, raw_value = group.split("\n", 1)
     key = raw_key[1:-1]
+
+    # If there are no values for this section, return a default dict of
+    # integers, so that any property a user requests will be 0
+    if not raw_value:
+        return key, collections.defaultdict(int)
 
     values = (line.split("\t", 1) for line in raw_value.strip().split("\n"))
 
