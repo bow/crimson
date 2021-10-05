@@ -1,6 +1,7 @@
 """Parser for VEP plain text statistics file"""
 # (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
 
+import collections
 from os import PathLike
 from typing import Dict, List, Optional, TextIO, Tuple, Union
 
@@ -15,16 +16,24 @@ __all__ = ["parse"]
 _MAX_SIZE = 1024 * 500  # 500 Kb
 
 
+def parse_raw_value(raw_value: str, linesep: str) -> List[List]:
+    """Parse raw values from VEP"""
+    parsed = list()
+    for line in raw_value.strip().split(linesep):
+        # This is the regular case
+        if "\t" in line:
+            parsed.append(line.split("\t", 1))
+        # Special cases where VEP was run on an emtpy input file
+        elif line == "Lines of input read":
+            parsed.append(["Lines of input read", "0"])
+        elif line == "Variants processed":
+            parsed.append(["Variants processed", "0"])
+    return parsed
+
+
 def group2entry(
-    group: str,
-    linesep: str,
-) -> Tuple[
-    str,
-    Union[
-        List[Union[str, int, float]],
-        Dict[str, Union[str, int, float]],
-    ],
-]:
+    group: str, linesep: str
+) -> Tuple[str, Union[List[Union[str, int, float]], Dict[str, Union[str, int, float]]]]:
     """Given the raw string of a VEP statistics group, parse it into a
     key, value tuple.
 
@@ -61,15 +70,19 @@ def group2entry(
          [1, 40, 35, 50, ...])
 
     """
-    # If there is no data, only a header, we return an empty dictionary
+    # If there are no values for this section, return a default dict of
+    # integers, so that any property a user requests will be 0
     if linesep not in group:
-        return group[1:-1], dict()
+        # Remove the brackets from the key
+        key = group[1:-1]
+        return key, collections.defaultdict(int)
 
     raw_key, raw_value = group.split(linesep, 1)
 
+    # Remove the brackets from the key
     key = raw_key[1:-1]
 
-    values = (line.split("\t", 1) for line in raw_value.strip().split(linesep))
+    values = parse_raw_value(raw_value, linesep)
 
     if not key.startswith("Distribution of variants on"):
         valued = {k: convert(v) for k, v in values}

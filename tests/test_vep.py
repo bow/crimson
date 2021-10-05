@@ -9,6 +9,8 @@ from click.testing import CliRunner
 from crimson.cli import main
 from .utils import get_test_path, getattr_nested
 
+from crimson.vep import group2entry, parse_raw_value
+
 
 @pytest.fixture(scope="module")
 def vep_fail():
@@ -72,3 +74,38 @@ def test_vep_v97_headers(vep_v97_with_empty):
     headers = ["Coding consequences", "SIFT summary", "PolyPhen summary"]
     for header in headers:
         assert header in vep_v97_with_empty.json
+
+
+def test_vep_group2entry():
+    group = """ [Variant classes]
+                deletion\t18
+                insertion\t35
+                SNV\t448
+    """
+    key, value_dict = group2entry(group, "\n")
+    assert value_dict["deletion"] == 18
+
+
+def test_vep_group2entry_empty_section():
+    group = "[Variant classes]"
+    key, value_dict = group2entry(group, "\n")
+    assert key == "Variant classes"
+    assert value_dict["deletion"] == 0
+
+
+@pytest.mark.parametrize(
+    "raw, processed",
+    [
+        ("deletion\t18", [["deletion", "18"]]),
+        ("insertion\t35", [["insertion", "35"]]),
+        ("del\t18\nins\t35", [["del", "18"], ["ins", "35"]]),
+        # Special cases when VEP annotates and empty file
+        ("Lines of input read", [["Lines of input read", "0"]]),
+        ("Variants processed", [["Variants processed", "0"]]),
+        ("Variants filtered out\t0", [["Variants filtered out", "0"]]),
+        ("Novel / existing variants\t-", [["Novel / existing variants", "-"]]),
+    ],
+)
+def test_parse_raw_values_vep(raw, processed):
+    values = parse_raw_value(raw, "\n")
+    assert values == processed
