@@ -6,6 +6,10 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 == Unreleased
 
+//
+
+== 1.0.0 - 2021-10-12
+
 === Added
 * Parsing empty VEP outputs (thanks @Redmar-van-der-berg).
 * Support for Python 3.9.
