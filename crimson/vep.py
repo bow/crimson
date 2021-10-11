@@ -16,7 +16,7 @@ __all__ = ["parse"]
 _MAX_SIZE = 1024 * 500  # 500 Kb
 
 
-def parse_raw_value(raw_value: str, linesep: str) -> List[List]:
+def parse_raw_value(raw_value: str, linesep: str) -> List[List[str]]:
     """Parse raw values from VEP"""
     parsed = list()
     for line in raw_value.strip().split(linesep):
