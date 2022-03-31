@@ -77,8 +77,54 @@ _NONABR_COLS_v160 = [
     "annots",
 ]
 
+# Abridged column names star-fusion 1.10
+_ABR_COLS_v110 = [
+    "FusionName",
+    "JunctionReadCount",
+    "SpanningFragCount",
+    "est_J",
+    "est_S",
+    "SpliceType",
+    "LeftGene",
+    "LeftBreakpoint",
+    "RightGene",
+    "RightBreakpoint",
+    "LargeAnchorSupport",
+    "FFPM",
+    "LeftBreakDinuc",
+    "LeftBreakEntropy",
+    "RightBreakDinuc",
+    "RightBreakEntropy",
+    "annots",
+]
+
+# Non-abridged column names star-fusion 1.10
+_NONABR_COLS_v110 = [
+    "FusionName",
+    "JunctionReadCount",
+    "SpanningFragCount",
+    "est_J",
+    "est_S",
+    "SpliceType",
+    "LeftGene",
+    "LeftBreakpoint",
+    "RightGene",
+    "RightBreakpoint",
+    "JunctionReads",
+    "SpanningFrags",
+    "LargeAnchorSupport",
+    "FFPM",
+    "LeftBreakDinuc",
+    "LeftBreakEntropy",
+    "RightBreakDinuc",
+    "RightBreakEntropy",
+    "annots",
+]
+
 # Supported columns
 SUPPORTED = {
+    "v1.10": _NONABR_COLS_v110,
+    "v1.10_abr": _ABR_COLS_v110,
     "v1.6.0": _NONABR_COLS_v160,
     "v1.6.0_abr": _ABR_COLS_v160,
     "v0.6.0": _NONABR_COLS,
@@ -125,6 +171,31 @@ COL_MAPPING = {
         "FFPM": "FFPM",
         "annots": "annots",
     },
+    "v1.10": {
+        "FusionName": "fusionName",
+        "JunctionReadCount": "nJunctionReads",
+        "SpanningFragCount": "nSpanningFrags",
+        "est_J": "est_J",
+        "est_S": "est_S",
+        "SpliceType": "spliceType",
+        "JunctionReads": "junctionReads",
+        "SpanningFrags": "spanningFrags",
+        "LargeAnchorSupport": "largeAnchorSupport",
+        "FFPM": "FFPM",
+        "annots": "annots",
+    },
+    "v1.10_abr": {
+        "FusionName": "fusionName",
+        "JunctionReadCount": "nJunctionReads",
+        "SpanningFragCount": "nSpanningFrags",
+        "est_J": "est_J",
+        "est_S": "est_S",
+        "SpliceType": "spliceType",
+        "LargeAnchorSupport": "largeAnchorSupport",
+        "FFPM": "FFPM",
+        "annots": "annots",
+    },
+
 }
 
 # Delimiter strings
@@ -305,6 +376,12 @@ def parse_raw_line(
         ret["left"]["breakEntropy"] = float(ret["left"]["breakEntropy"])
     except KeyError:
         pass
+
+    # Cast est_J and est_S to float, not present before v1.10
+    if "est_J" in ret:
+        ret["est_J"] = float(ret["est_J"])
+    if "est_S" in ret:
+        ret["est_S"] = float(ret["est_S"])
 
     if reads:
         ret["reads"] = {

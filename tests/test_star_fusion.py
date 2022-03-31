@@ -79,6 +79,15 @@ def star_fusion_v160_abr_NB4():
     return result
 
 
+@pytest.fixture(scope="module")
+def star_fusion_v110_abr():
+    runner = CliRunner()
+    in_file = get_test_path("star_fusion_v110_abr.txt")
+    result = runner.invoke(main, ["star-fusion", in_file])
+    result.json = json.loads(result.output)
+    return result
+
+
 def test_star_fusion_fail_exit_code(star_fusion_fail):
     assert star_fusion_fail.exit_code != 0
 
@@ -344,3 +353,8 @@ def test_detect_format_raises():
 def test_parse_annots_raises():
     with pytest.raises(RuntimeError):
         parse_annots("Does not start with [")
+
+
+def test_star_fusion_v110(star_fusion_v110_abr):
+    """ Check that est_S has been cast to a float """
+    assert star_fusion_v110_abr.json[2]["est_S"] == 0.5
