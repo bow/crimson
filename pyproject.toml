@@ -36,12 +36,12 @@ pattern = "^v?(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revisi
 
 [tool.poetry.dependencies]
 python = "^3.7"
-click = "^7.0"
+click = "^8.0"
 PyYAML = "^5.2"
 single-source = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
-black = { version = "^21.6b0", allow-prereleases = true }
+black = "^22.3.0"
 pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
 pytest-sugar = "^0.9.4"
@@ -56,5 +56,5 @@ types-PyYAML = "^5.4.3"
 twine = "^3.4.1"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
 build-backend = "poetry.core.masonry.api"
