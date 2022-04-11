@@ -195,7 +195,6 @@ COL_MAPPING = {
         "FFPM": "FFPM",
         "annots": "annots",
     },
-
 }
 
 # Delimiter strings

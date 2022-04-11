@@ -356,5 +356,5 @@ def test_parse_annots_raises():
 
 
 def test_star_fusion_v110(star_fusion_v110_abr):
-    """ Check that est_S has been cast to a float """
+    """Check that est_S has been cast to a float"""
     assert star_fusion_v110_abr.json[2]["est_S"] == 0.5
