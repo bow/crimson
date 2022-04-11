@@ -8,6 +8,15 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
+== 1.1.0
+
+__Release date: 2022-04-11__
+
+=== Added
+* Support for parsing STAR-Fusion 1.10 output (thanks @Redmar-van-der-berg).
+
+//
+
 == 1.0.0
 
 __Release date: 2021-10-12__
