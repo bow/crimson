@@ -8,7 +8,9 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 1.0.0 - 2021-10-12
+== 1.0.0
+
+__Release date: 2021-10-12__
 
 === Added
 * Parsing empty VEP outputs (thanks @Redmar-van-der-berg).
@@ -19,7 +21,9 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 1.0.0-alpha1 - 2021-07-02
+== 1.0.0-alpha1
+
+__Release date: 2021-07-02__
 
 === Added
 * `--input-linesep` CLI argument for `picard`, `star`, and `vep` for specifying the line
@@ -29,7 +33,9 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 0.5.2 - 2020-06-30
+== 0.5.2
+
+__Release date: 2020-06-30__
 
 === Fixed
 * FusionCatcher v1.20 output without any result rows is now parsed properly (see #11).
@@ -37,7 +43,9 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 0.5.1 - 2020-02-27
+== 0.5.1
+
+__Release date: 2020-02-27__
 
 === Changed
 * Relaxed Click and YAML requirements. Now crimon requires only minimum
@@ -45,7 +53,9 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 0.5.0 - 2020-02-04
+== 0.5.0
+
+__Release date: 2020-02-04__
 
 === Added
 * Support for parsing output of STAR-Fusion v1.6.0 under the same
@@ -56,7 +66,9 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 0.4.0 - 2018-07-25
+== 0.4.0
+
+__Release date: 2018-07-25__
 
 === Added
 * Support for parsing zipped FastQC result.
@@ -67,14 +79,18 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 0.3.0 - 2016-05-19
+== 0.3.0
+
+__Release date: 2016-05-19__
 
 === Added
 * Support for parsing FusionCatcher final fusion genes file.
 
 //
 
-== 0.2.0 - 2016-04-13
+== 0.2.0
+
+__Release date: 2016-04-13__
 
 === Added
 * Support for parsing STAR-Fusion hits table output.
@@ -83,14 +99,18 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 //
 
-== 0.1.1 - 2016-02-02
+== 0.1.1
+
+__Release date: 2016-02-02__
 
 === Changed
 * Test and build dependencies.
 
 //
 
-== 0.1.0 - 2015-07-27
+== 0.1.0
+
+__Release date: 2015-07-27__
 
 === Added
 * First release.
