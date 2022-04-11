@@ -7,7 +7,7 @@ import re
 from contextlib import contextmanager
 from os import PathLike, linesep
 from pathlib import Path
-from typing import IO, Generator, List, Optional, TextIO, Union
+from typing import cast, IO, Generator, List, Optional, TextIO, Union
 
 import click
 import yaml
@@ -88,9 +88,9 @@ def get_handle(
 
     """
     if isinstance(input, (str, Path)):
-        fh = click.open_file(f"{input}", mode=mode, encoding=encoding)
+        fh = cast(TextIO, click.open_file(f"{input}", mode=mode, encoding=encoding))
     else:
-        fh = input
+        fh = cast(TextIO, input)
 
     yield fh
 
