@@ -1,8 +1,6 @@
 = Crimson
 
-image::https://img.shields.io/pypi/v/crimson[link="https://pypi.org/project/crimson"]
-image::https://builds.sr.ht/~bow/crimson.svg[link="https://builds.sr.ht/%7Ebow/crimson?"]
-
+image:https://img.shields.io/pypi/v/crimson[link="https://pypi.org/project/crimson"] image:https://builds.sr.ht/~bow/crimson.svg[link="https://builds.sr.ht/%7Ebow/crimson?"]
 
 `crimson` converts non-standard bioinformatics tool outputs to JSON or YAML.
 
@@ -108,7 +106,7 @@ with open("/path/to/a/picard.metrics") as src:
 == Local Development
 
 Setting up a local development requires that you set up all of the supported Python
-versions. We recommend using [pyenv](https://github.com/pyenv/pyenv) for this.
+versions. We recommend using https://github.com/pyenv/pyenv[pyenv] for this.
 
 The following steps can be your guide for your local development setup:
 
