@@ -4,7 +4,7 @@ version = "1.0.0-alpha1"
 description = "Bioinformatics tool outputs converter to JSON or YAML"
 authors = ["Wibowo Arindrarto <contact@arindrarto.dev>"]
 repository = "https://git.sr.ht/~bow/crimson"
-readme = "README.adoc"
+readme = "README.md"
 packages = [{ include = "crimson" }]
 include = ["CHANGELOG.adoc"]
 license = "BSD-3-Clause"
