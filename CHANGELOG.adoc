@@ -10,7 +10,7 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 == 1.1.0
 
-__Release date: 2022-04-11__
+__Release date: 11 April 2022__
 
 === Added
 * Support for parsing STAR-Fusion 1.10 output (thanks @Redmar-van-der-berg).
@@ -19,7 +19,7 @@ __Release date: 2022-04-11__
 
 == 1.0.0
 
-__Release date: 2021-10-12__
+__Release date: 12 October 2021__
 
 === Added
 * Parsing empty VEP outputs (thanks @Redmar-van-der-berg).
@@ -32,7 +32,7 @@ __Release date: 2021-10-12__
 
 == 1.0.0-alpha1
 
-__Release date: 2021-07-02__
+__Release date: 2 July 2021__
 
 === Added
 * `--input-linesep` CLI argument for `picard`, `star`, and `vep` for specifying the line
@@ -44,7 +44,7 @@ __Release date: 2021-07-02__
 
 == 0.5.2
 
-__Release date: 2020-06-30__
+__Release date: 30 June 2020__
 
 === Fixed
 * FusionCatcher v1.20 output without any result rows is now parsed properly (see #11).
@@ -54,7 +54,7 @@ __Release date: 2020-06-30__
 
 == 0.5.1
 
-__Release date: 2020-02-27__
+__Release date: 27 February 2020__
 
 === Changed
 * Relaxed Click and YAML requirements. Now crimon requires only minimum
@@ -64,7 +64,7 @@ __Release date: 2020-02-27__
 
 == 0.5.0
 
-__Release date: 2020-02-04__
+__Release date: 4 February 2020__
 
 === Added
 * Support for parsing output of STAR-Fusion v1.6.0 under the same
@@ -77,7 +77,7 @@ __Release date: 2020-02-04__
 
 == 0.4.0
 
-__Release date: 2018-07-25__
+__Release date: 25 July 2018__
 
 === Added
 * Support for parsing zipped FastQC result.
@@ -90,7 +90,7 @@ __Release date: 2018-07-25__
 
 == 0.3.0
 
-__Release date: 2016-05-19__
+__Release date: 19 May 2016__
 
 === Added
 * Support for parsing FusionCatcher final fusion genes file.
@@ -99,7 +99,7 @@ __Release date: 2016-05-19__
 
 == 0.2.0
 
-__Release date: 2016-04-13__
+__Release date: 13 April 2016__
 
 === Added
 * Support for parsing STAR-Fusion hits table output.
@@ -110,7 +110,7 @@ __Release date: 2016-04-13__
 
 == 0.1.1
 
-__Release date: 2016-02-02__
+__Release date: 2 February 2016__
 
 === Changed
 * Test and build dependencies.
@@ -119,7 +119,7 @@ __Release date: 2016-02-02__
 
 == 0.1.0
 
-__Release date: 2015-07-27__
+__Release date: 27 July 2015__
 
 === Added
 * First release.
