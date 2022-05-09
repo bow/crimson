@@ -101,24 +101,21 @@ with open("/path/to/a/picard.metrics") as src:
 ## Local Development
 
 Setting up a local development requires that you set up all of the supported Python
-versions. We recommend using [pyenv](https://github.com/pyenv/pyenv) for this.
-
-The following steps can be your guide for your local development setup:
+versions. We use [pyenv](https://github.com/pyenv/pyenv) for this.
 
 ```shell
 # Clone the repository and cd into it.
 $ git clone https://github.com/bow/crimson
 $ cd crimson
 
-# Create your virtualenv.
-# If you already have pyenv installed, you may use the Makefile rule below.
-$ make dev-pyenv
-
-# Install the package along with its development dependencies.
-$ make dev
+# Create your local development environment.
+$ make install-dev
 
 # Run the test and linter suite to verify the setup.
 $ make lint test
+
+# Whenever in doubt, just run `make` without any arguments.
+$ make
 ```
 
 
