@@ -1,0 +1,90 @@
+---
+name: CI
+
+# Ensure only one job per branch.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+on:
+  push:
+    branches: [master]
+    tags: ["*"]
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - name: Setup cache
+        uses: actions/cache@v3
+        id: cache-poetry
+        with:
+          path: ~/.virtualenvs
+          # yamllint disable-line rule:line-length
+          key: ${{runner.os}}-${{ env.pythonLocation }}-${{ matrix.python-version }}-v3-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Set poetry config
+        run: |
+          poetry config settings.virtualenvs.in-project false
+          poetry config settings.virtualenvs.path ~/.virtualenvs
+
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+
+      - name: Lint style
+        run: make lint-style
+
+      - name: Lint types
+        run: make lint-types
+
+      - name: Lint security
+        run: make lint-sec
+
+      - name: Lint other metrics
+        run: make lint-metrics
+
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.9", "3.8", "3.7"]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Setup cache
+        uses: actions/cache@v3
+        id: cache-poetry
+        with:
+          path: ~/.virtualenvs
+          # yamllint disable-line rule:line-length
+          key: ${{runner.os}}-${{ env.pythonLocation }}-${{ matrix.python-version }}-v3-${{ hashFiles('**/poetry.lock') }}
+
+      - name: Set poetry config
+        run: |
+          poetry config settings.virtualenvs.in-project false
+          poetry config settings.virtualenvs.path ~/.virtualenvs
+
+      - name: Install dependencies
+        run: poetry install
+        if: steps.cache-poetry.outputs.cache-hit != 'true'
+
+      - name: Run tests
+        run: make test
