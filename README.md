@@ -1,7 +1,7 @@
 # `crimson`
 
+[![ci](https://github.com/bow/crimson/actions/workflows/ci.yml/badge.svg)](https://github.com/bow/crimson/actions?query=branch%3Amaster)
 [![pypi](https://img.shields.io/pypi/v/crimson)](https://pypi.org/project/crimson)
-[![sourcehut](https://builds.sr.ht/~bow/crimson.svg)](https://builds.sr.ht/~bow/crimson?)
 
 
 ``crimson`` converts non-standard bioinformatics tool outputs to JSON or YAML.
