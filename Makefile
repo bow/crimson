@@ -5,7 +5,7 @@ APP_NAME := crimson
 VENV_NAME := $(APP_NAME)-dev
 
 # Supported Python versions; latest listed first.
-PYTHON_VERSIONS := 3.9.5 3.8.10 3.7.10
+PYTHON_VERSIONS := 3.10.4 3.9.12 3.8.13 3.7.13
 
 # Primary Python version used for virtualenv.
 PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
@@ -94,7 +94,7 @@ lint-types:  ## Lint the type hints.
 
 .PHONY: lint-style
 lint-style:  ## Lint style conventions.
-	poetry run flake8 --statistics crimson tests && poetry run black -t py39 --check .
+	poetry run flake8 --statistics crimson tests && poetry run black -t py310 --check .
 
 
 .PHONY: lint-metrics
