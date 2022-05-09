@@ -107,7 +107,7 @@ The following steps can be your guide for your local development setup:
 
 ```shell
 # Clone the repository and cd into it.
-$ git clone https://git.sr.ht/~bow/crimson
+$ git clone https://github.com/bow/crimson
 $ cd crimson
 
 # Create your virtualenv.
