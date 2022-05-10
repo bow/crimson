@@ -17,6 +17,11 @@ repos:
         name: "Lint YAMLs"
         types: [yaml]
         args: ["-c=.yamllint.yaml"]
+  - repo: https://github.com/hadolint/hadolint
+    rev: v2.10.0
+    hooks:
+      - name: "Lint Dockerfile"
+        id: hadolint-docker
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v3.3.0
     hooks:

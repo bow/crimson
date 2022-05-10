@@ -13,7 +13,6 @@ PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
 # Dependencies installed via pip.
 PIP_DEPS := poetry poetry-dynamic-versioning pre-commit tox
 
-
 # Cross-platform adjustments.
 SYS := $(shell uname 2> /dev/null)
 ifeq ($(SYS),Linux)
@@ -24,6 +23,19 @@ else
 $(error Unsupported development platform)
 endif
 
+# Docker image name.
+GIT_TAG    := $(shell git describe --tags --always --dirty 2> /dev/null || echo "untagged")
+GIT_COMMIT := $(shell git rev-parse --quiet --verify HEAD || echo "?")
+GIT_DIRTY  := $(shell test -n "`git status --porcelain`" && echo "-dirty" || true)
+BUILD_TIME := $(shell date -u '+%Y-%m-%dT%H:%M:%SZ')
+IMG_NAME   := ghcr.io/bow/$(APP_NAME)
+
+IS_RELEASE := $(shell ((echo "${GIT_TAG}" | $(GREP_EXE) -qE "^v?[0-9]+\.[0-9]+\.[0-9]+$$") && echo '1') || true)
+ifeq ($(IS_RELEASE),1)
+IMG_TAG    := $(GIT_TAG)
+else
+IMG_TAG    := latest
+endif
 
 ## Rules ##
 
@@ -37,8 +49,8 @@ build:  ## Build wheel and source dist.
 
 
 .PHONY: clean
-clean:  ## Remove build artifacts.
-	rm -rf build/ dist/
+clean:  ## Remove build artifacts, including built Docker images.
+	rm -rf build/ dist/ && (docker rmi $(IMG_NAME) 2> /dev/null || true)
 
 
 .PHONY: clean-pyenv
@@ -57,6 +69,11 @@ help:  ## Show this help.
 		&& $(GREP_EXE) -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) \
 			| awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m» \033[33m%*-s\033[0m \033[36m· \033[0m%s\n", $(PADLEN), $$1, $$2}' \
 			| sort
+
+
+.PHONY: img
+img:  ## Build and tag the Docker container.
+	docker build --build-arg GIT_COMMIT=$(GIT_COMMIT)$(GIT_DIRTY) --build-arg BUILD_TIME=$(BUILD_TIME) --tag $(IMG_NAME):$(IMG_TAG) .
 
 
 .PHONY: install-dev
