@@ -5,7 +5,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=on
 WORKDIR /src
 
 RUN apk add --update --no-cache build-base~=0 make~=4 git~=2 libffi-dev~=3 py3-pip~=20 \
-    && pip --no-cache-dir install poetry==1.1.13
+    && pip --no-cache-dir install poetry==1.1.13 poetry-dynamic-versioning==0.16.0
 
 COPY .git /src/.git
 
