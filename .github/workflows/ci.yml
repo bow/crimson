@@ -91,6 +91,14 @@ jobs:
       - name: Run tests
         run: make test
 
+      - name: Upload coverage
+        uses: paambaati/codeclimate-action@v3.0.0
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageLocations: |
+            ${{ github.workspace }}/.coverage.xml:cobertura
+
   publish-image:
     runs-on: ubuntu-latest
     needs: [lint, test]
