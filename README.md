@@ -35,6 +35,14 @@ It is also available on
 `conda` package manager or as a
 [Docker container](https://quay.io/repository/biocontainers/crimson?tab=tags).
 
+For running as Docker, you may also use
+[the GitHub Docker registry](https://github.com/bow/crimson/pkgs/container/crimson). This
+registry hosts the latest version, but does not host any versions from 1.1.0 and earlier.
+
+```shell
+docker pull ghcr.io/bow/crimson
+```
+
 
 ## Usage
 
