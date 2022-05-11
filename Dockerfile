@@ -5,7 +5,7 @@ ENV PIP_DISABLE_PIP_VERSION_CHECK=on
 WORKDIR /src
 
 RUN apk add --update --no-cache build-base~=0 make~=4 git~=2 libffi-dev~=3 py3-pip~=20 \
-    && pip install poetry==1.1.13
+    && pip --no-cache-dir install poetry==1.1.13
 
 COPY .git /src/.git
 
@@ -20,11 +20,11 @@ RUN git checkout -- . \
 
 FROM python:3.10.4-alpine
 
-ARG GIT_COMMIT
+ARG REVISION
 ARG BUILD_TIME
 
-LABEL org.opencontainers.image.name="crimson"
-LABEL org.opencontainers.image.revision="${GIT_COMMIT}"
+LABEL org.opencontainers.image.title="crimson"
+LABEL org.opencontainers.image.revision="${REVISION}"
 LABEL org.opencontainers.image.created="${BUILD_TIME}"
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK=on

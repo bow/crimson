@@ -73,7 +73,7 @@ help:  ## Show this help.
 
 .PHONY: img
 img:  ## Build and tag the Docker container.
-	docker build --build-arg GIT_COMMIT=$(GIT_COMMIT)$(GIT_DIRTY) --build-arg BUILD_TIME=$(BUILD_TIME) --tag $(IMG_NAME):$(IMG_TAG) .
+	docker build --build-arg REVISION=$(GIT_COMMIT)$(GIT_DIRTY) --build-arg BUILD_TIME=$(BUILD_TIME) --tag $(IMG_NAME):$(IMG_TAG) .
 
 
 .PHONY: install-dev
