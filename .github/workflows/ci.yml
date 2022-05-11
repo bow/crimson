@@ -96,6 +96,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          # Ensure all git history is cloned, so we can infer the correct version in Docker.
+          fetch-depth: 0
 
       - name: Setup docker buildx
         if: github.event_name != 'pull_request'
