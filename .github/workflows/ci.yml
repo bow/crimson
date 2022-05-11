@@ -114,6 +114,10 @@ jobs:
           flavor: |
             latest=true
 
+      - name: Get current time
+        run: |
+          echo "BUILD_TIME=$(date -u '+%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+
       - name: Login to container registry
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v2
@@ -129,3 +133,6 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
+          build-args: |
+            REVISION=${{ env.GITHUB_SHA }}
+            BUILD_TIME=${{ env.BUILD_TIME }}
