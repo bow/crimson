@@ -1,8 +1,19 @@
+# Common development tasks.
+
+# Cross-platform adjustments.
+SYS := $(shell uname 2> /dev/null)
+ifeq ($(SYS),Linux)
+GREP_EXE := grep
+DATE_EXE := date
+else ifeq ($(SYS),Darwin)
+GREP_EXE := ggrep
+DATE_EXE := gdate
+else
+$(error Unsupported development platform)
+endif
+
 # Application name.
 APP_NAME := crimson
-
-# Virtualenv name.
-VENV_NAME := $(APP_NAME)-dev
 
 # Supported Python versions; latest listed first.
 PYTHON_VERSIONS := 3.10.4 3.9.12 3.8.13 3.7.13
@@ -10,27 +21,20 @@ PYTHON_VERSIONS := 3.10.4 3.9.12 3.8.13 3.7.13
 # Primary Python version used for virtualenv.
 PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
 
+# Virtualenv name.
+VENV_NAME := $(APP_NAME)-dev
+
 # Dependencies installed via pip.
 PIP_DEPS := poetry poetry-dynamic-versioning pre-commit tox
 
-# Cross-platform adjustments.
-SYS := $(shell uname 2> /dev/null)
-ifeq ($(SYS),Linux)
-GREP_EXE := grep
-else ifeq ($(SYS),Darwin)
-GREP_EXE := ggrep
-else
-$(error Unsupported development platform)
-endif
-
-# Docker image name.
+# Various build info.
 GIT_TAG    := $(shell git describe --tags --always --dirty 2> /dev/null || echo "untagged")
 GIT_COMMIT := $(shell git rev-parse --quiet --verify HEAD || echo "?")
-GIT_DIRTY  := $(shell test -n "`git status --porcelain`" && echo "-dirty" || true)
-BUILD_TIME := $(shell date -u '+%Y-%m-%dT%H:%M:%SZ')
-IMG_NAME   := ghcr.io/bow/$(APP_NAME)
-
+GIT_DIRTY  := $(shell test -n "$(shell git status --porcelain)" && echo "-dirty" || true)
+BUILD_TIME := $(shell $(DATE_EXE) -u '+%Y-%m-%dT%H:%M:%SZ')
 IS_RELEASE := $(shell ((echo "${GIT_TAG}" | $(GREP_EXE) -qE "^v?[0-9]+\.[0-9]+\.[0-9]+$$") && echo '1') || true)
+
+IMG_NAME   := ghcr.io/bow/$(APP_NAME)
 ifeq ($(IS_RELEASE),1)
 IMG_TAG    := $(GIT_TAG)
 else
