@@ -58,6 +58,7 @@ jobs:
         with:
           check_name: Test python ${{ matrix.python-version }} report
           report_paths: '**/.junit.xml'
+          annotate_only: true
 
       - name: Upload coverage
         if: matrix.python-version == '3.10'
