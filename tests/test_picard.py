@@ -38,7 +38,7 @@ def test_alignment_summary_v1124_01_exit_code(alignment_summary_v1124_01):
 @pytest.mark.parametrize(
     "attrs, exp",
     [
-        (["header", "time"], "Started on: Sun Jul 19 15:42:28 CEST 2015"),
+        (["header", "time"], "Started on: Sun Jul 19 15:42:28 CEST 2014"),
         (["metrics", "class"], "picard.analysis.AlignmentSummaryMetrics"),
         (["metrics", "contents", 0, "CATEGORY"], "FIRST_OF_PAIR"),
         (["metrics", "contents", 0, "TOTAL_READS"], 35691),
