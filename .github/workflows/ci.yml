@@ -17,6 +17,14 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        lint: [
+          {"name": "style", "rule": "lint-style"},
+          {"name": "types", "rule": "lint-types"},
+          {"name": "security", "rule": "lint-sec"},
+          {"name": "other metrics", "rule": "lint-metrics"},
+        ]
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -32,7 +40,7 @@ jobs:
         with:
           path: ~/.virtualenvs
           # yamllint disable-line rule:line-length
-          key: ${{runner.os}}-${{ env.pythonLocation }}-${{ matrix.python-version }}-v3-${{ hashFiles('**/poetry.lock') }}
+          key: ${{runner.os}}-${{ env.pythonLocation }}-${{ matrix.lint.rule }}-v3-${{ hashFiles('**/poetry.lock') }}
 
       - name: Install and configure dependencies
         run: |
@@ -44,17 +52,8 @@ jobs:
         run: poetry install
         if: steps.cache-poetry.outputs.cache-hit != 'true'
 
-      - name: Lint style
-        run: make lint-style
-
-      - name: Lint types
-        run: make lint-types
-
-      - name: Lint security
-        run: make lint-sec
-
-      - name: Lint other metrics
-        run: make lint-metrics
+      - name: Lint ${{ matrix.lint-name }}
+        run: make ${{ matrix.lint-rule }}
 
   test:
     runs-on: ubuntu-latest
