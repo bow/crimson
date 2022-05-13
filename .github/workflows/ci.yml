@@ -52,8 +52,8 @@ jobs:
         run: poetry install
         if: steps.cache-poetry.outputs.cache-hit != 'true'
 
-      - name: Lint ${{ matrix.lint-name }}
-        run: make ${{ matrix.lint-rule }}
+      - name: Lint ${{ matrix.lint.name }}
+        run: make ${{ matrix.lint.rule }}
 
   test:
     runs-on: ubuntu-latest
