@@ -51,6 +51,14 @@ jobs:
       - name: Run tests
         run: make test
 
+      - name: Upload test report
+        if: always()
+        uses: mikepenz/action-junit-report@v3
+        with:
+          check_name: Test python ${{ matrix.python-version }} report
+          report_paths: '**/.junit.xml'
+          fail_on_failure: true
+
       - name: Upload coverage
         if: matrix.python-version == '3.10'
         uses: paambaati/codeclimate-action@v3.0.0

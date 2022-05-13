@@ -130,7 +130,7 @@ lint-sec:  ## Lint security.
 
 .PHONY: test
 test:  ## Run the test suite.
-	poetry run py.test --cov=crimson --cov-config=.coveragerc --cov-report=term-missing --cov-report=xml:.coverage.xml crimson tests
+	poetry run py.test --junitxml=.junit.xml --cov=crimson --cov-config=.coveragerc --cov-report=term-missing --cov-report=xml:.coverage.xml crimson tests
 
 
 .PHONY: tox

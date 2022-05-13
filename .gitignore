@@ -28,6 +28,7 @@ pip-log.txt
 .tox
 coverage.xml
 .coverage.xml
+.junit.xml
 htmlcov
 .cache
 .mypy_cache
