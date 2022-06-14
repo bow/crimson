@@ -54,7 +54,7 @@ mypy-extensions = "^0.4.3"
 radon = "^5.0.1"
 pytest-flake8 = "^1.0.7"
 types-PyYAML = "^5.4.3"
-twine = "^3.4.1"
+twine = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
