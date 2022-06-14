@@ -41,6 +41,8 @@ else
 IMG_TAG    := latest
 endif
 
+WHEEL_DEPS_DIR ?= $(CURDIR)/wheels/deps
+
 ## Rules ##
 
 all: help
@@ -50,6 +52,14 @@ all: help
 build:  ## Build wheel and source dist.
 	poetry build
 	twine check dist/*
+
+.PHONY: build-deps
+build-deps: | $(WHEEL_DEPS_DIR)  ## Build wheels of dependencies.
+	poetry export --without-hashes -f requirements.txt -o /dev/stdout | \
+		pip wheel -r /dev/stdin --wheel-dir=$(WHEEL_DEPS_DIR)
+
+$(WHEEL_DEPS_DIR):
+	mkdir -p $@
 
 
 .PHONY: clean

@@ -27,3 +27,4 @@ lib64
 .cache
 **/*.sif
 **/*.simg
+wheels
