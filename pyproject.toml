@@ -55,6 +55,7 @@ radon = "^5.0.1"
 pytest-flake8 = "^1.0.7"
 types-PyYAML = "^5.4.3"
 twine = "^4.0.1"
+safety = "^1.10.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]

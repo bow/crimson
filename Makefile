@@ -136,6 +136,7 @@ lint-metrics:  ## Lint other metrics.
 .PHONY: lint-sec
 lint-sec:  ## Lint security.
 	poetry run bandit -r crimson
+	poetry export --without-hashes -f requirements.txt -o /dev/stdout | poetry run safety check --full-report --stdin
 
 
 .PHONY: test
