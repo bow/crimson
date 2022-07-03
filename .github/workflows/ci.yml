@@ -113,7 +113,7 @@ jobs:
         run: poetry install
         if: steps.cache-poetry.outputs.cache-hit != 'true'
 
-      - name: Lint ${{ matrix.lint.name }}
+      - name: ${{ matrix.lint.name }}
         run: make ${{ matrix.lint.rule }}
 
   pub-image:
