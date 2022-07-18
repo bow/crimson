@@ -18,9 +18,9 @@ Currently it can convert outputs of the following tools:
   * [Variant Effect Predictor](http://www.ensembl.org/info/docs/tools/vep/index.html)
     plain text output (``vep``)
 
-You can either run the conversion in a command line or a Python program. The first alternative
-uses the installed `crimson` as a command-line tool. The second one requires importing the
-functions in your program.
+For each conversion, there are two execution options: as command line tool or as a Python
+library function. The first alternative uses `crimson` as a command-line tool. The second one
+requires importing the `crimson` library in your program.
 
 
 ## Installation
@@ -57,14 +57,14 @@ The general command is `crimson {tool_name}`. By default, the output is written 
 $ crimson picard /path/to/a/picard.metrics
 ```
 
-You can also write to a file directly by specifying a file name. The following command
-writes the output to a file named ``converted.json``:
+You can also write the output to a file by specifying a file name. The following
+command writes the output to a file named `converted.json`:
 
 ```shell
 $ crimson picard /path/to/a/picard.metrics converted.json
 ```
 
-Some parsers may also accept additional input format. The FastQC parser, for example, also
+Some parsers may accept additional input formats. The FastQC parser, for example, also
 accepts a path to a FastQC output directory as its input:
 
 
@@ -82,18 +82,18 @@ When in doubt, use the ``--help`` flag:
 
 ```shell
 $ crimson --help            # for the general help
-$ crimson fastqc --help     # for parser-specific (FastQC) help
+$ crimson fastqc --help     # for the parser-specific help, in this case FastQC
 ```
 
 ### As a Python library function
 
-The specific function to import is generally located at `crimson.{tool_name}.parser`. For
-example, to use the `picard` parser in your script, you can do:
+The specific function to import is generally located at `crimson.{tool_name}.parser`. So to
+use the `picard` parser in your program, you can do:
 
 ```python
 from crimson import picard
 
-# You can specify the input file name as a string ...
+# You can specify the input file name as a string or path-like object...
 parsed = picard.parse("/path/to/a/picard.metrics")
 
 # ... or a file handle
