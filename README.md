@@ -18,8 +18,9 @@ Currently it can convert outputs of the following tools:
   * [Variant Effect Predictor](http://www.ensembl.org/info/docs/tools/vep/index.html)
     plain text output (``vep``)
 
-The conversion can be done using the command line interface or by calling the
-tool-specificparser functions in your Python script.
+You can either run the conversion in a command line or a Python program. The first alternative
+uses the installed `crimson` as a command-line tool. The second one requires importing the
+functions in your program.
 
 
 ## Installation
@@ -36,9 +37,9 @@ It is also available on
 `conda` package manager or as a
 [Docker container](https://quay.io/repository/biocontainers/crimson?tab=tags).
 
-For running as Docker, you may also use
+For Docker execution, you may also use
 [the GitHub Docker registry](https://github.com/bow/crimson/pkgs/container/crimson). This
-registry hosts the latest version, but does not host any versions from 1.1.0 and earlier.
+registry hosts the latest version, but does not host versions 1.1.0 or earlier.
 
 ```shell
 docker pull ghcr.io/bow/crimson
@@ -49,29 +50,29 @@ docker pull ghcr.io/bow/crimson
 
 ### As a command line tool
 
-The general command is `crimson {program_name}` and by default the output is written to
+The general command is `crimson {tool_name}`. By default, the output is written to
 `stdout`. For example, to use the `picard` parser, you would execute:
 
 ```shell
 $ crimson picard /path/to/a/picard.metrics
 ```
 
-You can also specify a file name directly to write to a file. The following command will
-write the output to a file named ``converted.json``:
+You can also write to a file directly by specifying a file name. The following command
+writes the output to a file named ``converted.json``:
 
 ```shell
 $ crimson picard /path/to/a/picard.metrics converted.json
 ```
 
 Some parsers may also accept additional input format. The FastQC parser, for example, also
-works if you specify a path to a FastQC output directory:
+accepts a path to a FastQC output directory as its input:
 
 
 ```shell
 $ crimson fastqc /path/to/a/fastqc/dir
 ```
 
-or path to a zipped result:
+It also accepts a path to a zipped result:
 
 ```shell
 $ crimson fastqc /path/to/a/fastqc_result.zip
@@ -86,7 +87,7 @@ $ crimson fastqc --help     # for parser-specific (FastQC) help
 
 ### As a Python library function
 
-Generally, the function to import is located at `crimson.{program_name}.parser`. For
+The specific function to import is generally located at `crimson.{tool_name}.parser`. For
 example, to use the `picard` parser in your script, you can do:
 
 ```python
@@ -117,13 +118,14 @@ versions. We use [pyenv](https://github.com/pyenv/pyenv) for this.
 $ git clone https://github.com/bow/crimson
 $ cd crimson
 
-# Create your local development environment.
+# Create your local development environment. This command also installs
+# all supported Python versions using `pyenv`.
 $ make install-dev
 
 # Run the test and linter suite to verify the setup.
 $ make lint test
 
-# Whenever in doubt, just run `make` without any arguments.
+# When in doubt, just run `make` without any arguments.
 $ make
 ```
 
@@ -132,9 +134,9 @@ $ make
 
 If you are interested, Crimson accepts the following types contribution:
 
-  * Documentation additions (if anything seems unclear, feel free to open an issue)
+  * Documentation updates / tweaks (if anything seems unclear, feel free to open an issue)
   * Bug reports
-  * Support for tools' outputs which can be converted to JSON or YAML.
+  * Support for tools' outputs which can be converted to JSON or YAML
 
 For any of these, feel free to open an issue in the [issue
 tracker](https://github.com/bow/crimson/issues>) or submit a pull request.
