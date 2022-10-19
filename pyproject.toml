@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crimson"
-version = "1.0.0-alpha1"
+version = "0.0.0"
 description = "Bioinformatics tool outputs converter to JSON or YAML"
 authors = ["Wibowo Arindrarto <contact@arindrarto.dev>"]
 repository = "https://github.com/bow/crimson"

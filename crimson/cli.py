@@ -18,7 +18,7 @@ from .utils import write_output
 
 
 @click.group()
-@click.version_option(__version__)
+@click.version_option(__version__, message="%(version)s")
 @click.option(
     "--fmt",
     default="json",
