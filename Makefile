@@ -16,7 +16,7 @@ endif
 APP_NAME := crimson
 
 # Supported Python versions; latest listed first.
-PYTHON_VERSIONS := 3.10.4 3.9.12 3.8.13 3.7.13
+PYTHON_VERSIONS := 3.10.4 3.9.12 3.8.13
 
 # Primary Python version used for virtualenv.
 PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
@@ -24,8 +24,11 @@ PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
 # Virtualenv name.
 VENV_NAME := $(APP_NAME)-dev
 
-# Dependencies installed via pip.
-PIP_DEPS := poetry poetry-dynamic-versioning pre-commit tox
+# Non-pyproject.toml dependencies.
+PIP_DEPS := poetry==1.2.2 poetry-dynamic-versioning==0.19.0 twine==4.0.1
+
+# Non-pyproject.toml dev dependencies.
+PIP_DEV_DEPS := pre-commit tox==3.26.0
 
 # Various build info.
 GIT_TAG    := $(shell git describe --tags --always --dirty 2> /dev/null || echo "untagged")
@@ -49,13 +52,13 @@ all: help
 
 
 .PHONY: build
-build:  ## Build wheel and source dist.
+build: build-deps  ## Build wheel and source dist.
 	poetry build
 	twine check dist/*
 
 .PHONY: build-deps
 build-deps: | $(WHEEL_DEPS_DIR)  ## Build wheels of dependencies.
-	poetry export --without-hashes -f requirements.txt -o /dev/stdout | \
+	poetry export --without dev --without-hashes -f requirements.txt -o /dev/stdout | \
 		pip wheel -r /dev/stdin --wheel-dir=$(WHEEL_DEPS_DIR)
 
 $(WHEEL_DEPS_DIR):
@@ -70,6 +73,30 @@ clean:  ## Remove build artifacts, including built Docker images.
 .PHONY: clean-venv
 clean-venv:  ## Remove the created pyenv virtualenv.
 	pyenv virtualenv-delete -f $(VENV_NAME) && rm -f .python-version
+
+
+.PHONY: env
+env:  ## Configure a local development setup.
+	@if command -v pyenv virtualenv > /dev/null 2>&1; then \
+		printf "Configuring a local dev environment using pyenv ...\n" >&2 \
+			&& echo $(PYTHON_VERSIONS) | tr ' ' '\n' | xargs -P 4 -I '{}' pyenv install -s '{}' \
+			&& printf "%s\n" "Setting up virtualenv '$(VENV_NAME)' in Python $(PYTHON_VERSION)..." 1>&2 \
+			&& pyenv virtualenv -f "$(PYTHON_VERSION)" "$(VENV_NAME)" \
+			&& printf "%s\n" "$(VENV_NAME)" > .python-version \
+			&& for py_version in $(PYTHON_VERSIONS); do \
+				echo "$${py_version}" >> .python-version; \
+			done \
+			&& source "$(shell pyenv root)/versions/$(VENV_NAME)/bin/activate" \
+			&& pip install --upgrade pip && pyenv rehash \
+			&& pip install $(PIP_DEPS) $(PIP_DEV_DEPS) && pyenv rehash \
+			&& poetry config experimental.new-installer false \
+			&& poetry config virtualenvs.create false \
+			&& poetry install && pyenv rehash \
+			&& pre-commit install && pyenv rehash \
+			&& printf "Done.\n" 1>&2; \
+	else \
+		printf "Error: pyenv not found.\n" 1>&2 && exit 1; \
+	fi
 
 
 .PHONY: fmt
@@ -95,28 +122,9 @@ img:  ## Build and tag the Docker container.
 	docker build --build-arg REVISION=$(GIT_COMMIT)$(GIT_DIRTY) --build-arg BUILD_TIME=$(BUILD_TIME) --tag $(IMG_NAME):$(IMG_TAG) .
 
 
-.PHONY: install-dev
-install-dev:  ## Configure a local development setup.
-	@if command -v pyenv virtualenv > /dev/null 2>&1; then \
-		printf "Configuring a local dev environment using pyenv ...\n" >&2 \
-			&& echo $(PYTHON_VERSIONS) | tr ' ' '\n' | xargs -P 4 -I '{}' pyenv install -s '{}' \
-			&& printf "%s\n" "Setting up virtualenv '$(VENV_NAME)' in Python $(PYTHON_VERSION)..." 1>&2 \
-			&& pyenv virtualenv -f "$(PYTHON_VERSION)" "$(VENV_NAME)" \
-			&& printf "%s\n" "$(VENV_NAME)" > .python-version \
-			&& for py_version in $(PYTHON_VERSIONS); do \
-				echo "$${py_version}" >> .python-version; \
-			done \
-			&& source "$(shell pyenv root)/versions/$(VENV_NAME)/bin/activate" \
-			&& pip install --upgrade pip && pyenv rehash \
-			&& pip install $(PIP_DEPS) && pyenv rehash \
-			&& poetry config experimental.new-installer false \
-			&& poetry config virtualenvs.create false \
-			&& poetry install && pyenv rehash \
-			&& pre-commit install && pyenv rehash \
-			&& printf "Done.\n" 1>&2; \
-	else \
-		printf "Error: pyenv not found.\n" 1>&2 && exit 1; \
-	fi
+.PHONY: install-build
+install-build:  ## Install dependencies required only for building.
+	pip install $(PIP_DEPS)
 
 
 .PHONY: lint
