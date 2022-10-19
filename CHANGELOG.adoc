@@ -6,6 +6,11 @@ project adheres to https://semver.org/spec/v2.0.0.html[Semantic Versioning].
 
 == Unreleased
 
+__Release date: TBD__
+
+=== Removed
+* Explicit Python 3.7 support.
+
 //
 
 == 1.1.0

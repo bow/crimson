@@ -17,7 +17,6 @@ classifiers = [
     "License :: OSI Approved :: BSD License",
     "Operating System :: POSIX",
     "Operating System :: Microsoft :: Windows",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
@@ -36,7 +35,7 @@ style = "semver"
 pattern = "^v?(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.8"
 click = "^8.0"
 PyYAML = "^5.2"
 single-source = "^0.2.0"
