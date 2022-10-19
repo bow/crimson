@@ -37,7 +37,7 @@ pattern = "^v?(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revisi
 [tool.poetry.dependencies]
 python = "^3.8"
 click = "^8.0"
-PyYAML = "^5.2"
+PyYAML = "^6.0"
 single-source = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
@@ -46,15 +46,15 @@ pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
 pytest-sugar = "^0.9.4"
 bandit = "^1.7.0"
-flake8 = "^3.9.2"
+flake8 = "^5.0.4"
 flake8-polyfill = "^1.0.2"
-mypy = "^0.910"
+mypy = "^0.982"
 mypy-extensions = "^0.4.3"
 radon = "^5.0.1"
 pytest-flake8 = "^1.0.7"
-types-PyYAML = "^5.4.3"
+types-PyYAML = "^6.0.12"
 twine = "^4.0.1"
-safety = "^1.10.3"
+safety = "^2.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
