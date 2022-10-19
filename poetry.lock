@@ -859,7 +859,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "b3950e351a9ffb02957e366decaff13a161b3d115519dd6d67370855c5e9803a"
+content-hash = "4a4204edf2914e303a1ef983a0ca9dcf74c8d3313cc5f9ac80b9dc00519b6092"
 
 [metadata.files]
 atomicwrites = [

@@ -40,7 +40,7 @@ click = "^8.0"
 PyYAML = "^6.0"
 single-source = "^0.2.0"
 
-[tool.poetry.dev-dependencies]
+[tool.poetry.group.dev.dependencies]
 black = "^22.3.0"
 pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
