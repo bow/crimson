@@ -6,7 +6,7 @@ authors = ["Wibowo Arindrarto <contact@arindrarto.dev>"]
 repository = "https://github.com/bow/crimson"
 readme = "README.md"
 packages = [{ include = "crimson" }]
-include = ["CHANGELOG.adoc"]
+include = ["CHANGELOG.rst"]
 license = "BSD-3-Clause"
 keywords = ["bioinformatics", "json", "yaml"]
 classifiers = [
