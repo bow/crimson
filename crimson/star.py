@@ -1,5 +1,6 @@
 """Parser for STAR Log.final.out file"""
-# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
+# Copyright (c) 2015-2022 Wibowo Arindrarto <contact@arindrarto.dev>
+# SPDX-License-Identifier: BSD-3-Clause
 
 import os
 from typing import Any, Callable, Dict, Optional, TextIO, Tuple, Union

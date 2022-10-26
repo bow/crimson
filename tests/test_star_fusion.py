@@ -1,5 +1,6 @@
 """star-fusion subcommand tests"""
-# (c) 2015-2021 Wibowo Arindrarto <contact@arindrarto.dev>
+# Copyright (c) 2015-2022 Wibowo Arindrarto <contact@arindrarto.dev>
+# SPDX-License-Identifier: BSD-3-Clause
 
 import json
 
