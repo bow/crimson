@@ -21,7 +21,7 @@ endif
 APP_NAME := crimson
 
 # Supported Python versions; latest listed first.
-PYTHON_VERSIONS := 3.10.4 3.9.12 3.8.13
+PYTHON_VERSIONS := 3.10.8 3.9.15 3.8.15
 
 # Primary Python version used for virtualenv.
 PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
