@@ -33,7 +33,7 @@ VENV_NAME := $(APP_NAME)-dev
 PIP_DEPS := poetry==1.2.2 poetry-dynamic-versioning==0.19.0 twine==4.0.1
 
 # Non-pyproject.toml dev dependencies.
-PIP_DEV_DEPS := pre-commit tox==3.26.0
+PIP_DEV_DEPS := pre-commit tox==3.27.0
 
 # Various build info.
 GIT_TAG    := $(shell git describe --tags --always --dirty 2> /dev/null || echo "untagged")
