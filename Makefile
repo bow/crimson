@@ -21,7 +21,7 @@ endif
 APP_NAME := crimson
 
 # Supported Python versions; latest listed first.
-PYTHON_VERSIONS := 3.10.8 3.9.15 3.8.15
+PYTHON_VERSIONS := 3.11.0 3.10.8 3.9.15 3.8.15
 
 # Primary Python version used for virtualenv.
 PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
@@ -106,7 +106,7 @@ env:  ## Configure a local development setup.
 
 .PHONY: fmt
 fmt:  ## Apply Black.
-	poetry run black -t py310 .
+	poetry run black -t py311 .
 
 
 .PHONY: help
@@ -143,7 +143,7 @@ lint-types:  ## Lint the type hints.
 
 .PHONY: lint-style
 lint-style:  ## Lint style conventions.
-	poetry run flake8 --statistics crimson tests && poetry run black -t py310 --check .
+	poetry run flake8 --statistics crimson tests && poetry run black -t py311 --check .
 
 
 .PHONY: lint-metrics
