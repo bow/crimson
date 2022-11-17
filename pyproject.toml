@@ -77,6 +77,17 @@ warn_unreachable = true
 allow_untyped_globals = false
 strict_equality = true
 
+[tool.coverage.run]
+branch = true
+source = ["crimson"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+omit = ["tests/*"]
+
 [tool.distutils.bdist_wheel]
 universal = true
 
