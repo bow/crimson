@@ -71,8 +71,10 @@ $(WHEEL_DEPS_DIR):
 
 
 .PHONY: clean
-clean:  ## Remove build artifacts, including built Docker images.
-	rm -rf build/ dist/ && (docker rmi $(IMG_NAME) 2> /dev/null || true)
+clean:  ## Remove build and test artifacts, including built Docker images.
+	rm -rf build/ dist/ wheels/ \
+			.coverage .coverage.xml .junit.xml .tox/ .cache/ .mypy_cache/ .pytest_cache/ \
+		&& (docker rmi $(IMG_NAME) 2> /dev/null || true)
 
 
 .PHONY: clean-pyenv
