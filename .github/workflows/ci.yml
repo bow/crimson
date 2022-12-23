@@ -67,7 +67,7 @@ jobs:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
           coverageLocations: |
-            ${{ github.workspace }}/.coverage.xml:cobertura
+            ${{ github.workspace }}/.coverage:coverage.py
 
   lint:
     name: ${{ matrix.lint.name }}
