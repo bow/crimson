@@ -1,0 +1,17 @@
+---
+version: "2"
+checks:
+  argument-count:
+    enabled: false
+  file-lines:
+    enabled: false
+  method-count:
+    enabled: false
+  method-lines:
+    config:
+      threshold: 50
+  method-complexity:
+    config:
+      threshold: 13
+exclude_patterns:
+  - "tests/*"
