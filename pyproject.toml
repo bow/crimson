@@ -40,6 +40,7 @@ python = "^3.8"
 click = "^8.0"
 PyYAML = "^6.0"
 single-source = "^0.2.0"
+urllib3 = "^1.26.16"
 
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
