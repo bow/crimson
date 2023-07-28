@@ -11,6 +11,13 @@ Unreleased
 ----------
 *Release date: TBD*
 
+..
+
+
+1.1.1
+-----
+*Release date: 28 July 2023*
+
 Changed
 ^^^^^^^
 
