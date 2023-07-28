@@ -11,6 +11,11 @@ Unreleased
 ----------
 *Release date: TBD*
 
+Changed
+^^^^^^^
+
+* Dependencies' versions.
+
 Removed
 ^^^^^^^
 
