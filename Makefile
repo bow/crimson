@@ -21,7 +21,7 @@ endif
 APP_NAME := crimson
 
 # Supported Python versions; latest listed first.
-PYTHON_VERSIONS := 3.11.0 3.10.8 3.9.15 3.8.15
+PYTHON_VERSIONS := 3.12.0 3.11.0 3.10.8 3.9.15 3.8.15
 
 # Primary Python version used for virtualenv.
 PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
@@ -30,10 +30,10 @@ PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
 VENV_NAME := $(APP_NAME)-dev
 
 # Non-pyproject.toml dependencies.
-PIP_DEPS := poetry==1.2.2 poetry-dynamic-versioning==0.19.0 twine==4.0.1
+PIP_DEPS := poetry==1.6.1 poetry-dynamic-versioning==1.1.0 twine==4.0.2
 
 # Non-pyproject.toml dev dependencies.
-PIP_DEV_DEPS := pre-commit tox==3.27.0
+PIP_DEV_DEPS := pre-commit tox==4.11.3
 
 # Various build info.
 GIT_TAG    := $(shell git describe --tags --always --dirty 2> /dev/null || echo "untagged")
@@ -96,7 +96,6 @@ env:  ## Configure a local development setup.
 			&& source "$(shell pyenv root)/versions/$(VENV_NAME)/bin/activate" \
 			&& pip install --upgrade pip && pyenv rehash \
 			&& pip install $(PIP_DEPS) $(PIP_DEV_DEPS) && pyenv rehash \
-			&& poetry config experimental.new-installer false \
 			&& poetry config virtualenvs.create false \
 			&& poetry install && pyenv rehash \
 			&& pre-commit install && pyenv rehash \

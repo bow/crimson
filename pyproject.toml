@@ -21,6 +21,7 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Utilities",
     "Topic :: Software Development :: Libraries",
 
@@ -36,30 +37,29 @@ style = "semver"
 pattern = "^v?(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revision>\\d+)?))?(\\+(?P<tagged_metadata>.+))?$"
 
 [tool.poetry.dependencies]
-python = "^3.8"
-click = "^8.0"
-PyYAML = "^6.0"
-single-source = "^0.2.0"
-urllib3 = "^1.26.16"
+python = ">=3.8.1,<4.0"
+click = "^8.1.7"
+PyYAML = "^6.0.1"
+single-source = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.10.0"
-pytest = "^7.4.0"
+black = "^23.9.1"
+pytest = "^7.4.2"
 pytest-cov = "^4.1.0"
 pytest-sugar = "^0.9.7"
-bandit = "^1.7.0"
-flake8 = "^5.0.4"
+bandit = "^1.7.5"
+flake8 = "^6.1.0"
 flake8-polyfill = "^1.0.2"
-mypy = "^1.4.1"
+mypy = "^1.5.1"
 mypy-extensions = "^1.0.0"
-radon = "^5.0.1"
-pytest-flake8 = "^1.0.7"
-types-PyYAML = "^6.0.12"
-twine = "^4.0.1"
-safety = "^2.0.0"
+radon = "^6.0.1"
+pytest-flake8 = "^1.1.1"
+types-PyYAML = "^6.0.12.12"
+twine = "^4.0.2"
+safety = "^2.3.5"
 
 [tool.mypy]
-python_version = "3.11"
+python_version = "3.12"
 ignore_missing_imports = true
 show_error_context = true
 show_column_numbers = true
@@ -93,5 +93,5 @@ omit = ["tests/*"]
 universal = true
 
 [build-system]
-requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning"]
-build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
+build-backend = "poetry_dynamic_versioning.backend"
