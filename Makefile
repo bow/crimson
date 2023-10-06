@@ -107,7 +107,7 @@ env:  ## Configure a local development setup.
 
 .PHONY: fmt
 fmt:  ## Apply Black.
-	poetry run black -t py311 .
+	poetry run black -t py312 .
 
 
 .PHONY: help
@@ -144,7 +144,7 @@ lint-types:  ## Lint the type hints.
 
 .PHONY: lint-style
 lint-style:  ## Lint style conventions.
-	poetry run flake8 --statistics crimson tests && poetry run black -t py311 --check .
+	poetry run flake8 --statistics crimson tests && poetry run black -t py312 --check .
 
 
 .PHONY: lint-metrics

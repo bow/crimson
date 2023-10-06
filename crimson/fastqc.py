@@ -156,7 +156,6 @@ class FastQC:
         attr = ""
         read_size = self._max_line_size
         while read_size <= max_size:
-
             tokens = line.strip().split("\t")
             # break on EOF
             if not line:
