@@ -5,11 +5,6 @@ repos:
     hooks:
       - id: black
         name: "Apply Black"
-        language_version: python3
-        args: [
-          "--exclude",
-          '/(\.eggs|\.git|\.mypy_cache|\.tox|\.venv|_build|build|dist)/',
-        ]
   - repo: https://github.com/adrienverge/yamllint.git
     rev: v1.20.0
     hooks:
