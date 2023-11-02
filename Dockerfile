@@ -3,7 +3,7 @@
 # Copyright (c) 2015-2023 Wibowo Arindrarto <contact@arindrarto.dev>
 # SPDX-License-Identifier: BSD-3-Clause
 #
-# This file is part of Crimson <https://github.com/bow/crimson>.
+# This file is part of crimson <https://github.com/bow/crimson>.
 
 FROM python:3.12.0-alpine AS builder
 

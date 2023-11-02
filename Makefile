@@ -3,7 +3,7 @@
 # Copyright (c) 2015-2022 Wibowo Arindrarto <contact@arindrarto.dev>
 # SPDX-License-Identifier: BSD-3-Clause
 #
-# This file is part of Crimson <https://github.com/bow/crimson>.
+# This file is part of crimson <https://github.com/bow/crimson>.
 
 # Cross-platform adjustments.
 SYS := $(shell uname 2> /dev/null)

@@ -1,11 +1,11 @@
-# Crimson
+# `crimson`
 
 [![pypi](https://img.shields.io/pypi/v/crimson)](https://pypi.org/project/crimson)
 [![ci](https://github.com/bow/crimson/actions/workflows/ci.yml/badge.svg)](https://github.com/bow/crimson/actions?query=branch%3Amaster)
 [![coverage](https://api.codeclimate.com/v1/badges/7904a5424f60f09ebbd7/test_coverage)](https://codeclimate.com/github/bow/crimson/test_coverage)
 
 
-Crimson converts non-standard bioinformatics tool outputs to JSON or YAML.
+`crimson` converts non-standard bioinformatics tool outputs to JSON or YAML.
 
 Currently it can convert outputs of the following tools:
 
@@ -25,7 +25,7 @@ requires importing the `crimson` library in your program.
 
 ## Installation
 
-Crimson is available on the [Python Package Index](https://pypi.org/project/crimson/)
+`crimson` is available on the [Python Package Index](https://pypi.org/project/crimson/)
 and you can install it via ``pip``:
 
 ```shell
@@ -132,7 +132,7 @@ $ make
 
 ## Contributing
 
-If you are interested, Crimson accepts the following types contribution:
+If you are interested, `crimson` accepts the following types contribution:
 
   * Documentation updates / tweaks (if anything seems unclear, feel free to open an issue)
   * Bug reports
@@ -144,4 +144,4 @@ tracker](https://github.com/bow/crimson/issues>) or submit a pull request.
 
 ## License
 
-Crimson is BSD-licensed. Refer to the ``LICENSE`` file for the full license.
+`crimson` is BSD-licensed. Refer to the ``LICENSE`` file for the full license.
