@@ -82,8 +82,8 @@ clean-pyenv:  ## Remove the created pyenv virtualenv.
 	pyenv virtualenv-delete -f $(VENV_NAME) && rm -f .python-version
 
 
-.PHONY: env
-env:  ## Configure a local development setup.
+.PHONY: dev
+dev:  ## Configure a local development setup.
 	@if command -v pyenv virtualenv > /dev/null 2>&1; then \
 		printf "Configuring a local dev environment using pyenv ...\n" >&2 \
 			&& echo $(PYTHON_VERSIONS) | tr ' ' '\n' | xargs -P 4 -I '{}' pyenv install -s '{}' \

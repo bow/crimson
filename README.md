@@ -120,7 +120,7 @@ $ cd crimson
 
 # Create your local development environment. This command also installs
 # all supported Python versions using `pyenv`.
-$ make env
+$ make dev
 
 # Run the test and linter suite to verify the setup.
 $ make lint test
