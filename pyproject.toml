@@ -56,7 +56,7 @@ radon = "^6.0.1"
 pytest-flake8 = "^1.1.1"
 types-PyYAML = "^6.0.12.12"
 twine = "^4.0.2"
-safety = "^2.3.5"
+safety = ">=2.3.5,<4.0.0"
 
 [tool.mypy]
 python_version = "3.12"
