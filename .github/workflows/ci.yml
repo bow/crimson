@@ -32,7 +32,7 @@ jobs:
           python-version: ${{ matrix.python-version }}
 
       - name: Setup poetry cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-poetry
         with:
           path: ~/.virtualenvs
@@ -96,7 +96,7 @@ jobs:
           python-version: "3.12"
 
       - name: Setup poetry cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-poetry
         with:
           path: ~/.virtualenvs
