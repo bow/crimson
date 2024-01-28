@@ -30,10 +30,10 @@ PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
 VENV_NAME := $(APP_NAME)-dev
 
 # Non-pyproject.toml dependencies.
-PIP_DEPS := poetry==1.6.1 poetry-dynamic-versioning==1.1.0 twine==4.0.2
+PIP_DEPS := poetry==1.7.1 poetry-dynamic-versioning==1.2.0 twine==4.0.2
 
 # Non-pyproject.toml dev dependencies.
-PIP_DEV_DEPS := pre-commit tox==4.11.3
+PIP_DEV_DEPS := pre-commit tox==4.4.12
 
 # Various build info.
 GIT_TAG    := $(shell git describe --tags --always --dirty 2> /dev/null || echo "untagged")
