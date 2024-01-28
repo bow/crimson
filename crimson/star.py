@@ -1,4 +1,5 @@
 """Parser for STAR Log.final.out file"""
+
 # Copyright (c) 2015-2022 Wibowo Arindrarto <contact@arindrarto.dev>
 # SPDX-License-Identifier: BSD-3-Clause
 

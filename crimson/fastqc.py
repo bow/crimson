@@ -1,4 +1,5 @@
 """Parser for FastQC output"""
+
 # Copyright (c) 2015-2022 Wibowo Arindrarto <contact@arindrarto.dev>
 # SPDX-License-Identifier: BSD-3-Clause
 
@@ -26,7 +27,6 @@ FastQCModulePayload = Dict[str, Union[str, FastQCModuleContents]]
 
 
 class FastQCModule:
-
     """Class representing a FastQC analysis module."""
 
     def __init__(self, raw_lines: List[str], end_mark: str = ">>END_MODULE") -> None:
@@ -115,7 +115,6 @@ class FastQCModule:
 
 
 class FastQC:
-
     """Class representing results from a FastQC run."""
 
     _mod_names = [
