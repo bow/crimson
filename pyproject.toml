@@ -55,7 +55,7 @@ mypy-extensions = "^1.0.0"
 radon = "^6.0.1"
 pytest-flake8 = "^1.1.1"
 types-PyYAML = "^6.0.12.12"
-twine = "^4.0.2"
+twine = ">=4.0.2,<6.0.0"
 safety = "^3.0.1"
 platformdirs = "<4.0.0"
 
