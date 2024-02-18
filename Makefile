@@ -30,7 +30,7 @@ PYTHON_VERSION := $(firstword $(PYTHON_VERSIONS))
 VENV_NAME := $(APP_NAME)-dev
 
 # Non-pyproject.toml dependencies.
-PIP_DEPS := poetry==1.7.1 poetry-dynamic-versioning==1.2.0 twine==4.0.2
+PIP_DEPS := poetry==1.7.1 poetry-dynamic-versioning==1.2.0
 
 # Non-pyproject.toml dev dependencies.
 PIP_DEV_DEPS := pre-commit tox==4.4.12
@@ -59,7 +59,6 @@ all: help
 .PHONY: build
 build: build-deps  ## Build wheel and source dist.
 	poetry build
-	twine check dist/*
 
 .PHONY: build-deps
 build-deps: | $(WHEEL_DEPS_DIR)  ## Build wheels of dependencies.
