@@ -44,7 +44,7 @@ single-source = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
-pytest-cov = "^4.1.0"
+pytest-cov = ">=4.1,<6.0"
 pytest-sugar = "^1.0.0"
 bandit = "^1.7.7"
 flake8 = ">=6.1,<8.0"
