@@ -55,7 +55,7 @@ radon = "^6.0.1"
 pytest-flake8 = "^1.1.1"
 types-PyYAML = "^6.0.12.12"
 safety = "^3.0.1"
-platformdirs = "<4.0.0"
+platformdirs = "<5.0.0"
 pytest = "^8.0.1"
 
 [tool.mypy]
