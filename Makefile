@@ -79,7 +79,7 @@ lint:  lint-types lint-style lint-metrics  ## Run the linter suite.
 
 .PHONY: lint-types
 lint-types:  ## Lint the type hints.
-	run mypy crimson tests
+	mypy crimson tests
 
 
 .PHONY: lint-style
