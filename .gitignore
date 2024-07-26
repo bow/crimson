@@ -40,3 +40,7 @@ htmlcov
 .mr.developer.cfg
 .project
 .pydevproject
+
+.direnv/
+.env
+.envrc-private
