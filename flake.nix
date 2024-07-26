@@ -63,9 +63,14 @@
               pkgs.python311
             ];
             ciEnv = pkgs.poetry2nix.mkPoetryEnv { inherit overrides projectDir python; };
+            ciEnvPy311 = pkgs.poetry2nix.mkPoetryEnv {
+              inherit overrides projectDir;
+              python = pkgs.python311;
+            };
           in
           {
             ci = pkgs.mkShellNoCC { packages = devPackages ++ [ ciEnv ]; };
+            ciPy311 = pkgs.mkShellNoCC { packages = devPackages ++ [ ciEnvPy311 ]; };
             default = pkgs.mkShellNoCC rec {
               nativeBuildInputs = devNativeBuildInputs;
               packages = devPackages;
