@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "crimson"
-version = "0.0.0"
+version = "0.0.dev0"
 description = "Bioinformatics tool outputs converter to JSON or YAML"
 authors = ["Wibowo Arindrarto <contact@arindrarto.dev>"]
 repository = "https://github.com/bow/crimson"
@@ -40,7 +40,6 @@ pattern = "^v?(?P<base>\\d+\\.\\d+\\.\\d+)(-?((?P<stage>[a-zA-Z]+)\\.?(?P<revisi
 python = ">=3.8.1,<4.0"
 click = "^8.1.7"
 PyYAML = "^6.0.1"
-single-source = "^0.3.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.2.0"
