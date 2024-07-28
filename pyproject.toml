@@ -51,7 +51,6 @@ radon = "^6"
 pytest-flake8 = "^1"
 types-PyYAML = "^6"
 safety = "^3"
-platformdirs = "<4.0.0"
 pytest = "^8"
 
 [tool.mypy]
